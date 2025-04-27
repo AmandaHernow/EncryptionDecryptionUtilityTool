@@ -24,4 +24,3 @@ https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool
 
 **Contact**  
 If you have questions, email: Amanda.hernow.work@gmail.com
-Project URL: https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool

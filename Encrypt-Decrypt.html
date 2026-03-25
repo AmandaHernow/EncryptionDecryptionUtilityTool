@@ -51,76 +51,30 @@ body.dark {
    RESET & BASE
 ═══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
+html,body{height:100%;overflow:hidden;background:var(--bg-card);}
 body{
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background:var(--bg);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   color:var(--text);
-  min-height:100%;
-  transition:background .3s, color .3s;
+  transition:background .3s,color .3s;
 }
 
-/* ═══════════════════════════════════════════════
-   PAGE BACKGROUND — subtle grid texture
-═══════════════════════════════════════════════ */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(0,139,139,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,139,139,.035) 1px, transparent 1px);
-  background-size:32px 32px;
-  pointer-events:none;
-  z-index:0;
-}
-body.dark::before{
-  background-image:
-    linear-gradient(rgba(0,200,200,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,200,200,.04) 1px, transparent 1px);
-}
+/* PAGE — invisible passthrough */
+.page{display:contents;}
 
-/* ═══════════════════════════════════════════════
-   OUTER LAYOUT
-═══════════════════════════════════════════════ */
-.page{
-  position:relative;z-index:1;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  min-height:100vh;
-  padding:24px 16px 40px;
-}
-@media(max-width:560px){
-  .page{padding:0;align-items:stretch;}
-}
-
-/* ═══════════════════════════════════════════════
-   CARD
-═══════════════════════════════════════════════ */
+/* CARD — fixed to all four edges, no matter what */
 .card{
-  width:100%;
-  max-width:620px;
-  background:var(--bg-card);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-card);
-  border:1px solid var(--border);
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  transition:background .3s, border-color .3s, box-shadow .3s;
-  animation:cardIn .4s ease both;
+  background:var(--bg-card);
+  transition:background .3s;
+  animation:cardIn .35s ease both;
 }
 @keyframes cardIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@media(max-width:560px){
-  .card{
-    border-radius:0;
-    box-shadow:none;
-    border:none;
-    min-height:100vh;
-  }
+  from{opacity:0}
+  to{opacity:1}
 }
 
 /* ═══════════════════════════════════════════════
@@ -213,7 +167,7 @@ body.dark::before{
    OUTPUT
 ═══════════════════════════════════════════════ */
 .output{
-  flex:1;min-height:120px;max-height:280px;
+  flex:1;min-height:60px;
   margin:0 16px;
   border:1px solid var(--border);border-radius:var(--radius-sm);
   padding:10px 12px;
@@ -223,9 +177,6 @@ body.dark::before{
   font-size:12.5px;line-height:1.6;
   background:var(--out-bg);color:var(--text);
   transition:background .3s,border-color .3s;
-}
-@media(max-width:560px){
-  .output{max-height:200px;}
 }
 
 /* ═══════════════════════════════════════════════

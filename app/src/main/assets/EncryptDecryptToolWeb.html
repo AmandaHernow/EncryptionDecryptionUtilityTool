@@ -51,7 +51,7 @@
            RESET & BASE
         ═══════════════════════════════════════════════ */
         *{box-sizing:border-box;margin:0;padding:0}
-        html,body{height:100%;overflow:hidden;}
+        html,body{height:100%;width:100%;overflow:hidden;}
         body{
           font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
           background:var(--bg-card);
@@ -65,10 +65,9 @@
            OUTER LAYOUT
         ═══════════════════════════════════════════════ */
         .page{
-          position:relative;z-index:1;
+          position:fixed;
+          inset:0;
           display:flex;
-          height:100vh;
-          overflow:hidden;
         }
 
         /* ═══════════════════════════════════════════════

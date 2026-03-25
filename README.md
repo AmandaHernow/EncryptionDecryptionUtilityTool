@@ -4,13 +4,24 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Platform-iOS-000000?style=flat-square&logo=apple&logoColor=white"/>
   <img src="https://img.shields.io/badge/Platform-Web-008B8B?style=flat-square&logo=html5&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Platform-iOS-000000?style=flat-square&logo=apple&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Platform-Desktop-555555?style=flat-square&logo=windows&logoColor=white"/>
   <img src="https://img.shields.io/badge/Encryption-AES--256--GCM-blue?style=flat-square"/>
   <img src="https://img.shields.io/badge/KDF-PBKDF2--SHA256-blue?style=flat-square"/>
   <img src="https://img.shields.io/badge/License-GPL%20v3-green?style=flat-square"/>
   <img src="https://img.shields.io/badge/Offline-Zero--trace-008B8B?style=flat-square"/>
 </p>
+
+---
+
+## 🌐 Try the Web Version
+
+**No install required — open it directly in your browser:**
+
+> ### [https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html)
+
+Works on any device with a modern browser. Everything runs locally — nothing is sent anywhere.
 
 ---
 
@@ -28,11 +39,10 @@ It was originally built as an internal utility tool and has since been rewritten
 
 | Platform | Status | Notes |
 |---|---|---|
-| **Android** | ✅ First release | Available on Google Play |
+| **Android** | ✅ Released | Available on Google Play |
+| **Web** | ✅ Released | [Open in browser](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html) — single HTML file, no server required |
 | **iOS** | 🔧 Work in progress | SwiftUI — not yet released |
-| **Web** | 🔧 Work in progress | Standalone HTML — no server required |
-
-This repository contains the source code for all three platforms. The **Android app is the first public release** and is the primary supported platform at this time.
+| **Desktop** | 📋 Planned | Native desktop application — coming in a future release |
 
 ---
 
@@ -77,7 +87,8 @@ Random salt and IV per operation means the same input text with the same passwor
 EncryptionDecryptionUtilityTool/
 ├── android/          # Android Studio project (Kotlin, API 26+)
 ├── ios/              # iOS project (Swift / SwiftUI) — work in progress
-├── web/              # Standalone HTML tool — work in progress
+├── desktop/          # Desktop application — planned
+├── Encrypt-Decrypt.html  # Web version — single self-contained HTML file
 ├── docs/             # Images and assets used by this README
 ├── LICENSE           # GNU General Public License v3
 └── README.md
@@ -94,13 +105,11 @@ EncryptionDecryptionUtilityTool/
 - Minimum SDK: API 26 (Android 8.0)
 - Target SDK: API 35
 
-**Steps:**
-
 ```bash
 git clone https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool.git
 ```
 
-Then open Android Studio, choose **Open**, and navigate to the `android/` folder inside the cloned repository. Let Gradle sync complete, then run the app on an emulator or physical device.
+Open Android Studio, choose **Open**, and navigate to the `android/` folder. Let Gradle sync complete, then run the app on an emulator or physical device.
 
 ---
 
@@ -137,5 +146,5 @@ See the [LICENSE](LICENSE) file for the full text, or visit [gnu.org/licenses/gp
 ---
 
 <p align="center">
-  <sub>© 2026 Amanda Hernow — All rights reserved where applicable. Licensed under GPL v3.</sub>
+  <sub>© Amanda Hernow — All rights reserved where applicable. Licensed under GPL v3.</sub>
 </p>

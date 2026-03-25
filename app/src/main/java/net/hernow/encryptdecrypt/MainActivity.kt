@@ -49,6 +49,25 @@ class MainActivity : AppCompatActivity() {
             mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
         }
 
+        webView.webViewClient = object : android.webkit.WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: android.webkit.WebView,
+                request: android.webkit.WebResourceRequest
+            ): Boolean {
+                val url = request.url.toString()
+                return if (url.startsWith("file://")) {
+                    false // let the WebView handle local files normally
+                } else {
+                    val intent = android.content.Intent(
+                        android.content.Intent.ACTION_VIEW,
+                        android.net.Uri.parse(url)
+                    )
+                    startActivity(intent)
+                    true
+                }
+            }
+        }
+
         webView.addJavascriptInterface(AndroidClipboardBridge(), "AndroidClipboard")
 
         webView.webChromeClient = object : WebChromeClient() {

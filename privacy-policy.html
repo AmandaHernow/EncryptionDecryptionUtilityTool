@@ -3,21 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy – Encrypt & Decrypt Data Utility Tool</title>
+    <title>Privacy Policy – Encrypt &amp; Decrypt Data Utility Tool</title>
     <style>
-        body { font-family: sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }
-        h1 { font-size: 1.4rem; }
+        :root {
+          --accent:   #008B8B;
+          --bg:       #f0f4f4;
+          --card:     #ffffff;
+          --border:   #c8d8d8;
+          --text:     #1a2a2a;
+          --text-sec: #4a6868;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+          font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+          background: var(--bg);
+          color: var(--text);
+          min-height: 100vh;
+          padding: 40px 16px 60px;
+        }
+
+        .card {
+          max-width: 720px;
+          margin: 0 auto;
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          box-shadow: 0 8px 40px rgba(0,139,139,.13), 0 2px 8px rgba(0,0,0,.06);
+          overflow: hidden;
+        }
+
+        .titlebar {
+          background: var(--accent);
+          padding: 14px 20px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .titlebar span {
+          color: #fff;
+          font-size: 15px;
+          font-weight: 700;
+          letter-spacing: .01em;
+        }
+
+        .body {
+          padding: 32px 28px 40px;
+        }
+
+        h1 {
+          font-size: 1.35rem;
+          color: var(--accent);
+          margin-bottom: 4px;
+        }
+
+        .updated {
+          font-size: 12px;
+          color: var(--text-sec);
+          margin-bottom: 28px;
+        }
+
+        section {
+          margin-bottom: 22px;
+        }
+
+        h2 {
+          font-size: .8rem;
+          font-weight: 800;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 6px;
+        }
+
+        p {
+          font-size: 14.5px;
+          line-height: 1.7;
+          color: var(--text);
+        }
+
+        a {
+          color: var(--accent);
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+
+        .divider {
+          border: none;
+          border-top: 1px solid var(--border);
+          margin: 28px 0;
+        }
+
+        .footer {
+          font-size: 12px;
+          color: var(--text-sec);
+          text-align: center;
+          padding-top: 8px;
+        }
     </style>
 </head>
 <body>
-<h1>Privacy Policy — Encrypt &amp; Decrypt Data Utility Tool</h1>
-<p><em>Last updated: 25 March 2026</em></p>
-<p>Encrypt &amp; Decrypt Data Utility Tool ("the App") is developed and maintained by Amanda Hernow.</p>
-<p><strong>No data is collected.</strong> The App does not collect, transmit, store, or share any personal information, usage data, or analytics of any kind. All encryption and decryption operations are performed entirely on your device. No data ever leaves your device through the App.</p>
-<p><strong>No internet access.</strong> The App requires no internet connection and makes no network requests.</p>
-<p><strong>No third-party services.</strong> The App does not integrate any advertising, analytics, crash reporting, or tracking SDKs.</p>
-<p><strong>Permissions.</strong> The App requests no device permissions.</p>
-<p><strong>Children.</strong> The App does not knowingly collect data from anyone, including children.</p>
-<p><strong>Contact.</strong> Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a></p>
+<div class="card">
+
+    <div class="titlebar">
+        <span>Encrypt &amp; Decrypt Data Utility Tool — Privacy Policy</span>
+    </div>
+
+    <div class="body">
+
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: 25 March 2026</p>
+
+        <section>
+            <h2>Overview</h2>
+            <p>
+                Encrypt &amp; Decrypt Data Utility Tool ("the App") is developed and maintained by Amanda Hernow.
+                This policy describes how the App handles your data. The short version is: it does not collect,
+                transmit, or store any data of any kind. Everything stays on your device.
+            </p>
+        </section>
+
+        <section>
+            <h2>Data Collection</h2>
+            <p>
+                The App collects no data whatsoever. No personal information, no usage statistics, no analytics,
+                no crash reports, and no identifiers of any kind are gathered, stored, or transmitted — ever.
+            </p>
+        </section>
+
+        <section>
+            <h2>Encryption and Decryption Operations</h2>
+            <p>
+                All cryptographic operations — encryption, decryption, key derivation — are performed entirely
+                on your device using the Web Crypto API. The text you enter, the password you use, and the
+                encrypted output never leave your device through the App.
+            </p>
+        </section>
+
+        <section>
+            <h2>Clipboard Access</h2>
+            <p>
+                The App interacts with your clipboard only through direct user action and only in the following
+                three ways:
+            </p>
+            <p style="margin-top:10px;">
+                When you tap <strong>Paste</strong>, the App reads your clipboard to fill the input field.
+                When you tap <strong>Copy</strong>, the App writes the result to your clipboard.
+                When you tap <strong>Clear</strong>, the App clears your clipboard.
+            </p>
+            <p style="margin-top:10px;">
+                No clipboard content is stored, transmitted, or accessed at any other time. These operations
+                require no system permission declarations on Android.
+            </p>
+        </section>
+
+        <section>
+            <h2>Network Access</h2>
+            <p>
+                The App makes no network requests. It does not connect to the internet, contact any server,
+                or communicate with any external service. All operations are fully offline.
+            </p>
+        </section>
+
+        <section>
+            <h2>Third-Party Services</h2>
+            <p>
+                The App does not integrate any third-party SDKs, advertising networks, analytics platforms,
+                crash reporting tools, or tracking services of any kind.
+            </p>
+        </section>
+
+        <section>
+            <h2>Device Permissions</h2>
+            <p>
+                The App declares no device permissions in its manifest. No access to camera, microphone,
+                location, contacts, storage, or any other device resource is requested or used.
+            </p>
+        </section>
+
+        <section>
+            <h2>Data Storage</h2>
+            <p>
+                The App stores nothing on your device. No passwords, plaintext, ciphertext, or any other
+                data is written to device storage, shared preferences, or any persistent location.
+                When you close the App, no trace of your session remains.
+            </p>
+        </section>
+
+        <section>
+            <h2>Children</h2>
+            <p>
+                The App does not knowingly collect data from anyone, including children under the age of 13.
+                Because the App collects no data at all, it poses no privacy risk to users of any age.
+            </p>
+        </section>
+
+        <section>
+            <h2>Changes to This Policy</h2>
+            <p>
+                If this policy is updated, the revised version will be published at this URL with an updated
+                date at the top. Continued use of the App after any changes constitutes acceptance of the
+                updated policy.
+            </p>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <h2>Contact</h2>
+            <p>
+                If you have any questions about this privacy policy, please contact:
+                <a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>
+            </p>
+        </section>
+
+        <p class="footer">
+            © Amanda Hernow · <a href="https://hernow.net">hernow.net</a> · Licensed under GPL v3
+        </p>
+
+    </div>
+</div>
 </body>
 </html>

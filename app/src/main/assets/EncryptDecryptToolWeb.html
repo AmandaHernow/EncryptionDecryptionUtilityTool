@@ -261,7 +261,6 @@
                 <button class="htab active" data-panel="usagePanel">Usage</button>
                 <button class="htab"        data-panel="secPanel">Security</button>
                 <button class="htab"        data-panel="donatePanel">Donate</button>
-                <button class="htab"        data-panel="privacyPanel">Privacy</button>
             </div>
         </div>
 
@@ -357,63 +356,6 @@
                     <a class="donate-btn" href="https://www.paypal.me/amandahernow" target="_blank" rel="noopener noreferrer">💙 &nbsp;Donate via PayPal</a>
                     <div class="donate-note">Thank you so much for your support 💙</div>
                 </div>
-            </div>
-
-
-            <!-- PRIVACY -->
-            <div id="privacyPanel" class="hpanel">
-                <div class="hsec">
-                    <div class="hsec-title">Overview</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">Developed and maintained by Amanda Hernow. This app collects no data of any kind — everything stays on your device.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Data Collection</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">No personal information, usage statistics, analytics, crash reports, or identifiers of any kind are gathered, stored, or transmitted — ever.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Encryption Operations</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">All cryptographic operations are performed entirely on your device. The text you enter, the password you use, and the encrypted output never leave your device through this app.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Clipboard Access</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt"><strong>Paste</strong> — reads your clipboard to fill the input field.</div></div>
-                        <div class="bull"><div class="dot"></div><div class="btxt"><strong>Copy</strong> — writes the result to your clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div class="btxt"><strong>Clear</strong> — clears your clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div class="btxt">No clipboard content is stored or accessed at any other time.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Network Access</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">The app makes no network requests. Fully offline — no server, no internet connection, no external communication of any kind.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Third-Party Services</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">No advertising, analytics, crash reporting, or tracking SDKs of any kind are integrated.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Data Storage</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">Nothing is written to device storage. No passwords, plaintext, or ciphertext are stored anywhere. When you close the app, no trace of your session remains.</div></div>
-                    </div>
-                </div>
-                <div class="hsec">
-                    <div class="hsec-title">Contact</div>
-                    <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div class="btxt">Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
-                    </div>
-                </div>
-                <div class="hnote" style="margin-top:16px;">Full policy: <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;word-break:break-all;">hernow.net · Privacy Policy</a></div>
             </div>
 
         </div><!-- /helpBody -->
@@ -685,12 +627,13 @@
                     await navigator.clipboard.writeText('');
                 }
             }catch(e){}
-             out.innerHTML='';
-            reset();
-            append('All fields and clipboard cleared ✔️','var(--accent)');
-                });
+                    out.innerHTML='';
+                    reset();
+                    setActiveBtn(null);
+                    append('All fields and clipboard cleared. ✔️','var(--accent)');
+                }
+            );
         };
-
     })();
 </script>
 </body>

@@ -109,11 +109,11 @@ Then open Android Studio, choose **Open**, and navigate to the `android/` folder
 If you find this tool useful, consider supporting its development. It helps keep the project maintained and free.
 
 <p align="center">
-  <a href="https://www.paypal.com/qrcodes/managed/b0a36e72-a843-4b44-95b1-63eedb27faab?utm_source=consapp">
+  <a href="https://www.paypal.me/AmandaHernow">
     <img src="docs/paypal_qr.png" alt="Donate via PayPal" width="180"/>
   </a>
   <br/><br/>
-  <a href="https://www.paypal.com/qrcodes/managed/b0a36e72-a843-4b44-95b1-63eedb27faab?utm_source=consapp">💙 Donate via PayPal</a>
+  <a href="https://www.paypal.me/AmandaHernow">💙 Donate via PayPal</a>
 </p>
 
 You can also reach out or report issues at: **encrypt.decrypt.support@hernow.net**

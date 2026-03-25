@@ -1,528 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
-  <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Encrypt &amp; Decrypt Data Utility Tool</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <style>
-    /* ═══════════════════════════════════════════════
-       CSS VARIABLES — LIGHT (default) & DARK
-    ═══════════════════════════════════════════════ */
-    :root {
-      --accent:        #008B8B;
-      --accent-dark:   #006666;
-      --accent-glow:   rgba(0,139,139,.18);
-      --bg:            #f0f4f4;
-      --bg-card:       #ffffff;
-      --bg-sec:        #e8eeee;
-      --border:        #c8d8d8;
-      --text:          #1a2a2a;
-      --text-sec:      #4a6868;
-      --out-bg:        #f8fbfb;
-      --in-bg:         #ffffff;
-      --shadow-card:   0 8px 40px rgba(0,139,139,.13), 0 2px 8px rgba(0,0,0,.06);
-      --shadow-modal:  0 20px 60px rgba(0,0,0,.18);
-      --radius:        12px;
-      --radius-sm:     8px;
-    }
-    body.dark {
-      --accent:        #00C8C8;
-      --accent-dark:   #009090;
-      --accent-glow:   rgba(0,200,200,.15);
-      --bg:            #091414;
-      --bg-card:       #112020;
-      --bg-sec:        #0d1c1c;
-      --border:        #1e3535;
-      --text:          #d8eeee;
-      --text-sec:      #6aacac;
-      --out-bg:        #0d1c1c;
-      --in-bg:         #112020;
-      --shadow-card:   0 8px 40px rgba(0,0,0,.5);
-      --shadow-modal:  0 20px 60px rgba(0,0,0,.6);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Encrypt &amp; Decrypt Data Utility Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+/* ═══════════════════════════════════════════════
+   CSS VARIABLES — LIGHT (default) & DARK
+═══════════════════════════════════════════════ */
+:root {
+  --accent:        #008B8B;
+  --accent-dark:   #006666;
+  --accent-glow:   rgba(0,139,139,.18);
+  --bg:            #f0f4f4;
+  --bg-card:       #ffffff;
+  --bg-sec:        #e8eeee;
+  --border:        #c8d8d8;
+  --text:          #1a2a2a;
+  --text-sec:      #4a6868;
+  --out-bg:        #f8fbfb;
+  --in-bg:         #ffffff;
+  --shadow-card:   0 8px 40px rgba(0,139,139,.13), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-modal:  0 20px 60px rgba(0,0,0,.18);
+  --radius:        12px;
+  --radius-sm:     8px;
+}
+body.dark {
+  --accent:        #00C8C8;
+  --accent-dark:   #009090;
+  --accent-glow:   rgba(0,200,200,.15);
+  --bg:            #091414;
+  --bg-card:       #112020;
+  --bg-sec:        #0d1c1c;
+  --border:        #1e3535;
+  --text:          #d8eeee;
+  --text-sec:      #6aacac;
+  --out-bg:        #0d1c1c;
+  --in-bg:         #112020;
+  --shadow-card:   0 8px 40px rgba(0,0,0,.5);
+  --shadow-modal:  0 20px 60px rgba(0,0,0,.6);
+}
 
-    /* ═══════════════════════════════════════════════
-       RESET & BASE
-    ═══════════════════════════════════════════════ */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;overflow:hidden;background:var(--bg-card);}
-    body{
-      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-      color:var(--text);
-      transition:background .3s,color .3s;
-    }
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg-card);}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
 
-    /* PAGE — invisible passthrough */
-    .page{display:contents;}
+/* PAGE — invisible passthrough */
+.page{display:contents;}
 
-    /* CARD — fixed to all four edges, no matter what */
-    .card{
-      position:fixed;
-      top:0;left:0;right:0;bottom:0;
-      display:flex;
-      flex-direction:column;
-      overflow:hidden;
-      background:var(--bg-card);
-      transition:background .3s;
-      animation:cardIn .35s ease both;
-    }
-    @keyframes cardIn{
-      from{opacity:0}
-      to{opacity:1}
-    }
+/* CARD — fixed to all four edges, no matter what */
+.card{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:var(--bg-card);
+  transition:background .3s;
+  animation:cardIn .35s ease both;
+}
+@keyframes cardIn{
+  from{opacity:0}
+  to{opacity:1}
+}
 
-    /* ═══════════════════════════════════════════════
-       TITLEBAR
-    ═══════════════════════════════════════════════ */
-    .titlebar{
-      display:flex;align-items:center;gap:10px;
-      background:var(--accent);
-      padding:0 12px;height:48px;flex-shrink:0;
-      transition:background .3s;
-    }
-    .tb-icon{
-      width:26px;height:26px;border-radius:6px;
-      object-fit:cover;flex-shrink:0;
-    }
-    .tb-title{
-      flex:1;
-      color:#fff;
-      font-size:13.5px;font-weight:700;
-      letter-spacing:.01em;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    }
-    .tb-btn{
-      width:32px;height:30px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.3);
-      border-radius:6px;
-      color:#fff;font-size:15px;
-      cursor:pointer;flex-shrink:0;
-      display:flex;align-items:center;justify-content:center;
-      transition:background .15s,border-color .15s,transform .1s;
-    }
-    .tb-btn:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6);}
-    .tb-btn:active{transform:scale(.93);}
+/* ═══════════════════════════════════════════════
+   TITLEBAR
+═══════════════════════════════════════════════ */
+.titlebar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--accent);
+  padding:0 12px;height:48px;flex-shrink:0;
+  transition:background .3s;
+}
+.tb-icon{
+  width:26px;height:26px;border-radius:6px;
+  object-fit:cover;flex-shrink:0;
+}
+.tb-title{
+  flex:1;
+  color:#fff;
+  font-size:13.5px;font-weight:700;
+  letter-spacing:.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.tb-btn{
+  width:32px;height:30px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:6px;
+  color:#fff;font-size:15px;
+  cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.tb-btn:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6);}
+.tb-btn:active{transform:scale(.93);}
 
-    /* ═══════════════════════════════════════════════
-       HEADER INFO
-    ═══════════════════════════════════════════════ */
-    .hdr{
-      padding:10px 16px 9px;
-      border-bottom:1px solid var(--border);
-      background:var(--bg-sec);
-      transition:background .3s,border-color .3s;
-    }
-    .hdr-label{
-      font-size:10px;font-weight:800;
-      letter-spacing:.1em;text-transform:uppercase;
-      color:var(--accent);
-    }
-    .hdr-desc{
-      font-size:11.5px;color:var(--text-sec);
-      margin-top:2px;line-height:1.5;
-    }
+/* ═══════════════════════════════════════════════
+   HEADER INFO
+═══════════════════════════════════════════════ */
+.hdr{
+  padding:10px 16px 9px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-sec);
+  transition:background .3s,border-color .3s;
+}
+.hdr-label{
+  font-size:10px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);
+}
+.hdr-desc{
+  font-size:11.5px;color:var(--text-sec);
+  margin-top:2px;line-height:1.5;
+}
 
-    /* ═══════════════════════════════════════════════
-       MAIN TITLE
-    ═══════════════════════════════════════════════ */
-    .main-title{
-      text-align:center;
-      color:var(--accent);
-      font-size:20px;font-weight:800;
-      padding:16px 16px 10px;
-      letter-spacing:.01em;
-      transition:color .3s;
-    }
+/* ═══════════════════════════════════════════════
+   MAIN TITLE
+═══════════════════════════════════════════════ */
+.main-title{
+  text-align:center;
+  color:var(--accent);
+  font-size:20px;font-weight:800;
+  padding:16px 16px 10px;
+  letter-spacing:.01em;
+  transition:color .3s;
+}
 
-    /* ═══════════════════════════════════════════════
-       MODE BUTTONS
-    ═══════════════════════════════════════════════ */
-    .btn-panel{
-      display:grid;grid-template-columns:1fr 1fr;
-      gap:10px;padding:0 16px 14px;
-    }
-    .mode-btn{
-      padding:12px 8px;
-      background:var(--accent);color:#fff;
-      border:none;border-radius:var(--radius-sm);
-      font-size:14px;font-weight:700;
-      letter-spacing:.02em;cursor:pointer;
-      transition:background .15s,transform .1s,box-shadow .15s;
-    }
-    .mode-btn:hover{background:var(--accent-dark);}
-    .mode-btn:active{transform:scale(.97);}
-    .mode-btn.active{
-      background:var(--accent-dark);
-      box-shadow:inset 0 2px 8px rgba(0,0,0,.25);
-    }
+/* ═══════════════════════════════════════════════
+   MODE BUTTONS
+═══════════════════════════════════════════════ */
+.btn-panel{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:0 16px 14px;
+}
+.mode-btn{
+  padding:12px 8px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-size:14px;font-weight:700;
+  letter-spacing:.02em;cursor:pointer;
+  transition:background .15s,transform .1s,box-shadow .15s;
+}
+.mode-btn:hover{background:var(--accent-dark);}
+.mode-btn:active{transform:scale(.97);}
+.mode-btn.active{
+  background:var(--accent-dark);
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.25);
+}
 
-    /* ═══════════════════════════════════════════════
-       OUTPUT
-    ═══════════════════════════════════════════════ */
-    .output{
-      flex:1;min-height:60px;
-      margin:0 16px;
-      border:1px solid var(--border);border-radius:var(--radius-sm);
-      padding:10px 12px;
-      overflow-y:auto;overflow-x:hidden;
-      white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;
-      font-family:'Cascadia Code',Consolas,'Courier New',monospace;
-      font-size:12.5px;line-height:1.6;
-      background:var(--out-bg);color:var(--text);
-      transition:background .3s,border-color .3s;
-    }
+/* ═══════════════════════════════════════════════
+   OUTPUT
+═══════════════════════════════════════════════ */
+.output{
+  flex:1;min-height:60px;
+  margin:0 16px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:10px 12px;
+  overflow-y:auto;overflow-x:hidden;
+  white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;
+  font-family:'Cascadia Code',Consolas,'Courier New',monospace;
+  font-size:12.5px;line-height:1.6;
+  background:var(--out-bg);color:var(--text);
+  transition:background .3s,border-color .3s;
+}
 
-    /* ═══════════════════════════════════════════════
-       INPUT AREA
-    ═══════════════════════════════════════════════ */
-    .input-area{
-      display:flex;flex-direction:column;
-      gap:8px;padding:10px 16px 14px;
-    }
-    textarea#txtBig{
-      display:none;width:100%;height:130px;
-      resize:none;
-      padding:8px 10px;
-      border:1px solid var(--border);border-radius:var(--radius-sm);
-      background:var(--in-bg);color:var(--text);
-      font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;
-      line-height:1.5;
-      transition:border-color .2s,background .3s;
-    }
-    textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
-    .pw-row{
-      display:none;align-items:center;gap:10px;flex-wrap:wrap;
-    }
-    .pw-label{
-      color:var(--accent);font-weight:700;font-size:13px;
-      white-space:nowrap;
-    }
-    .pw-wrap{position:relative;flex:1;min-width:180px;}
-    .pw-wrap input{
-      width:100%;padding:8px 38px 8px 10px;
-      border:1px solid var(--border);border-radius:var(--radius-sm);
-      background:var(--in-bg);color:var(--text);
-      font-size:13px;
-      transition:border-color .2s,background .3s;
-    }
-    .pw-wrap input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
-    .eye-btn{
-      position:absolute;right:9px;top:50%;transform:translateY(-50%);
-      background:transparent;border:none;cursor:pointer;
-      color:var(--text-sec);display:flex;align-items:center;
-      transition:color .15s;padding:2px;
-    }
-    .eye-btn:hover{color:var(--accent);}
-    .eye-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+/* ═══════════════════════════════════════════════
+   INPUT AREA
+═══════════════════════════════════════════════ */
+.input-area{
+  display:flex;flex-direction:column;
+  gap:8px;padding:10px 16px 14px;
+}
+textarea#txtBig{
+  display:none;width:100%;height:130px;
+  resize:none;
+  padding:8px 10px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--in-bg);color:var(--text);
+  font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;
+  line-height:1.5;
+  transition:border-color .2s,background .3s;
+}
+textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+.pw-row{
+  display:none;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.pw-label{
+  color:var(--accent);font-weight:700;font-size:13px;
+  white-space:nowrap;
+}
+.pw-wrap{position:relative;flex:1;min-width:180px;}
+.pw-wrap input{
+  width:100%;padding:8px 38px 8px 10px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--in-bg);color:var(--text);
+  font-size:13px;
+  transition:border-color .2s,background .3s;
+}
+.pw-wrap input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+.eye-btn{
+  position:absolute;right:9px;top:50%;transform:translateY(-50%);
+  background:transparent;border:none;cursor:pointer;
+  color:var(--text-sec);display:flex;align-items:center;
+  transition:color .15s;padding:2px;
+}
+.eye-btn:hover{color:var(--accent);}
+.eye-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 
-    /* ═══════════════════════════════════════════════
-       ACTION ROW
-    ═══════════════════════════════════════════════ */
-    .action-row{
-      display:flex;gap:8px;align-items:center;
-      flex-wrap:wrap;
-    }
-    .action-row button{
-      padding:8px 16px;
-      border:none;border-radius:var(--radius-sm);
-      font-size:13px;font-weight:700;cursor:pointer;
-      transition:background .15s,transform .1s;
-    }
-    .action-row button:active{transform:scale(.97);}
-    #btnSubmit{background:var(--accent);color:#fff;display:none;}
-    #btnSubmit:hover{background:var(--accent-dark);}
-    #btnPaste{background:var(--bg-sec);color:var(--accent);border:1px solid var(--border);display:none;}
-    #btnPaste:hover{background:var(--border);}
-    #btnCopy{background:var(--accent);color:#fff;display:none;}
-    #btnCopy:hover{background:var(--accent-dark);}
-    #btnClear{
-      margin-left:auto;
-      background:transparent;
-      color:var(--text-sec);
-      border:1px solid var(--border);
-    }
-    #btnClear:hover{background:var(--bg-sec);color:var(--text);}
+/* ═══════════════════════════════════════════════
+   ACTION ROW
+═══════════════════════════════════════════════ */
+.action-row{
+  display:flex;gap:8px;align-items:center;
+  flex-wrap:wrap;
+}
+.action-row button{
+  padding:8px 16px;
+  border:none;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:background .15s,transform .1s;
+}
+.action-row button:active{transform:scale(.97);}
+#btnSubmit{background:var(--accent);color:#fff;display:none;}
+#btnSubmit:hover{background:var(--accent-dark);}
+#btnPaste{background:var(--bg-sec);color:var(--accent);border:1px solid var(--border);display:none;}
+#btnPaste:hover{background:var(--border);}
+#btnCopy{background:var(--accent);color:#fff;display:none;}
+#btnCopy:hover{background:var(--accent-dark);}
+#btnClear{
+  margin-left:auto;
+  background:transparent;
+  color:var(--text-sec);
+  border:1px solid var(--border);
+}
+#btnClear:hover{background:var(--bg-sec);color:var(--text);}
 
-    .warn{font-size:12px;font-weight:600;padding:2px 0;}
-    .warn-err{color:#d44;}
-    .warn-soft{color:#a07000;}
+.warn{font-size:12px;font-weight:600;padding:2px 0;}
+.warn-err{color:#d44;}
+.warn-soft{color:#a07000;}
 
-    /* ═══════════════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════════════ */
-    .app-footer{
-      background:var(--accent);
-      color:rgba(255,255,255,.82);
-      text-align:center;font-size:11px;
-      padding:7px;letter-spacing:.03em;
-      flex-shrink:0;
-      transition:background .3s;
-    }
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+.app-footer{
+  background:var(--accent);
+  color:rgba(255,255,255,.82);
+  text-align:center;font-size:11px;
+  padding:7px;letter-spacing:.03em;
+  flex-shrink:0;
+  transition:background .3s;
+}
 
-    /* ═══════════════════════════════════════════════
-       CONFIRM DIALOG
-    ═══════════════════════════════════════════════ */
-    #confirmOverlay{
-      display:none;position:fixed;inset:0;
-      background:rgba(0,0,0,.4);
-      z-index:9500;
-      align-items:center;justify-content:center;
-      backdrop-filter:blur(3px);
-      padding:16px;
-    }
-    #confirmOverlay.show{display:flex;}
-    .confirm-box{
-      background:var(--bg-card);
-      border-radius:14px;
-      box-shadow:var(--shadow-modal);
-      border:1px solid var(--border);
-      width:100%;max-width:320px;
-      overflow:hidden;
-      animation:popIn .2s ease both;
-    }
-    @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-    .confirm-head{background:var(--accent);padding:14px 16px;}
-    .confirm-head .c-title{color:#fff;font-weight:700;font-size:14px;}
-    .confirm-head .c-msg{color:rgba(255,255,255,.85);font-size:12.5px;margin-top:5px;line-height:1.45;}
-    .confirm-btns{display:flex;border-top:1px solid var(--border);}
-    .confirm-btns button{
-      flex:1;padding:13px;border:none;
-      background:transparent;font-size:13px;font-weight:600;
-      cursor:pointer;transition:background .15s;
-    }
-    #cCancel{color:var(--text-sec);border-right:1px solid var(--border);}
-    #cCancel:hover{background:var(--bg-sec);}
-    #cOk{color:var(--accent);}
-    #cOk:hover{background:var(--bg-sec);}
+/* ═══════════════════════════════════════════════
+   CONFIRM DIALOG
+═══════════════════════════════════════════════ */
+#confirmOverlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.4);
+  z-index:9500;
+  align-items:center;justify-content:center;
+  backdrop-filter:blur(3px);
+  padding:16px;
+}
+#confirmOverlay.show{display:flex;}
+.confirm-box{
+  background:var(--bg-card);
+  border-radius:14px;
+  box-shadow:var(--shadow-modal);
+  border:1px solid var(--border);
+  width:100%;max-width:320px;
+  overflow:hidden;
+  animation:popIn .2s ease both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.confirm-head{background:var(--accent);padding:14px 16px;}
+.confirm-head .c-title{color:#fff;font-weight:700;font-size:14px;}
+.confirm-head .c-msg{color:rgba(255,255,255,.85);font-size:12.5px;margin-top:5px;line-height:1.45;}
+.confirm-btns{display:flex;border-top:1px solid var(--border);}
+.confirm-btns button{
+  flex:1;padding:13px;border:none;
+  background:transparent;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .15s;
+}
+#cCancel{color:var(--text-sec);border-right:1px solid var(--border);}
+#cCancel:hover{background:var(--bg-sec);}
+#cOk{color:var(--accent);}
+#cOk:hover{background:var(--bg-sec);}
 
-    /* ═══════════════════════════════════════════════
-       HELP PANEL
-    ═══════════════════════════════════════════════ */
-    #helpOverlay{
-      display:none;position:fixed;inset:0;
-      background:rgba(0,0,0,.35);
-      z-index:9000;
-      backdrop-filter:blur(3px);
-      align-items:center;justify-content:center;
-      padding:16px;
-    }
-    #helpOverlay.show{display:flex;}
-    .help-panel{
-      background:var(--bg-card);
-      border-radius:16px;
-      box-shadow:var(--shadow-modal);
-      border:1px solid var(--border);
-      width:100%;max-width:400px;
-      max-height:calc(100vh - 48px);
-      display:flex;flex-direction:column;
-      overflow:hidden;
-      animation:popIn .25s ease both;
-      transition:background .3s,border-color .3s;
-    }
-    /* help head */
-    .help-head{
-      background:var(--accent);
-      padding:14px 14px 0;
-      flex-shrink:0;
-      transition:background .3s;
-    }
-    .help-head-top{
-      display:flex;justify-content:space-between;align-items:center;
-      margin-bottom:12px;
-    }
-    .help-head-top span{
-      color:#fff;font-weight:700;font-size:14px;letter-spacing:.02em;
-    }
-    .help-close{
-      background:rgba(255,255,255,.18);border:none;
-      border-radius:50%;width:28px;height:28px;
-      cursor:pointer;color:#fff;font-size:14px;
-      display:flex;align-items:center;justify-content:center;
-      transition:background .15s;flex-shrink:0;
-    }
-    .help-close:hover{background:rgba(255,255,255,.35);}
-    /* tabs */
-    .htabs{display:flex;border-radius:8px 8px 0 0;overflow:hidden;}
-    .htab{
-      flex:1;padding:9px 4px;
-      background:rgba(0,0,0,.18);border:none;
-      color:rgba(255,255,255,.75);
-      font-size:11.5px;font-weight:700;
-      letter-spacing:.05em;text-transform:uppercase;
-      cursor:pointer;
-      border-right:1px solid rgba(255,255,255,.1);
-      transition:background .15s,color .15s;
-    }
-    .htab:last-child{border-right:none;}
-    .htab.active{background:var(--bg-card);color:var(--accent);}
-    .htab:not(.active):hover{background:rgba(0,0,0,.3);color:#fff;}
-    /* author card */
-    .author-card{
-      display:flex;align-items:center;gap:14px;
-      padding:14px 16px 12px;
-      border-bottom:1px solid var(--border);
-      flex-shrink:0;
-      transition:border-color .3s;
-    }
-    .author-avatar{
-      width:52px;height:52px;border-radius:50%;
-      border:2.5px solid var(--accent);
-      object-fit:cover;flex-shrink:0;
-      transition:border-color .3s;
-    }
-    .author-info{display:flex;flex-direction:column;gap:3px;}
-    .a-name{font-weight:700;font-size:14px;color:var(--text);}
-    .a-role{font-size:12px;color:var(--text-sec);}
-    .a-mail{font-size:12px;color:var(--accent);text-decoration:none;font-weight:500;}
-    .a-mail:hover{text-decoration:underline;}
-    /* body */
-    .help-body{overflow-y:auto;flex:1;padding:0 16px 16px;}
-    .hpanel{display:none;}
-    .hpanel.active{display:block;}
-    /* sections */
-    .hsec{margin-top:16px;}
-    .hsec-title{
-      font-size:10px;font-weight:800;
-      letter-spacing:.1em;text-transform:uppercase;
-      color:var(--accent);
-      padding-bottom:6px;
-      border-bottom:1px solid var(--border);
-      margin-bottom:10px;
-      transition:border-color .3s;
-    }
-    /* steps */
-    .steps,.bullets{display:flex;flex-direction:column;gap:8px;}
-    .step,.bull{display:flex;gap:10px;align-items:flex-start;}
-    .snum{
-      background:var(--accent);color:#fff;
-      border-radius:50%;width:20px;height:20px;
-      font-size:11px;font-weight:700;
-      display:flex;align-items:center;justify-content:center;
-      flex-shrink:0;margin-top:1px;
-      transition:background .3s;
-    }
-    .stxt,.btxt{font-size:12.5px;line-height:1.5;color:var(--text);}
-    .dot{
-      width:6px;height:6px;border-radius:50%;
-      background:var(--accent);flex-shrink:0;margin-top:5px;
-      transition:background .3s;
-    }
-    .hnote{
-      background:var(--bg-sec);
-      border-left:3px solid var(--accent);
-      border-radius:0 6px 6px 0;
-      padding:9px 12px;
-      font-size:12px;color:var(--text-sec);
-      line-height:1.5;margin-top:10px;
-      transition:background .3s,border-color .3s;
-    }
-    /* donate */
-    .donate-hero{text-align:center;padding:18px 0 4px;}
-    .donate-icon{font-size:38px;display:block;margin-bottom:8px;}
-    .donate-headline{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;}
-    .donate-body{font-size:12.5px;color:var(--text-sec);line-height:1.55;margin-bottom:16px;}
-    .donate-qr-wrap{text-align:center;margin-bottom:16px;}
-    .donate-qr{
-      width:150px;height:150px;
-      border-radius:10px;
-      border:2.5px solid var(--accent);
-      object-fit:cover;
-      display:block;margin:0 auto 8px;
-      transition:border-color .3s;
-    }
-    .donate-qr-label{font-size:11px;color:var(--text-sec);}
-    .donate-btn{
-      display:block;width:100%;padding:12px;
-      background:var(--accent);color:#fff;
-      border:none;border-radius:var(--radius-sm);
-      font-size:14px;font-weight:700;
-      cursor:pointer;text-align:center;
-      text-decoration:none;letter-spacing:.02em;
-      transition:background .15s,transform .1s;
-    }
-    .donate-btn:hover{background:var(--accent-dark);}
-    .donate-btn:active{transform:scale(.97);}
-    .donate-note{font-size:11px;color:var(--text-sec);text-align:center;margin-top:10px;line-height:1.5;}
-    /* help footer */
-    .help-foot{
-      text-align:center;padding:9px 16px;
-      border-top:1px solid var(--border);
-      font-size:11px;color:var(--text-sec);
-      flex-shrink:0;
-      transition:border-color .3s;
-    }
-    /* scrollbar */
-    ::-webkit-scrollbar{width:5px;}
-    ::-webkit-scrollbar-track{background:transparent;}
-    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
-    ::-webkit-scrollbar-thumb:hover{background:var(--accent);}
-  </style>
+/* ═══════════════════════════════════════════════
+   HELP PANEL
+═══════════════════════════════════════════════ */
+#helpOverlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:9000;
+  backdrop-filter:blur(3px);
+  align-items:center;justify-content:center;
+  padding:16px;
+}
+#helpOverlay.show{display:flex;}
+.help-panel{
+  background:var(--bg-card);
+  border-radius:16px;
+  box-shadow:var(--shadow-modal);
+  border:1px solid var(--border);
+  width:100%;max-width:400px;
+  max-height:calc(100vh - 48px);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  animation:popIn .25s ease both;
+  transition:background .3s,border-color .3s;
+}
+/* help head */
+.help-head{
+  background:var(--accent);
+  padding:14px 14px 0;
+  flex-shrink:0;
+  transition:background .3s;
+}
+.help-head-top{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:12px;
+}
+.help-head-top span{
+  color:#fff;font-weight:700;font-size:14px;letter-spacing:.02em;
+}
+.help-close{
+  background:rgba(255,255,255,.18);border:none;
+  border-radius:50%;width:28px;height:28px;
+  cursor:pointer;color:#fff;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;flex-shrink:0;
+}
+.help-close:hover{background:rgba(255,255,255,.35);}
+/* tabs */
+.htabs{display:flex;border-radius:8px 8px 0 0;overflow:hidden;}
+.htab{
+  flex:1;padding:9px 4px;
+  background:rgba(0,0,0,.18);border:none;
+  color:rgba(255,255,255,.75);
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  cursor:pointer;
+  border-right:1px solid rgba(255,255,255,.1);
+  transition:background .15s,color .15s;
+}
+.htab:last-child{border-right:none;}
+.htab.active{background:var(--bg-card);color:var(--accent);}
+.htab:not(.active):hover{background:rgba(0,0,0,.3);color:#fff;}
+/* author card */
+.author-card{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  transition:border-color .3s;
+}
+.author-avatar{
+  width:52px;height:52px;border-radius:50%;
+  border:2.5px solid var(--accent);
+  object-fit:cover;flex-shrink:0;
+  transition:border-color .3s;
+}
+.author-info{display:flex;flex-direction:column;gap:3px;}
+.a-name{font-weight:700;font-size:14px;color:var(--text);}
+.a-role{font-size:12px;color:var(--text-sec);}
+.a-mail{font-size:12px;color:var(--accent);text-decoration:none;font-weight:500;}
+.a-mail:hover{text-decoration:underline;}
+/* body */
+.help-body{overflow-y:auto;flex:1;padding:0 16px 16px;}
+.hpanel{display:none;}
+.hpanel.active{display:block;}
+/* sections */
+.hsec{margin-top:16px;}
+.hsec-title{
+  font-size:10px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);
+  padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:10px;
+  transition:border-color .3s;
+}
+/* steps */
+.steps,.bullets{display:flex;flex-direction:column;gap:8px;}
+.step,.bull{display:flex;gap:10px;align-items:flex-start;}
+.snum{
+  background:var(--accent);color:#fff;
+  border-radius:50%;width:20px;height:20px;
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+  transition:background .3s;
+}
+.stxt,.btxt{font-size:12.5px;line-height:1.5;color:var(--text);}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;margin-top:5px;
+  transition:background .3s;
+}
+.hnote{
+  background:var(--bg-sec);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:9px 12px;
+  font-size:12px;color:var(--text-sec);
+  line-height:1.5;margin-top:10px;
+  transition:background .3s,border-color .3s;
+}
+/* donate */
+.donate-hero{text-align:center;padding:18px 0 4px;}
+.donate-icon{font-size:38px;display:block;margin-bottom:8px;}
+.donate-headline{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.donate-body{font-size:12.5px;color:var(--text-sec);line-height:1.55;margin-bottom:16px;}
+.donate-qr-wrap{text-align:center;margin-bottom:16px;}
+.donate-qr{
+  width:150px;height:150px;
+  border-radius:10px;
+  border:2.5px solid var(--accent);
+  object-fit:cover;
+  display:block;margin:0 auto 8px;
+  transition:border-color .3s;
+}
+.donate-qr-label{font-size:11px;color:var(--text-sec);}
+.donate-btn{
+  display:block;width:100%;padding:12px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  font-size:14px;font-weight:700;
+  cursor:pointer;text-align:center;
+  text-decoration:none;letter-spacing:.02em;
+  transition:background .15s,transform .1s;
+}
+.donate-btn:hover{background:var(--accent-dark);}
+.donate-btn:active{transform:scale(.97);}
+.donate-note{font-size:11px;color:var(--text-sec);text-align:center;margin-top:10px;line-height:1.5;}
+/* help footer */
+.help-foot{
+  text-align:center;padding:9px 16px;
+  border-top:1px solid var(--border);
+  font-size:11px;color:var(--text-sec);
+  flex-shrink:0;
+  transition:border-color .3s;
+}
+/* scrollbar */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+</style>
 </head>
 <body>
 
 <div class="page">
-  <div class="card">
+<div class="card">
 
-    <!-- TITLEBAR -->
-    <div class="titlebar">
-      <img class="tb-icon" src="data:image/png;base64,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" alt="icon">
-      <div class="tb-title">Encrypt &amp; Decrypt Data Utility Tool</div>
-      <button class="tb-btn" id="btnTheme" title="Toggle theme">🌙</button>
-      <button class="tb-btn" id="btnHelp"  title="Help &amp; About">?</button>
-    </div>
+  <!-- TITLEBAR -->
+  <div class="titlebar">
+    <img class="tb-icon" src="data:image/png;base64,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" alt="icon">
+    <div class="tb-title">Encrypt &amp; Decrypt Data Utility Tool</div>
+    <button class="tb-btn" id="btnTheme" title="Toggle theme">🌙</button>
+    <button class="tb-btn" id="btnHelp"  title="Help &amp; About">?</button>
+  </div>
 
-    <!-- HEADER INFO -->
-    <div class="hdr">
-      <div class="hdr-label">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.0</div>
-      <div class="hdr-desc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
-    </div>
+  <!-- HEADER INFO -->
+  <div class="hdr">
+    <div class="hdr-label">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.0</div>
+    <div class="hdr-desc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
+  </div>
 
-    <!-- MAIN TITLE -->
-    <div class="main-title">Main Menu</div>
+  <!-- MAIN TITLE -->
+  <div class="main-title">Main Menu</div>
 
-    <!-- MODE BUTTONS -->
-    <div class="btn-panel">
-      <button class="mode-btn" id="btnEncrypt">🔒&nbsp; Encrypt</button>
-      <button class="mode-btn" id="btnDecrypt">🔓&nbsp; Decrypt</button>
-    </div>
+  <!-- MODE BUTTONS -->
+  <div class="btn-panel">
+    <button class="mode-btn" id="btnEncrypt">🔒&nbsp; Encrypt</button>
+    <button class="mode-btn" id="btnDecrypt">🔓&nbsp; Decrypt</button>
+  </div>
 
-    <!-- OUTPUT -->
-    <div id="output" class="output"></div>
+  <!-- OUTPUT -->
+  <div id="output" class="output"></div>
 
-    <!-- INPUT AREA -->
-    <div class="input-area">
-      <textarea id="txtBig" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" maxlength="10000000"></textarea>
-      <div class="pw-row" id="pwRow">
-        <span class="pw-label">Password:</span>
-        <div class="pw-wrap">
-          <input type="password" id="txtPw" placeholder="Enter password" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-          <button class="eye-btn" id="eyeBtn" title="Show/hide password" tabindex="-1">
-            <svg id="eyeIcon" viewBox="0 0 24 24">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="action-row">
-        <button id="btnSubmit">Submit</button>
-        <button id="btnPaste">Paste from clipboard</button>
-        <button id="btnCopy">Copy to clipboard</button>
-        <button id="btnClear">Clear</button>
+  <!-- INPUT AREA -->
+  <div class="input-area">
+    <textarea id="txtBig" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" maxlength="10000000"></textarea>
+    <div class="pw-row" id="pwRow">
+      <span class="pw-label">Password:</span>
+      <div class="pw-wrap">
+        <input type="password" id="txtPw" placeholder="Enter password" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+        <button class="eye-btn" id="eyeBtn" title="Show/hide password" tabindex="-1">
+          <svg id="eyeIcon" viewBox="0 0 24 24">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
       </div>
     </div>
+    <div class="action-row">
+      <button id="btnSubmit">Submit</button>
+      <button id="btnPaste">Paste from clipboard</button>
+      <button id="btnCopy">Copy to clipboard</button>
+      <button id="btnClear">Clear</button>
+    </div>
+  </div>
 
-    <!-- FOOTER -->
-    <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</div>
+  <!-- FOOTER -->
+  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</div>
 
-  </div><!-- /card -->
+</div><!-- /card -->
 </div><!-- /page -->
 
 <!-- CONFIRM DIALOG -->
@@ -645,284 +645,284 @@
 </div>
 
 <script>
-  (function(){
-  'use strict';
+(function(){
+'use strict';
 
-  // ── Elements ──
-  const out      = document.getElementById('output'),
-        txtBig   = document.getElementById('txtBig'),
-        pwRow    = document.getElementById('pwRow'),
-        txtPw    = document.getElementById('txtPw'),
-        btnSub   = document.getElementById('btnSubmit'),
-        btnPaste = document.getElementById('btnPaste'),
-        btnCopy  = document.getElementById('btnCopy'),
-        btnClear = document.getElementById('btnClear'),
-        btnEnc   = document.getElementById('btnEncrypt'),
-        btnDec   = document.getElementById('btnDecrypt'),
-        btnTheme = document.getElementById('btnTheme'),
-        btnHelp  = document.getElementById('btnHelp'),
-        helpOvl  = document.getElementById('helpOverlay'),
-        helpCls  = document.getElementById('helpClose'),
-        confOvl  = document.getElementById('confirmOverlay'),
-        cTitle   = document.getElementById('cTitle'),
-        cMsg     = document.getElementById('cMsg'),
-        cOk      = document.getElementById('cOk'),
-        cCancel  = document.getElementById('cCancel'),
-        eyeBtn   = document.getElementById('eyeBtn'),
-        eyeIcon  = document.getElementById('eyeIcon');
+// ── Elements ──
+const out      = document.getElementById('output'),
+      txtBig   = document.getElementById('txtBig'),
+      pwRow    = document.getElementById('pwRow'),
+      txtPw    = document.getElementById('txtPw'),
+      btnSub   = document.getElementById('btnSubmit'),
+      btnPaste = document.getElementById('btnPaste'),
+      btnCopy  = document.getElementById('btnCopy'),
+      btnClear = document.getElementById('btnClear'),
+      btnEnc   = document.getElementById('btnEncrypt'),
+      btnDec   = document.getElementById('btnDecrypt'),
+      btnTheme = document.getElementById('btnTheme'),
+      btnHelp  = document.getElementById('btnHelp'),
+      helpOvl  = document.getElementById('helpOverlay'),
+      helpCls  = document.getElementById('helpClose'),
+      confOvl  = document.getElementById('confirmOverlay'),
+      cTitle   = document.getElementById('cTitle'),
+      cMsg     = document.getElementById('cMsg'),
+      cOk      = document.getElementById('cOk'),
+      cCancel  = document.getElementById('cCancel'),
+      eyeBtn   = document.getElementById('eyeBtn'),
+      eyeIcon  = document.getElementById('eyeIcon');
 
-  const EYE_OPEN   = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  const EYE_CLOSED = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+const EYE_OPEN   = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+const EYE_CLOSED = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
 
-  // ── State ──
-  let mode = null, step = 0, buffer = '', dark = false, acted = false;
+// ── State ──
+let mode = null, step = 0, buffer = '', dark = false, acted = false;
 
-  // ── Theme ──
-  btnTheme.onclick = () => {
-    dark = !dark;
-    document.body.classList.toggle('dark', dark);
-    btnTheme.textContent = dark ? '☀️' : '🌙';
-    btnTheme.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
-  };
+// ── Theme ──
+btnTheme.onclick = () => {
+  dark = !dark;
+  document.body.classList.toggle('dark', dark);
+  btnTheme.textContent = dark ? '☀️' : '🌙';
+  btnTheme.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+};
 
-  // ── Help ──
-  btnHelp.onclick = () => helpOvl.classList.add('show');
-  helpCls.onclick = () => helpOvl.classList.remove('show');
-  helpOvl.addEventListener('click', e => { if(e.target === helpOvl) helpOvl.classList.remove('show'); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') helpOvl.classList.remove('show'); });
+// ── Help ──
+btnHelp.onclick = () => helpOvl.classList.add('show');
+helpCls.onclick = () => helpOvl.classList.remove('show');
+helpOvl.addEventListener('click', e => { if(e.target === helpOvl) helpOvl.classList.remove('show'); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') helpOvl.classList.remove('show'); });
 
-  document.querySelectorAll('.htab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.hpanel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      const p = document.getElementById(tab.dataset.panel);
-      if(p) p.classList.add('active');
-    });
+document.querySelectorAll('.htab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.hpanel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const p = document.getElementById(tab.dataset.panel);
+    if(p) p.classList.add('active');
   });
+});
 
-  // ── Confirm dialog ──
-  function confirm(title, msg, okLabel, onOk) {
-    cTitle.textContent = title;
-    cMsg.textContent   = msg;
-    cOk.textContent    = okLabel;
-    confOvl.classList.add('show');
-    const cleanup = () => confOvl.classList.remove('show');
-    cOk.onclick     = () => { cleanup(); onOk(); };
-    cCancel.onclick = () => cleanup();
+// ── Confirm dialog ──
+function confirm(title, msg, okLabel, onOk) {
+  cTitle.textContent = title;
+  cMsg.textContent   = msg;
+  cOk.textContent    = okLabel;
+  confOvl.classList.add('show');
+  const cleanup = () => confOvl.classList.remove('show');
+  cOk.onclick     = () => { cleanup(); onOk(); };
+  cCancel.onclick = () => cleanup();
+}
+
+// ── Eye toggle ──
+eyeBtn.onclick = () => {
+  const show = txtPw.type === 'password';
+  txtPw.type = show ? 'text' : 'password';
+  eyeIcon.innerHTML = show ? EYE_CLOSED : EYE_OPEN;
+};
+
+// ── Output helpers ──
+function append(text, color) {
+  const d = document.createElement('div');
+  d.textContent = text;
+  if(color) d.style.color = color;
+  out.appendChild(d);
+  out.scrollTop = out.scrollHeight;
+}
+function arrow(text) {
+  const l = document.createElement('div');
+  const a = document.createElement('span');
+  a.textContent = '➔ '; a.style.color = 'var(--accent)';
+  const b = document.createElement('span');
+  b.textContent = text;
+  l.appendChild(a); l.appendChild(b);
+  out.appendChild(l); out.scrollTop = out.scrollHeight;
+}
+
+// ── Reset ──
+function reset() {
+  mode = null; step = 0; buffer = ''; acted = false;
+  txtBig.value = ''; txtPw.value = '';
+  txtBig.style.display   = 'none';
+  pwRow.style.display    = 'none';
+  btnSub.style.display   = 'none';
+  btnPaste.style.display = 'none';
+  btnCopy.style.display  = 'none';
+  txtPw.type = 'password'; eyeIcon.innerHTML = EYE_OPEN;
+  btnEnc.classList.remove('active');
+  btnDec.classList.remove('active');
+}
+
+// ── Start a mode ──
+function startMode(m) {
+  out.innerHTML = '';
+  txtBig.value = '';
+  mode = m; step = 1; acted = false;
+  btnEnc.classList.toggle('active', m === 'encrypt');
+  btnDec.classList.toggle('active', m === 'decrypt');
+  if(m === 'encrypt') {
+    txtBig.placeholder = 'Type or paste the text you want to encrypt…';
+    arrow('Enter the text you want to encrypt, then press Submit.');
+  } else {
+    txtBig.placeholder = 'Paste the encrypted Base64 text here…';
+    arrow('Paste the encrypted Base64 text, then press Submit.');
   }
+  txtBig.style.display   = 'block';
+  pwRow.style.display    = 'none';
+  btnSub.style.display   = 'inline-block';
+  btnPaste.style.display = 'inline-block';
+  btnCopy.style.display  = 'none';
+  txtBig.focus();
+}
 
-  // ── Eye toggle ──
-  eyeBtn.onclick = () => {
-    const show = txtPw.type === 'password';
-    txtPw.type = show ? 'text' : 'password';
-    eyeIcon.innerHTML = show ? EYE_CLOSED : EYE_OPEN;
-  };
+btnEnc.onclick = () => {
+  if(mode === 'encrypt') return;
+  if(mode && acted) {
+    confirm('Switch to Encrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('encrypt'));
+  } else { startMode('encrypt'); }
+};
+btnDec.onclick = () => {
+  if(mode === 'decrypt') return;
+  if(mode && acted) {
+    confirm('Switch to Decrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('decrypt'));
+  } else { startMode('decrypt'); }
+};
 
-  // ── Output helpers ──
-  function append(text, color) {
-    const d = document.createElement('div');
-    d.textContent = text;
-    if(color) d.style.color = color;
-    out.appendChild(d);
-    out.scrollTop = out.scrollHeight;
+// ── Keyboard shortcuts ──
+txtBig.addEventListener('keydown', e => { if(e.key === 'Enter' && mode && !e.shiftKey){ e.preventDefault(); btnSub.click(); }});
+txtPw.addEventListener('keydown',  e => { if(e.key === 'Enter'){ e.preventDefault(); btnSub.click(); }});
+txtBig.addEventListener('input', () => { if(txtBig.value.trim()) acted = true; });
+
+// ── Paste button ──
+btnPaste.onclick = async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if(text) { txtBig.value = text; txtBig.focus(); }
+    else { append('Clipboard is empty.','var(--text-sec)'); }
+  } catch(e) {
+    append('Clipboard access denied — please paste manually (Ctrl+V / Cmd+V).','#c44');
   }
-  function arrow(text) {
-    const l = document.createElement('div');
-    const a = document.createElement('span');
-    a.textContent = '➔ '; a.style.color = 'var(--accent)';
-    const b = document.createElement('span');
-    b.textContent = text;
-    l.appendChild(a); l.appendChild(b);
-    out.appendChild(l); out.scrollTop = out.scrollHeight;
-  }
+};
 
-  // ── Reset ──
-  function reset() {
-    mode = null; step = 0; buffer = ''; acted = false;
-    txtBig.value = ''; txtPw.value = '';
-    txtBig.style.display   = 'none';
-    pwRow.style.display    = 'none';
-    btnSub.style.display   = 'none';
-    btnPaste.style.display = 'none';
-    btnCopy.style.display  = 'none';
-    txtPw.type = 'password'; eyeIcon.innerHTML = EYE_OPEN;
-    btnEnc.classList.remove('active');
-    btnDec.classList.remove('active');
-  }
+// ── Submit ──
+btnSub.onclick = async () => {
+  if(!mode) return;
 
-  // ── Start a mode ──
-  function startMode(m) {
-    out.innerHTML = '';
-    txtBig.value = '';
-    mode = m; step = 1; acted = false;
-    btnEnc.classList.toggle('active', m === 'encrypt');
-    btnDec.classList.toggle('active', m === 'decrypt');
-    if(m === 'encrypt') {
-      txtBig.placeholder = 'Type or paste the text you want to encrypt…';
-      arrow('Enter the text you want to encrypt, then press Submit.');
-    } else {
-      txtBig.placeholder = 'Paste the encrypted Base64 text here…';
-      arrow('Paste the encrypted Base64 text, then press Submit.');
-    }
-    txtBig.style.display   = 'block';
-    pwRow.style.display    = 'none';
-    btnSub.style.display   = 'inline-block';
-    btnPaste.style.display = 'inline-block';
-    btnCopy.style.display  = 'none';
-    txtBig.focus();
-  }
-
-  btnEnc.onclick = () => {
-    if(mode === 'encrypt') return;
-    if(mode && acted) {
-      confirm('Switch to Encrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('encrypt'));
-    } else { startMode('encrypt'); }
-  };
-  btnDec.onclick = () => {
-    if(mode === 'decrypt') return;
-    if(mode && acted) {
-      confirm('Switch to Decrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('decrypt'));
-    } else { startMode('decrypt'); }
-  };
-
-  // ── Keyboard shortcuts ──
-  txtBig.addEventListener('keydown', e => { if(e.key === 'Enter' && mode && !e.shiftKey){ e.preventDefault(); btnSub.click(); }});
-  txtPw.addEventListener('keydown',  e => { if(e.key === 'Enter'){ e.preventDefault(); btnSub.click(); }});
-  txtBig.addEventListener('input', () => { if(txtBig.value.trim()) acted = true; });
-
-  // ── Paste button ──
-  btnPaste.onclick = async () => {
-    try {
-      const text = await navigator.clipboard.readText();
-      if(text) { txtBig.value = text; txtBig.focus(); }
-      else { append('Clipboard is empty.','var(--text-sec)'); }
-    } catch(e) {
-      append('Clipboard access denied — please paste manually (Ctrl+V / Cmd+V).','#c44');
-    }
-  };
-
-  // ── Submit ──
-  btnSub.onclick = async () => {
-    if(!mode) return;
-
-    if(step === 1) {
-      if(!txtBig.value.trim()) {
-        const w = document.createElement('div');
-        w.className = 'warn warn-err';
-        w.textContent = mode === 'encrypt'
-          ? '⚠️ Please enter some text to encrypt.'
-          : '⚠️ Please paste the encrypted text first.';
-        out.appendChild(w); out.scrollTop = out.scrollHeight;
-        return;
-      }
-      buffer = txtBig.value.replace(/\s+/g,'');
-      step = 2; acted = true;
-      txtBig.style.display   = 'none';
-      pwRow.style.display    = 'flex';
-      btnPaste.style.display = 'none';
-      txtPw.value = '';
-      txtPw.type  = 'password'; eyeIcon.innerHTML = EYE_OPEN;
-      arrow('Enter your password, then press Submit.');
-      txtPw.focus();
+  if(step === 1) {
+    if(!txtBig.value.trim()) {
+      const w = document.createElement('div');
+      w.className = 'warn warn-err';
+      w.textContent = mode === 'encrypt'
+        ? '⚠️ Please enter some text to encrypt.'
+        : '⚠️ Please paste the encrypted text first.';
+      out.appendChild(w); out.scrollTop = out.scrollHeight;
       return;
     }
+    buffer = txtBig.value.replace(/\s+/g,'');
+    step = 2; acted = true;
+    txtBig.style.display   = 'none';
+    pwRow.style.display    = 'flex';
+    btnPaste.style.display = 'none';
+    txtPw.value = '';
+    txtPw.type  = 'password'; eyeIcon.innerHTML = EYE_OPEN;
+    arrow('Enter your password, then press Submit.');
+    txtPw.focus();
+    return;
+  }
 
-    // Step 2 — password
-    const pw = txtPw.value;
-    if(!pw.trim()) {
-      const w = document.createElement('div');
-      w.className = 'warn warn-soft';
-      w.textContent = '⚠️ No password — this provides no real security.';
-      out.appendChild(w); out.scrollTop = out.scrollHeight;
-    }
-    pwRow.style.display  = 'none';
-    btnSub.style.display = 'none';
-    txtPw.type = 'password'; eyeIcon.innerHTML = EYE_OPEN;
+  // Step 2 — password
+  const pw = txtPw.value;
+  if(!pw.trim()) {
+    const w = document.createElement('div');
+    w.className = 'warn warn-soft';
+    w.textContent = '⚠️ No password — this provides no real security.';
+    out.appendChild(w); out.scrollTop = out.scrollHeight;
+  }
+  pwRow.style.display  = 'none';
+  btnSub.style.display = 'none';
+  txtPw.type = 'password'; eyeIcon.innerHTML = EYE_OPEN;
 
-    let ok = false;
-    if(mode === 'encrypt') {
-      try {
-        const salt = crypto.getRandomValues(new Uint8Array(16));
-        const iv   = crypto.getRandomValues(new Uint8Array(12));
-        const pk   = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
-        const key  = await crypto.subtle.deriveKey(
-          {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
-          {name:'AES-GCM',length:256},false,['encrypt']);
-        const ct   = await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
-        const all  = new Uint8Array(16+12+ct.byteLength);
-        all.set(salt,0); all.set(iv,16); all.set(new Uint8Array(ct),28);
-        buffer = btoa(String.fromCharCode(...all));
-        append('Encrypted (Base64):','var(--accent)');
-        append(buffer);
-        append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
-        btnCopy.style.display = 'inline-block';
-        ok = true;
-      } catch(e){ append('Encryption error: '+e,'#c44'); }
-    } else {
-      try {
-        const all  = Uint8Array.from(atob(buffer), c => c.charCodeAt(0));
-        if(all.length < 29) throw 'Input too short — not a valid encrypted blob.';
-        const salt = all.slice(0,16), iv = all.slice(16,28), ct = all.slice(28);
-        const pk   = await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
-        const key  = await crypto.subtle.deriveKey(
-          {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
-          {name:'AES-GCM',length:256},false,['decrypt']);
-        const pt   = await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
-        buffer     = new TextDecoder().decode(pt);
-        append('Decrypted text:','var(--accent)');
-        append(buffer);
-        append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
-        btnCopy.style.display = 'inline-block';
-        ok = true;
-      } catch(e){
-        if(String(e).includes('short')) append('Error: '+e,'#c44');
-        else append('Decryption failed — wrong password or corrupted data.','#c44');
-      }
-    }
-    if(!ok) reset();
-  };
-
-  // ── Copy ──
-  btnCopy.onclick = async () => {
-    if(!buffer) return;
-    if(document.activeElement) document.activeElement.blur();
+  let ok = false;
+  if(mode === 'encrypt') {
     try {
-      await navigator.clipboard.writeText(buffer);
-      append('✔️ Copied to clipboard.','var(--accent)');
-      reset();
-    } catch(e) {
-      // Fallback for browsers that restrict clipboard write
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = buffer;
-        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
-        document.body.appendChild(ta);
-        ta.focus(); ta.select();
-        const s = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if(s){ append('✔️ Copied to clipboard.','var(--accent)'); reset(); }
-        else { append('Copy failed — please copy the text manually.','#c44'); }
-      } catch(e2){ append('Copy failed — please copy the text manually.','#c44'); }
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv   = crypto.getRandomValues(new Uint8Array(12));
+      const pk   = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+      const key  = await crypto.subtle.deriveKey(
+        {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
+        {name:'AES-GCM',length:256},false,['encrypt']);
+      const ct   = await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
+      const all  = new Uint8Array(16+12+ct.byteLength);
+      all.set(salt,0); all.set(iv,16); all.set(new Uint8Array(ct),28);
+      buffer = btoa(String.fromCharCode(...all));
+      append('Encrypted (Base64):','var(--accent)');
+      append(buffer);
+      append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
+      btnCopy.style.display = 'inline-block';
+      ok = true;
+    } catch(e){ append('Encryption error: '+e,'#c44'); }
+  } else {
+    try {
+      const all  = Uint8Array.from(atob(buffer), c => c.charCodeAt(0));
+      if(all.length < 29) throw 'Input too short — not a valid encrypted blob.';
+      const salt = all.slice(0,16), iv = all.slice(16,28), ct = all.slice(28);
+      const pk   = await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+      const key  = await crypto.subtle.deriveKey(
+        {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
+        {name:'AES-GCM',length:256},false,['decrypt']);
+      const pt   = await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
+      buffer     = new TextDecoder().decode(pt);
+      append('Decrypted text:','var(--accent)');
+      append(buffer);
+      append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
+      btnCopy.style.display = 'inline-block';
+      ok = true;
+    } catch(e){
+      if(String(e).includes('short')) append('Error: '+e,'#c44');
+      else append('Decryption failed — wrong password or corrupted data.','#c44');
     }
-  };
+  }
+  if(!ok) reset();
+};
 
-  // ── Clear ──
-  btnClear.onclick = () => {
-    confirm(
-      'Clear Everything?',
-      'This will clear all text fields, the output, and your clipboard.',
-      'Clear',
-      async () => {
-        try { await navigator.clipboard.writeText(''); } catch(e){}
-        out.innerHTML = '';
-        reset();
-        append('✔️ All fields and clipboard cleared.','var(--accent)');
-      }
-    );
-  };
+// ── Copy ──
+btnCopy.onclick = async () => {
+  if(!buffer) return;
+  if(document.activeElement) document.activeElement.blur();
+  try {
+    await navigator.clipboard.writeText(buffer);
+    append('✔️ Copied to clipboard.','var(--accent)');
+    reset();
+  } catch(e) {
+    // Fallback for browsers that restrict clipboard write
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = buffer;
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const s = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if(s){ append('✔️ Copied to clipboard.','var(--accent)'); reset(); }
+      else { append('Copy failed — please copy the text manually.','#c44'); }
+    } catch(e2){ append('Copy failed — please copy the text manually.','#c44'); }
+  }
+};
 
-  })();
+// ── Clear ──
+btnClear.onclick = () => {
+  confirm(
+    'Clear Everything?',
+    'This will clear all text fields, the output, and your clipboard.',
+    'Clear',
+    async () => {
+      try { await navigator.clipboard.writeText(''); } catch(e){}
+      out.innerHTML = '';
+      reset();
+      append('✔️ All fields and clipboard cleared.','var(--accent)');
+    }
+  );
+};
+
+})();
 </script>
 </body>
 </html>

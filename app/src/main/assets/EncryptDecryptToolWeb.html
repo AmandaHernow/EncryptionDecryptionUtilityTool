@@ -51,35 +51,26 @@
            RESET & BASE
         ═══════════════════════════════════════════════ */
         *{box-sizing:border-box;margin:0;padding:0}
-        html{height:100%;}
+        html,body{height:100%;overflow:hidden;background:var(--bg-card);}
         body{
-          height:100%;
-          display:flex;
-          flex-direction:column;
-          overflow:hidden;
           font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-          background:var(--bg-card);
           color:var(--text);
           transition:background .3s,color .3s;
         }
 
-        /* ═══════════════════════════════════════════════
-           PAGE WRAPPER — just passes through
-        ═══════════════════════════════════════════════ */
+        /* PAGE — invisible passthrough */
         .page{display:contents;}
 
-        /* ═══════════════════════════════════════════════
-           CARD — IS the body effectively
-        ═══════════════════════════════════════════════ */
+        /* CARD — fixed to all four edges, no matter what */
         .card{
-          flex:1;
+          position:fixed;
+          top:0;left:0;right:0;bottom:0;
           display:flex;
           flex-direction:column;
           overflow:hidden;
           background:var(--bg-card);
           transition:background .3s;
           animation:cardIn .35s ease both;
-          min-height:0;
         }
         @keyframes cardIn{
           from{opacity:0}

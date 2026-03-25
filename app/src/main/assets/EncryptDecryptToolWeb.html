@@ -523,7 +523,12 @@
         big.addEventListener('input',()=>{ if(big.value.trim()!=='') userHasActed=true; });
 
         // Key shortcuts
-        big.addEventListener('keydown',e=>{if(e.key==='Enter'&&mode){e.preventDefault();btn.click();}});
+        big.addEventListener('keydown',e=>{
+            if(e.key==='Enter' && mode==='decrypt'){
+                e.preventDefault();
+                btn.click();
+            }
+        });
         small.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();btn.click();}});
 
         let mode=null,step=0,buffer='',userHasActed=false;
@@ -609,7 +614,9 @@
                     out.appendChild(w);out.scrollTop=out.scrollHeight;
                     return;
                 }
-                buffer=big.value.replace(/\s+/g,'');step=2;userHasActed=true;
+                buffer = mode === 'decrypt' ? big.value.replace(/\s+/g, '') : big.value;
+                step = 2;
+                userHasActed = true;
                 big.style.display='none';sc.style.display='flex';small.value='';
                 // Reset eye toggle
                 small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;

@@ -19,11 +19,7 @@
 
 **No install required — open it directly in your browser:**
 
-<p align="center">
-  <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/">
-    <img src="https://img.shields.io/badge/Open%20Web%20Version-Encrypt%20%26%20Decrypt%20Tool-008B8B?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Open the web version"/>
-  </a>
-</p>
+> ### [Encrypt &amp; Decrypt Data Utility Tool Web Version](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/)
 
 Works on any device with a modern browser. Everything runs locally — nothing is sent anywhere.
 

@@ -19,7 +19,7 @@
 
 **No install required — open it directly in your browser:**
 
-> ### [https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html)
+> ### [https://amandahernow.github.io/EncryptionDecryptionUtilityTool/](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/)
 
 Works on any device with a modern browser. Everything runs locally — nothing is sent anywhere.
 
@@ -40,7 +40,7 @@ It was originally built as an internal utility tool and has since been rewritten
 | Platform | Status | Notes |
 |---|---|---|
 | **Android** | ✅ Released | Available on Google Play |
-| **Web** | ✅ Released | [Open in browser](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/Encrypt-Decrypt.html) — single HTML file, no server required |
+| **Web** | ✅ Released | [Open in browser](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/) — single HTML file, no server required |
 | **iOS** | 🔧 Work in progress | SwiftUI — not yet released |
 | **Desktop** | 📋 Planned | Native desktop application — coming in a future release |
 
@@ -88,7 +88,7 @@ EncryptionDecryptionUtilityTool/
 ├── android/          # Android Studio project (Kotlin, API 26+)
 ├── ios/              # iOS project (Swift / SwiftUI) — work in progress
 ├── desktop/          # Desktop application — planned
-├── Encrypt-Decrypt.html  # Web version — single self-contained HTML file
+├── index.html        # Web version — single self-contained HTML file
 ├── docs/             # Images and assets used by this README
 ├── LICENSE           # GNU General Public License v3
 └── README.md
@@ -140,7 +140,6 @@ See the [LICENSE](LICENSE) file for the full text, or visit [gnu.org/licenses/gp
 ## Developer
 
 **Amanda Hernow**
-🌐 [hernow.net](https://hernow.net)
 ✉️ encrypt.decrypt.support@hernow.net
 
 ---

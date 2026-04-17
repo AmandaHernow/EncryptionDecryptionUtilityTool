@@ -1,0 +1,22 @@
+{
+  "name": "Encrypt & Decrypt Data Utility Tool",
+  "short_name": "EncryptDecrypt",
+  "description": "Offline browser tool for local text encryption and decryption using AES-256-GCM and PBKDF2-SHA256.",
+  "start_url": "/EncryptionDecryptionUtilityTool/",
+  "scope": "/EncryptionDecryptionUtilityTool/",
+  "display": "standalone",
+  "background_color": "#f0f4f4",
+  "theme_color": "#008B8B",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

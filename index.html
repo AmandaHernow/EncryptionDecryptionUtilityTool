@@ -3,13 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
+<meta name="description" content="Encrypt and decrypt text locally in your browser with AES-256-GCM and PBKDF2-SHA256. This privacy-focused web tool works offline, stores nothing, and sends nothing to any server.">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+<meta name="googlebot" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+<meta name="author" content="Amanda Hernow">
+<meta name="application-name" content="Encrypt &amp; Decrypt Data Utility Tool">
+<meta name="theme-color" content="#008B8B">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Encrypt &amp; Decrypt Data Utility Tool</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Encrypt &amp; Decrypt Data Utility Tool | Free Offline AES-256 Browser Tool</title>
+<link rel="canonical" href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="sitemap" type="application/xml" href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/sitemap.xml">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Encrypt &amp; Decrypt Data Utility Tool">
+<meta property="og:title" content="Encrypt &amp; Decrypt Data Utility Tool">
+<meta property="og:description" content="Encrypt and decrypt text locally in your browser with AES-256-GCM and PBKDF2-SHA256. Offline, zero-trace, and no server required.">
+<meta property="og:url" content="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/">
+<meta property="og:image" content="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Preview image for the Encrypt and Decrypt Data Utility Tool web app">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Encrypt &amp; Decrypt Data Utility Tool">
+<meta property="twitter:description" content="Free offline browser tool for local text encryption and decryption using AES-256-GCM and PBKDF2-SHA256.">
+<meta property="twitter:image" content="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/og-image.png">
+<meta property="twitter:image:alt" content="Preview image for the Encrypt and Decrypt Data Utility Tool web app">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://amandahernow.github.io/EncryptionDecryptionUtilityTool/#website",
+      "url": "https://amandahernow.github.io/EncryptionDecryptionUtilityTool/",
+      "name": "Encrypt & Decrypt Data Utility Tool",
+      "alternateName": "EncryptionDecryptionUtilityTool"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://amandahernow.github.io/EncryptionDecryptionUtilityTool/#webapp",
+      "url": "https://amandahernow.github.io/EncryptionDecryptionUtilityTool/",
+      "name": "Encrypt & Decrypt Data Utility Tool",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Modern browser with Web Crypto API support",
+      "description": "A privacy-focused browser tool for encrypting and decrypting text locally using AES-256-GCM and PBKDF2-SHA256.",
+      "image": "https://amandahernow.github.io/EncryptionDecryptionUtilityTool/og-image.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Amanda Hernow"
+      },
+      "featureList": [
+        "AES-256-GCM encryption",
+        "PBKDF2-SHA256 key derivation",
+        "Offline local processing",
+        "No server-side data transfer",
+        "No cookies or localStorage"
+      ]
+    }
+  ]
+}
+</script>
 <style>
 /* ═══════════════════════════════════════════════
    CSS VARIABLES — LIGHT (default) & DARK
@@ -265,6 +331,11 @@ textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3
   flex-shrink:0;
   transition:background .3s;
 }
+.app-footer a{
+  color:#fff;
+  text-decoration:none;
+}
+.app-footer a:hover{text-decoration:underline;}
 
 /* ═══════════════════════════════════════════════
    CONFIRM DIALOG
@@ -520,7 +591,7 @@ textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3
   </div>
 
   <!-- FOOTER -->
-  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</div>
+  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3 &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a></div>
 
 </div><!-- /card -->
 </div><!-- /page -->
@@ -699,10 +770,11 @@ textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3
           <div class="hsec-title">Contact</div>
           <div class="bullets">
             <div class="bull"><div class="dot"></div><div>Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
+            <div class="bull"><div class="dot"></div><div>Full policy page: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a></div></div>
           </div>
         </div>
 
-        <div class="hnote">Last updated: 25 March 2026</div>
+        <div class="hnote">Last updated: 17 April 2026</div>
       </div>
 
     </div><!-- /help-body -->

@@ -337,6 +337,25 @@ textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3
   text-decoration:none;
 }
 .app-footer a:hover{text-decoration:underline;}
+.crawl-hub{
+  margin:0 16px 12px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:var(--bg-sec);
+  color:var(--text-sec);
+  font-size:12px;
+  line-height:1.6;
+  transition:background .3s,border-color .3s,color .3s;
+}
+.crawl-hub strong{
+  color:var(--accent);
+}
+.crawl-hub a{
+  color:var(--accent);
+  text-decoration:none;
+}
+.crawl-hub a:hover{text-decoration:underline;}
 
 /* ═══════════════════════════════════════════════
    CONFIRM DIALOG
@@ -591,8 +610,15 @@ textarea#txtBig:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3
     </div>
   </div>
 
+  <div class="crawl-hub">
+    <strong>Site links:</strong>
+    <a href="index.html">Home</a> ·
+    <a href="privacy-policy.html">Privacy Policy</a> ·
+    <a href="sitemap.html">HTML Sitemap</a>
+  </div>
+
   <!-- FOOTER -->
-  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3 &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a></div>
+  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3 &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="sitemap.html">HTML Sitemap</a></div>
 
 </div><!-- /card -->
 </div><!-- /page -->

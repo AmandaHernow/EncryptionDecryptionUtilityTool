@@ -50,19 +50,19 @@ It was originally built as an internal utility tool and has since been rewritten
 
 ## Language Support
 
-Language support is being added to the **web version** step by step so each translation can be reviewed properly before more are added.
+Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
 
-| Language | Status |
-|---|---|
-| English | ✅ Available |
-| German / Deutsch | ✅ Available |
-| French / Français | 📋 Planned |
-| Spanish / Español | 📋 Planned |
-| Simplified Chinese / 中文（简体） | 📋 Planned |
-| Traditional Chinese / 中文（繁體） | 📋 Planned |
-| Japanese / 日本語 | 📋 Planned |
+| Language | Web | Android | iOS | Desktop |
+|---|---|---|---|---|
+| English | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| German / Deutsch | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Simplified Chinese / 中文（简体） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Traditional Chinese / 中文（繁體） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Japanese / 日本語 | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 
-At the moment, multilingual support is implemented in:
+Currently implemented on the web version:
 - `index.html`
 - `privacy-policy.html`
 

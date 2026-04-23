@@ -21,6 +21,8 @@
 
 > ### [Encrypt &amp; Decrypt Data Utility Tool Web Version](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/)
 
+Download the html file from the latest web release to keep on your computer and run the program offline locally.
+
 Works on any device with a modern browser. Everything runs locally — nothing is sent anywhere.
 
 ---
@@ -39,10 +41,30 @@ It was originally built as an internal utility tool and has since been rewritten
 
 | Platform | Status | Notes |
 |---|---|---|
-| **Android** | ✅ Released | Available on Google Play |
+| **Android** | ✅ Released | Available on Google Play - [Open in PlayStore](https://play.google.com/store/apps/details?id=net.hernow.encryptdecrypt)|
 | **Web** | ✅ Released | [Open in browser](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/) — single HTML file, no server required |
 | **iOS** | 🔧 Work in progress | SwiftUI — not yet released |
 | **Desktop** | 📋 Planned | Native desktop application — coming in a future release |
+
+---
+
+## Language Support
+
+Language support is being added to the **web version** step by step so each translation can be reviewed properly before more are added.
+
+| Language | Status |
+|---|---|
+| English | ✅ Available |
+| German / Deutsch | ✅ Available |
+| French / Français | 📋 Planned |
+| Spanish / Español | 📋 Planned |
+| Simplified Chinese / 中文（简体） | 📋 Planned |
+| Traditional Chinese / 中文（繁體） | 📋 Planned |
+| Japanese / 日本語 | 📋 Planned |
+
+At the moment, multilingual support is implemented in:
+- `index.html`
+- `privacy-policy.html`
 
 ---
 
@@ -85,31 +107,23 @@ Random salt and IV per operation means the same input text with the same passwor
 
 ```
 EncryptionDecryptionUtilityTool/
-├── android/          # Android Studio project (Kotlin, API 26+)
-├── ios/              # iOS project (Swift / SwiftUI) — work in progress
-├── desktop/          # Desktop application — planned
-├── index.html        # Web version — single self-contained HTML file
-├── docs/             # Images and assets used by this README
-├── LICENSE           # GNU General Public License v3
+├── app/                    # Android app module
+├── gradle/                 # Gradle version catalog and wrapper files
+├── IOS/                    # iOS project notes and files
+├── docs/                   # Images and assets used by the web page and README
+├── index.html              # Main web app
+├── privacy-policy.html     # Web privacy policy
+├── sitemap.html            # HTML sitemap
+├── sitemap.xml             # XML sitemap
+├── site.webmanifest        # Web app manifest
+├── build.gradle.kts        # Android project build config
+├── settings.gradle.kts     # Android project settings
+├── gradle.properties       # Android/Gradle properties
+├── gradlew                 # Gradle wrapper (Unix)
+├── gradlew.bat             # Gradle wrapper (Windows)
+├── LICENSE                 # GNU General Public License v3
 └── README.md
 ```
-
----
-
-## Building the Android App
-
-**Requirements:**
-- Android Studio Meerkat or newer
-- Android Gradle Plugin 8.8.0+
-- Kotlin
-- Minimum SDK: API 26 (Android 8.0)
-- Target SDK: API 35
-
-```bash
-git clone https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool.git
-```
-
-Open Android Studio, choose **Open**, and navigate to the `android/` folder. Let Gradle sync complete, then run the app on an emulator or physical device.
 
 ---
 

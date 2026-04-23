@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Basic SEO and social metadata for the published web version. -->
 <meta name="description" content="Encrypt and decrypt text locally in your browser with AES-256-GCM and PBKDF2-SHA256. This privacy-focused web tool works offline, stores nothing, and sends nothing to any server.">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 <meta name="googlebot" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
@@ -10,6 +11,8 @@
 <meta name="author" content="Amanda Hernow">
 <meta name="application-name" content="Encrypt &amp; Decrypt Data Utility Tool">
 <meta name="theme-color" content="#008B8B">
+<!-- CSP intentionally blocks outbound connections. Inline script/style are allowed because this app is a
+     single self-contained offline HTML file and all behavior is meant to be inspectable in one place. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
@@ -36,6 +39,7 @@
 <meta property="twitter:description" content="Free offline browser tool for local text encryption and decryption using AES-256-GCM and PBKDF2-SHA256.">
 <meta property="twitter:image" content="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/og-image.png">
 <meta property="twitter:image:alt" content="Preview image for the Encrypt and Decrypt Data Utility Tool web app">
+<!-- Structured data helps search engines describe the app correctly without changing runtime behavior. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -78,6 +82,7 @@
 }
 </script>
 <style>
+/* This page is intentionally self-contained. All UI, translations, and behavior live in this file. */
 /* ═══════════════════════════════════════════════
    CSS VARIABLES — LIGHT (default) & DARK
 ═══════════════════════════════════════════════ */
@@ -120,7 +125,7 @@ body.dark {
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:var(--bg-card);}
 body{
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  font-family:'Segoe UI',system-ui,-apple-system,'Noto Sans','Noto Sans CJK SC','Noto Sans CJK TC','Noto Sans JP',sans-serif;
   color:var(--text);
   transition:background .3s,color .3s;
   touch-action:manipulation;
@@ -167,16 +172,72 @@ body{
 }
 .tb-btn{
   width:32px;height:30px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.3);
+  background:rgba(0,0,0,.14);
+  border:1px solid rgba(255,255,255,.28);
   border-radius:6px;
   color:#fff;font-size:15px;
   cursor:pointer;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   transition:background .15s,border-color .15s,transform .1s;
 }
-.tb-btn:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6);}
+.tb-btn:hover{background:rgba(0,0,0,.22);border-color:rgba(255,255,255,.42);}
 .tb-btn:active{transform:scale(.93);}
+.lang-wrap{
+  position:relative;
+  flex-shrink:0;
+}
+/* Small language menu anchored to the titlebar. It stays simple on purpose to keep the UI inspectable. */
+.lang-menu{
+  position:fixed;
+  top:48px;
+  right:8px;
+  display:none;
+  min-width:188px;
+  padding:8px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:var(--shadow-modal);
+  z-index:9800;
+  overflow:hidden;
+}
+.lang-menu.show{display:block;}
+.lang-option{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 11px;
+  background:transparent;
+  border:none;
+  border-radius:6px;
+  color:var(--text);
+  cursor:pointer;
+  font-size:13px;
+  line-height:1.2;
+  text-align:left;
+  transition:background .15s,color .15s;
+}
+.lang-option + .lang-option{
+  border-top:1px solid var(--border);
+}
+.lang-option:hover{background:var(--bg-sec);}
+.lang-option.active{
+  color:var(--accent);
+  font-weight:700;
+  background:color-mix(in srgb, var(--accent-glow) 65%, transparent);
+}
+.lang-option span:first-child{
+  display:block;
+}
+.lang-check{
+  width:18px;
+  text-align:center;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+}
 
 /* ═══════════════════════════════════════════════
    HEADER INFO
@@ -241,7 +302,7 @@ body{
   padding:10px 12px;
   overflow-y:auto;overflow-x:hidden;
   white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;
-  font-family:'Cascadia Code',Consolas,'Courier New',monospace;
+  font-family:'Cascadia Code',Consolas,'Noto Sans Mono CJK SC','Noto Sans Mono CJK JP','Courier New',monospace;
   font-size:12.5px;line-height:1.6;
   background:var(--out-bg);color:var(--text);
   transition:background .3s,border-color .3s;
@@ -439,13 +500,13 @@ textarea{
   color:#fff;font-weight:700;font-size:14px;letter-spacing:.02em;
 }
 .help-close{
-  background:rgba(255,255,255,.18);border:none;
+  background:rgba(0,0,0,.16);border:none;
   border-radius:50%;width:28px;height:28px;
   cursor:pointer;color:#fff;font-size:14px;
   display:flex;align-items:center;justify-content:center;
   transition:background .15s;flex-shrink:0;
 }
-.help-close:hover{background:rgba(255,255,255,.35);}
+.help-close:hover{background:rgba(0,0,0,.24);}
 /* tabs */
 .htabs{display:flex;border-radius:8px 8px 0 0;overflow:hidden;}
 .htab{
@@ -571,24 +632,28 @@ textarea{
   <!-- TITLEBAR -->
   <div class="titlebar">
     <img class="tb-icon" src="favicon.png" alt="icon">
-    <div class="tb-title">Encrypt &amp; Decrypt Data Utility Tool</div>
-    <button class="tb-btn" id="btnTheme" title="Toggle theme">🌙</button>
-    <button class="tb-btn" id="btnHelp"  title="Help &amp; About">?</button>
+    <div class="tb-title" data-i18n="appTitle">Encrypt &amp; Decrypt Data Utility Tool</div>
+    <button class="tb-btn" id="btnTheme" data-i18n-title="btnThemeDark" title="Toggle theme">🌙</button>
+    <div class="lang-wrap">
+      <button class="tb-btn" id="btnLang" data-i18n-title="btnLangTitle" title="Choose language">🌐</button>
+      <div class="lang-menu" id="langMenu" aria-label="Language"></div>
+    </div>
+    <button class="tb-btn" id="btnHelp" data-i18n-title="btnHelpTitle" title="Help &amp; About">?</button>
   </div>
 
   <!-- HEADER INFO -->
   <div class="hdr">
     <div class="hdr-label">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.0</div>
-    <div class="hdr-desc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
+    <div class="hdr-desc" data-i18n="hdrDesc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
   </div>
 
   <!-- MAIN TITLE -->
-  <div class="main-title">Main Menu</div>
+  <div class="main-title" data-i18n="mainTitle">Main Menu</div>
 
   <!-- MODE BUTTONS -->
   <div class="btn-panel">
-    <button class="mode-btn" id="btnEncrypt">🔒&nbsp; Encrypt</button>
-    <button class="mode-btn" id="btnDecrypt">🔓&nbsp; Decrypt</button>
+    <button class="mode-btn" id="btnEncrypt">🔒&nbsp; <span data-i18n="encryptBtn">Encrypt</span></button>
+    <button class="mode-btn" id="btnDecrypt">🔓&nbsp; <span data-i18n="decryptBtn">Decrypt</span></button>
   </div>
 
   <!-- OUTPUT -->
@@ -598,10 +663,10 @@ textarea{
   <div class="input-area">
     <textarea id="txtBig" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" maxlength="10000000"></textarea>
     <div class="pw-row" id="pwRow">
-      <span class="pw-label">Password:</span>
+      <span class="pw-label" data-i18n="pwLabel">Password:</span>
       <div class="pw-wrap">
-        <input type="password" id="txtPw" placeholder="Enter password" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-        <button class="eye-btn" id="eyeBtn" title="Show/hide password" tabindex="-1">
+        <input type="password" id="txtPw" data-i18n-ph="pwPlaceholder" placeholder="Enter password" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+        <button class="eye-btn" id="eyeBtn" data-i18n-title="eyeBtnTitle" title="Show/hide password" tabindex="-1">
           <svg id="eyeIcon" viewBox="0 0 24 24">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
@@ -610,22 +675,22 @@ textarea{
       </div>
     </div>
     <div class="action-row">
-      <button id="btnSubmit">Submit</button>
-      <button id="btnPaste">Paste from clipboard</button>
-      <button id="btnCopy">Copy to clipboard</button>
-      <button id="btnClear">Clear</button>
+      <button id="btnSubmit" data-i18n="submitBtn">Submit</button>
+      <button id="btnPaste" data-i18n="pasteBtn">Paste from clipboard</button>
+      <button id="btnCopy" data-i18n="copyBtn">Copy to clipboard</button>
+      <button id="btnClear" data-i18n="clearBtn">Clear</button>
     </div>
   </div>
 
   <div class="crawl-hub">
-    <strong>Site links:</strong>
-    <a href="index.html">Home</a> ·
-    <a href="privacy-policy.html">Privacy Policy</a> ·
-    <a href="sitemap.html">HTML Sitemap</a>
+    <strong data-i18n="siteLinksLabel">Site links:</strong>
+    <a href="index.html" data-i18n="homeLink">Home</a> ·
+    <a href="privacy-policy.html" data-i18n="privacyLink">Privacy Policy</a> ·
+    <a href="sitemap.html" data-i18n="sitemapLink">HTML Sitemap</a>
   </div>
 
   <!-- FOOTER -->
-  <div class="app-footer">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3 &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="sitemap.html">HTML Sitemap</a></div>
+  <div class="app-footer"><span data-i18n-html="footerRights">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</span> &nbsp;·&nbsp; <a href="privacy-policy.html" data-i18n="privacyLink">Privacy Policy</a> &nbsp;·&nbsp; <a href="sitemap.html" data-i18n="sitemapLink">HTML Sitemap</a></div>
 
 </div><!-- /card -->
 </div><!-- /page -->
@@ -638,7 +703,7 @@ textarea{
       <div class="c-msg"   id="cMsg"></div>
     </div>
     <div class="confirm-btns">
-      <button id="cCancel">Cancel</button>
+      <button id="cCancel" data-i18n="confirmCancel">Cancel</button>
       <button id="cOk"></button>
     </div>
   </div>
@@ -649,14 +714,14 @@ textarea{
   <div class="help-panel">
     <div class="help-head">
       <div class="help-head-top">
-        <span>Help &amp; About</span>
+        <span data-i18n="helpTitle">Help &amp; About</span>
         <button class="help-close" id="helpClose">✕</button>
       </div>
       <div class="htabs">
-        <button class="htab active" data-panel="usagePanel">Usage</button>
-        <button class="htab"        data-panel="secPanel">Security</button>
-        <button class="htab"        data-panel="donatePanel">Support</button>
-        <button class="htab"        data-panel="privacyPanel">Privacy</button>
+        <button class="htab active" data-panel="usagePanel" data-i18n="helpTab1">Usage</button>
+        <button class="htab"        data-panel="secPanel" data-i18n="helpTab2">Security</button>
+        <button class="htab"        data-panel="donatePanel" data-i18n="helpTab3">Support</button>
+        <button class="htab"        data-panel="privacyPanel" data-i18n="helpTab4">Privacy</button>
       </div>
     </div>
 
@@ -664,7 +729,7 @@ textarea{
       <img class="author-avatar" src="author-avatar.jpg" alt="Amanda Hernow">
       <div class="author-info">
         <span class="a-name">Amanda Hernow</span>
-        <span class="a-role">Developer</span>
+        <span class="a-role" data-i18n="authorRole">Developer</span>
         <a class="a-mail" href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>
       </div>
     </div>
@@ -674,29 +739,29 @@ textarea{
       <!-- USAGE -->
       <div id="usagePanel" class="hpanel active">
         <div class="hsec">
-          <div class="hsec-title">How to Encrypt</div>
+          <div class="hsec-title" data-i18n="usageEncTitle">How to Encrypt</div>
           <div class="steps">
-            <div class="step"><div class="snum">1</div><div class="stxt">Click <strong>Encrypt</strong> and type or paste the text you want to protect.</div></div>
-            <div class="step"><div class="snum">2</div><div class="stxt">Press <strong>Submit</strong>.</div></div>
-            <div class="step"><div class="snum">3</div><div class="stxt">Enter a strong password to lock the message.</div></div>
-            <div class="step"><div class="snum">4</div><div class="stxt">Press <strong>Submit</strong> again, then copy the result.</div></div>
+            <div class="step"><div class="snum">1</div><div class="stxt" data-i18n-html="usageEnc1">Click <strong>Encrypt</strong> and type or paste the text you want to protect.</div></div>
+            <div class="step"><div class="snum">2</div><div class="stxt" data-i18n-html="usageEnc2">Press <strong>Submit</strong>.</div></div>
+            <div class="step"><div class="snum">3</div><div class="stxt" data-i18n-html="usageEnc3">Enter a strong password to lock the message.</div></div>
+            <div class="step"><div class="snum">4</div><div class="stxt" data-i18n-html="usageEnc4">Press <strong>Submit</strong> again, then copy the result.</div></div>
           </div>
         </div>
         <div class="hsec">
-          <div class="hsec-title">How to Decrypt</div>
+          <div class="hsec-title" data-i18n="usageDecTitle">How to Decrypt</div>
           <div class="steps">
-            <div class="step"><div class="snum">1</div><div class="stxt">Click <strong>Decrypt</strong> and paste the encrypted Base64 text.</div></div>
-            <div class="step"><div class="snum">2</div><div class="stxt">Press <strong>Submit</strong>.</div></div>
-            <div class="step"><div class="snum">3</div><div class="stxt">Enter the password used during encryption.</div></div>
-            <div class="step"><div class="snum">4</div><div class="stxt">Press <strong>Submit</strong> again to reveal the original text.</div></div>
+            <div class="step"><div class="snum">1</div><div class="stxt" data-i18n-html="usageDec1">Click <strong>Decrypt</strong> and paste the encrypted Base64 text.</div></div>
+            <div class="step"><div class="snum">2</div><div class="stxt" data-i18n-html="usageDec2">Press <strong>Submit</strong>.</div></div>
+            <div class="step"><div class="snum">3</div><div class="stxt" data-i18n-html="usageDec3">Enter the password used during encryption.</div></div>
+            <div class="step"><div class="snum">4</div><div class="stxt" data-i18n-html="usageDec4">Press <strong>Submit</strong> again to reveal the original text.</div></div>
           </div>
         </div>
-        <div class="hnote">⚠️ If you lose your password there is no recovery option. Keep it somewhere safe.</div>
+        <div class="hnote" data-i18n="usageNote">⚠️ If you lose your password there is no recovery option. Keep it somewhere safe.</div>
         <div class="hsec">
-          <div class="hsec-title">Clear Button</div>
+          <div class="hsec-title" data-i18n="usageClearTitle">Clear Button</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div class="btxt">Press <strong>Clear</strong> at any time to reset all fields, the output, and your clipboard.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt">A confirmation prompt will appear before anything is wiped.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="usageClear1">Press <strong>Clear</strong> at any time to reset all fields, the output, and your clipboard.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n="usageClear2">A confirmation prompt will appear before anything is wiped.</div></div>
           </div>
         </div>
       </div>
@@ -704,27 +769,27 @@ textarea{
       <!-- SECURITY -->
       <div id="secPanel" class="hpanel">
         <div class="hsec">
-          <div class="hsec-title">Encryption</div>
+          <div class="hsec-title" data-i18n="secEncTitle">Encryption</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>AES-256-GCM</strong> — authenticated encryption that protects confidentiality and detects tampering.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>PBKDF2-SHA256</strong> with 100,000 iterations — hardens your password against brute-force attacks.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>Random salt &amp; IV</strong> per encryption — the same text and password never produce the same output twice.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc1"><strong>AES-256-GCM</strong> — authenticated encryption that protects confidentiality and detects tampering.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc2"><strong>PBKDF2-SHA256</strong> with 100,000 iterations — hardens your password against brute-force attacks.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc3"><strong>Random salt &amp; IV</strong> per encryption — the same text and password never produce the same output twice.</div></div>
           </div>
         </div>
         <div class="hsec">
-          <div class="hsec-title">Privacy &amp; Storage</div>
+          <div class="hsec-title" data-i18n="secPrivTitle">Privacy &amp; Storage</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>Fully offline.</strong> Outbound connections are blocked by Content Security Policy — nothing is sent anywhere.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt"><strong>Clipboard.</strong> Other apps may read clipboard contents — only copy when appropriate.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secPriv1"><strong>Fully offline.</strong> Outbound connections are blocked by Content Security Policy — nothing is sent anywhere.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secPriv2"><strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secPriv3"><strong>Clipboard.</strong> Other apps may read clipboard contents — only copy when appropriate.</div></div>
           </div>
         </div>
-        <div class="hnote">Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.</div>
+        <div class="hnote" data-i18n="secNote">Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.</div>
         <div class="hsec">
-          <div class="hsec-title">Open Source</div>
+          <div class="hsec-title" data-i18n="secOSTitle">Open Source</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div class="btxt">Fully open source under <strong>GPL v3</strong>. Anyone can inspect and verify the complete source code.</div></div>
-            <div class="bull"><div class="dot"></div><div class="btxt">Source: <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a></div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secOS1">Fully open source under <strong>GPL v3</strong>. Anyone can inspect and verify the complete source code.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secOS2">Source: <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a></div></div>
           </div>
         </div>
       </div>
@@ -733,87 +798,87 @@ textarea{
       <div id="donatePanel" class="hpanel">
         <div class="donate-hero">
           <span class="donate-icon">☕</span>
-          <div class="donate-headline">Like this tool? Support its development!</div>
-          <div class="donate-body">This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!</div>
+          <div class="donate-headline" data-i18n="donateHeadline">Like this tool? Support its development!</div>
+          <div class="donate-body" data-i18n="donateBody">This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!</div>
         </div>
         <div class="donate-qr-wrap">
           <img class="donate-qr" src="docs/paypal_qr.png" alt="PayPal QR Code">
-          <div class="donate-qr-label">Scan to donate via PayPal</div>
+          <div class="donate-qr-label" data-i18n="donateQrLabel">Scan to donate via PayPal</div>
         </div>
-        <a class="donate-btn" href="https://www.paypal.me/AmandaHernow" target="_blank" rel="noopener noreferrer">💙 &nbsp;Donate via PayPal</a>
-        <div class="donate-note">Thank you so much for your support 💙</div>
+        <a class="donate-btn" href="https://www.paypal.me/AmandaHernow" target="_blank" rel="noopener noreferrer" data-i18n-html="donateBtn">💙 &nbsp;Donate via PayPal</a>
+        <div class="donate-note" data-i18n="donateNote">Thank you so much for your support 💙</div>
       </div>
 
       <div id="privacyPanel" class="hpanel">
         <div class="hsec">
-          <div class="hsec-title">Overview</div>
+          <div class="hsec-title" data-i18n="privOverviewTitle">Overview</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>Fully local.</strong> This app works entirely on your device.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No data collection.</strong> No personal data, analytics, or identifiers are collected.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No transmission.</strong> Nothing you enter is sent anywhere.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privOverview1"><strong>Fully local.</strong> This app works entirely on your device.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privOverview2"><strong>No data collection.</strong> No personal data, analytics, or identifiers are collected.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privOverview3"><strong>No transmission.</strong> Nothing you enter is sent anywhere.</div></div>
           </div>
         </div>
 
         <div class="hsec">
-          <div class="hsec-title">Encryption &amp; Decryption</div>
+          <div class="hsec-title" data-i18n="privEncTitle">Encryption &amp; Decryption</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>On-device processing.</strong> Encryption and decryption are performed locally using the Web Crypto API.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>Your secrets stay local.</strong> Your text, password, and output never leave your device through this app.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privEnc1"><strong>On-device processing.</strong> Encryption and decryption are performed locally using the Web Crypto API.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privEnc2"><strong>Your secrets stay local.</strong> Your text, password, and output never leave your device through this app.</div></div>
           </div>
         </div>
 
         <div class="hsec">
-          <div class="hsec-title">Clipboard</div>
+          <div class="hsec-title" data-i18n="privClipTitle">Clipboard</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>Paste.</strong> Reads clipboard content only when you choose to paste.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>Copy.</strong> Writes the result to your clipboard only when you choose to copy.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>Clear.</strong> Can clear your clipboard when you choose Clear.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No background access.</strong> Clipboard data is not stored or accessed at any other time.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privClip1"><strong>Paste.</strong> Reads clipboard content only when you choose to paste.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privClip2"><strong>Copy.</strong> Writes the result to your clipboard only when you choose to copy.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privClip3"><strong>Clear.</strong> Can clear your clipboard when you choose Clear.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privClip4"><strong>No background access.</strong> Clipboard data is not stored or accessed at any other time.</div></div>
           </div>
         </div>
 
         <div class="hsec">
-          <div class="hsec-title">Network &amp; Services</div>
+          <div class="hsec-title" data-i18n="privNetTitle">Network &amp; Services</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>No internet use.</strong> The app makes no network requests.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No servers.</strong> It does not contact any backend or external service.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No third parties.</strong> No ads, analytics, crash reporting, or tracking SDKs are included.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privNet1"><strong>No internet use.</strong> The app makes no network requests.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privNet2"><strong>No servers.</strong> It does not contact any backend or external service.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privNet3"><strong>No third parties.</strong> No ads, analytics, crash reporting, or tracking SDKs are included.</div></div>
           </div>
         </div>
 
-        <div class="hnote">All operations are fully offline. Nothing is uploaded, synced, or shared by this app.</div>
+        <div class="hnote" data-i18n="privNote">All operations are fully offline. Nothing is uploaded, synced, or shared by this app.</div>
 
         <div class="hsec">
-          <div class="hsec-title">Permissions &amp; Storage</div>
+          <div class="hsec-title" data-i18n="privPermTitle">Permissions &amp; Storage</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>No device permissions.</strong> No access to camera, microphone, location, contacts, or storage is requested.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No saved data.</strong> No passwords, plaintext, ciphertext, or session data are written to persistent storage.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>No leftovers.</strong> When you close the app, no session data is intentionally kept.</div></div>
-          </div>
-        </div>
-
-        <div class="hsec">
-          <div class="hsec-title">Policy</div>
-          <div class="bullets">
-            <div class="bull"><div class="dot"></div><div><strong>Children.</strong> Because no data is collected, this app poses no privacy risk to users of any age.</div></div>
-            <div class="bull"><div class="dot"></div><div><strong>Updates.</strong> If this policy changes, the updated version will replace the current one.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privPerm1"><strong>No device permissions.</strong> No access to camera, microphone, location, contacts, or storage is requested.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privPerm2"><strong>No saved data.</strong> No passwords, plaintext, ciphertext, or session data are written to persistent storage.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privPerm3"><strong>No leftovers.</strong> When you close the app, no session data is intentionally kept.</div></div>
           </div>
         </div>
 
         <div class="hsec">
-          <div class="hsec-title">Contact</div>
+          <div class="hsec-title" data-i18n="privPolicyTitle">Policy</div>
           <div class="bullets">
-            <div class="bull"><div class="dot"></div><div>Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
-            <div class="bull"><div class="dot"></div><div>Full policy page: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a></div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privPolicy1"><strong>Children.</strong> Because no data is collected, this app poses no privacy risk to users of any age.</div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privPolicy2"><strong>Updates.</strong> If this policy changes, the updated version will replace the current one.</div></div>
           </div>
         </div>
 
-        <div class="hnote">Last updated: 17 April 2026</div>
+        <div class="hsec">
+          <div class="hsec-title" data-i18n="privContactTitle">Contact</div>
+          <div class="bullets">
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privContact1">Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
+            <div class="bull"><div class="dot"></div><div data-i18n-html="privContact2">Full policy page: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a></div></div>
+          </div>
+        </div>
+
+        <div class="hnote" data-i18n="privLastUpdated">Last updated: 17 April 2026</div>
       </div>
 
     </div><!-- /help-body -->
 
-    <div class="help-foot">Version 1.0 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
+    <div class="help-foot" data-i18n-html="helpFooter">Version 1.0 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
   </div>
 </div>
 
@@ -822,6 +887,7 @@ textarea{
 'use strict';
 
 // ── Elements ──
+// Cache DOM references once. This keeps the runtime simple and makes behavior easy to audit.
 const out      = document.getElementById('output'),
       txtBig   = document.getElementById('txtBig'),
       pwRow    = document.getElementById('pwRow'),
@@ -833,6 +899,8 @@ const out      = document.getElementById('output'),
       btnEnc   = document.getElementById('btnEncrypt'),
       btnDec   = document.getElementById('btnDecrypt'),
       btnTheme = document.getElementById('btnTheme'),
+      btnLang  = document.getElementById('btnLang'),
+      langMenu = document.getElementById('langMenu'),
       btnHelp  = document.getElementById('btnHelp'),
       helpOvl  = document.getElementById('helpOverlay'),
       helpCls  = document.getElementById('helpClose'),
@@ -847,18 +915,322 @@ const out      = document.getElementById('output'),
 const EYE_OPEN   = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
 const EYE_CLOSED = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
 
+// Supported languages for the current rollout.
+const LANG_META = [
+  {code:'en', label:'English'},
+  {code:'de', label:'Deutsch'}
+];
+
+// Inline translations keep the web app fully offline and avoid any external fetches.
+const LANGS = {
+  en: {
+    appTitle:'Encrypt & Decrypt Data Utility Tool',
+    hdrDesc:'Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.',
+    mainTitle:'Main Menu',
+    encryptBtn:'Encrypt',
+    decryptBtn:'Decrypt',
+    pwLabel:'Password:',
+    pwPlaceholder:'Enter password',
+    eyeBtnTitle:'Show/hide password',
+    submitBtn:'Submit',
+    pasteBtn:'Paste from clipboard',
+    copyBtn:'Copy to clipboard',
+    clearBtn:'Clear',
+    siteLinksLabel:'Site links:',
+    homeLink:'Home',
+    privacyLink:'Privacy Policy',
+    sitemapLink:'HTML Sitemap',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'Cancel',
+    helpTitle:'Help & About',
+    helpTab1:'Usage',
+    helpTab2:'Security',
+    helpTab3:'Support',
+    helpTab4:'Privacy',
+    authorRole:'Developer',
+    usageEncTitle:'How to Encrypt',
+    usageEnc1:'Click <strong>Encrypt</strong> and type or paste the text you want to protect.',
+    usageEnc2:'Press <strong>Submit</strong>.',
+    usageEnc3:'Enter a strong password to lock the message.',
+    usageEnc4:'Press <strong>Submit</strong> again, then copy the result.',
+    usageDecTitle:'How to Decrypt',
+    usageDec1:'Click <strong>Decrypt</strong> and paste the encrypted Base64 text.',
+    usageDec2:'Press <strong>Submit</strong>.',
+    usageDec3:'Enter the password used during encryption.',
+    usageDec4:'Press <strong>Submit</strong> again to reveal the original text.',
+    usageNote:'⚠️ If you lose your password there is no recovery option. Keep it somewhere safe.',
+    usageClearTitle:'Clear Button',
+    usageClear1:'Press <strong>Clear</strong> at any time to reset all fields, the output, and your clipboard.',
+    usageClear2:'A confirmation prompt will appear before anything is wiped.',
+    secEncTitle:'Encryption',
+    secEnc1:'<strong>AES-256-GCM</strong> — authenticated encryption that protects confidentiality and detects tampering.',
+    secEnc2:'<strong>PBKDF2-SHA256</strong> with 100,000 iterations — hardens your password against brute-force attacks.',
+    secEnc3:'<strong>Random salt &amp; IV</strong> per encryption — the same text and password never produce the same output twice.',
+    secPrivTitle:'Privacy & Storage',
+    secPriv1:'<strong>Fully offline.</strong> Outbound connections are blocked by Content Security Policy — nothing is sent anywhere.',
+    secPriv2:'<strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.',
+    secPriv3:'<strong>Clipboard.</strong> Other apps may read clipboard contents — only copy when appropriate.',
+    secNote:"Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.",
+    secOSTitle:'Open Source',
+    secOS1:'Fully open source under <strong>GPL v3</strong>. Anyone can inspect and verify the complete source code.',
+    secOS2:'Source: <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'Like this tool? Support its development!',
+    donateBody:'This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!',
+    donateQrLabel:'Scan to donate via PayPal',
+    donateBtn:'💙 &nbsp;Donate via PayPal',
+    donateNote:'Thank you so much for your support 💙',
+    privOverviewTitle:'Overview',
+    privOverview1:'<strong>Fully local.</strong> This app works entirely on your device.',
+    privOverview2:'<strong>No data collection.</strong> No personal data, analytics, or identifiers are collected.',
+    privOverview3:'<strong>No transmission.</strong> Nothing you enter is sent anywhere.',
+    privEncTitle:'Encryption & Decryption',
+    privEnc1:'<strong>On-device processing.</strong> Encryption and decryption are performed locally using the Web Crypto API.',
+    privEnc2:'<strong>Your secrets stay local.</strong> Your text, password, and output never leave your device through this app.',
+    privClipTitle:'Clipboard',
+    privClip1:'<strong>Paste.</strong> Reads clipboard content only when you choose to paste.',
+    privClip2:'<strong>Copy.</strong> Writes the result to your clipboard only when you choose to copy.',
+    privClip3:'<strong>Clear.</strong> Can clear your clipboard when you choose Clear.',
+    privClip4:'<strong>No background access.</strong> Clipboard data is not stored or accessed at any other time.',
+    privNetTitle:'Network & Services',
+    privNet1:'<strong>No internet use.</strong> The app makes no network requests.',
+    privNet2:'<strong>No servers.</strong> It does not contact any backend or external service.',
+    privNet3:'<strong>No third parties.</strong> No ads, analytics, crash reporting, or tracking SDKs are included.',
+    privNote:'All operations are fully offline. Nothing is uploaded, synced, or shared by this app.',
+    privPermTitle:'Permissions & Storage',
+    privPerm1:'<strong>No device permissions.</strong> No access to camera, microphone, location, contacts, or storage is requested.',
+    privPerm2:'<strong>No saved data.</strong> No passwords, plaintext, ciphertext, or session data are written to persistent storage.',
+    privPerm3:'<strong>No leftovers.</strong> When you close the app, no session data is intentionally kept.',
+    privPolicyTitle:'Policy',
+    privPolicy1:'<strong>Children.</strong> Because no data is collected, this app poses no privacy risk to users of any age.',
+    privPolicy2:'<strong>Updates.</strong> If this policy changes, the updated version will replace the current one.',
+    privContactTitle:'Contact',
+    privContact1:'Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'Full policy page: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'Last updated: 17 April 2026',
+    helpFooter:'Version 1.0 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'Help & About',
+    btnLangTitle:'Choose language',
+    btnThemeDark:'Switch to dark mode',
+    btnThemeLight:'Switch to light mode',
+    arrowEncStep1:'Enter the text you want to encrypt, then press Submit.',
+    arrowDecStep1:'Paste the encrypted Base64 text, then press Submit.',
+    encPlaceholder:'Type or paste the text you want to encrypt…',
+    decPlaceholder:'Paste the encrypted Base64 text here…',
+    arrowStep2:'Enter your password, then press Submit.',
+    warnNoTextEnc:'⚠️ Please enter some text to encrypt.',
+    warnNoTextDec:'⚠️ Please paste the encrypted text first.',
+    warnNoPassword:'⚠️ No password — this provides no real security.',
+    encResult:'Encrypted (Base64):',
+    copyPrompt:'✔️ Press "Copy to clipboard" to copy.',
+    encError:'Encryption error: ',
+    decResult:'Decrypted text:',
+    decFailed:'Decryption failed — wrong password or corrupted data.',
+    clipEmpty:'Clipboard is empty.',
+    clipDenied:'Clipboard access denied — please paste manually (Ctrl+V / Cmd+V).',
+    copied:'✔️ Copied to clipboard.',
+    copyFailed:'Copy failed — please copy the text manually.',
+    cleared:'✔️ All fields and clipboard cleared.',
+    confirmSwitchEncTitle:'Switch to Encrypt?',
+    confirmSwitchEncMsg:'The output will be cleared. Save anything important first.',
+    confirmSwitchEncBtn:'Switch',
+    confirmSwitchDecTitle:'Switch to Decrypt?',
+    confirmSwitchDecMsg:'The output will be cleared. Save anything important first.',
+    confirmSwitchDecBtn:'Switch',
+    confirmClearTitle:'Clear Everything?',
+    confirmClearMsg:'This will clear all text fields, the output, and your clipboard.',
+    confirmClearBtn:'Clear',
+    errPrefix:'Error: '
+  },
+  de: {
+    appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
+    hdrDesc:'Schützen Sie Ihren Text mit einem Passwort für die sichere Weitergabe. Die gesamte Verschlüsselung erfolgt lokal — nichts verlässt Ihr Gerät.',
+    mainTitle:'Hauptmenü',
+    encryptBtn:'Verschlüsseln',
+    decryptBtn:'Entschlüsseln',
+    pwLabel:'Passwort:',
+    pwPlaceholder:'Passwort eingeben',
+    eyeBtnTitle:'Passwort anzeigen/ausblenden',
+    submitBtn:'Absenden',
+    pasteBtn:'Aus Zwischenablage einfügen',
+    copyBtn:'In Zwischenablage kopieren',
+    clearBtn:'Löschen',
+    siteLinksLabel:'Seitenlinks:',
+    homeLink:'Startseite',
+    privacyLink:'Datenschutzerklärung',
+    sitemapLink:'HTML-Sitemap',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; Alle Rechte vorbehalten &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'Abbrechen',
+    helpTitle:'Hilfe & Info',
+    helpTab1:'Nutzung',
+    helpTab2:'Sicherheit',
+    helpTab3:'Support',
+    helpTab4:'Datenschutz',
+    authorRole:'Entwicklerin',
+    usageEncTitle:'So verschlüsseln Sie',
+    usageEnc1:'Klicken Sie auf <strong>Verschlüsseln</strong> und geben Sie den zu schützenden Text ein oder fügen Sie ihn ein.',
+    usageEnc2:'Drücken Sie <strong>Absenden</strong>.',
+    usageEnc3:'Geben Sie ein starkes Passwort ein, um die Nachricht zu sperren.',
+    usageEnc4:'Drücken Sie erneut <strong>Absenden</strong> und kopieren Sie anschließend das Ergebnis.',
+    usageDecTitle:'So entschlüsseln Sie',
+    usageDec1:'Klicken Sie auf <strong>Entschlüsseln</strong> und fügen Sie den verschlüsselten Base64-Text ein.',
+    usageDec2:'Drücken Sie <strong>Absenden</strong>.',
+    usageDec3:'Geben Sie das Passwort ein, das beim Verschlüsseln verwendet wurde.',
+    usageDec4:'Drücken Sie erneut <strong>Absenden</strong>, um den ursprünglichen Text anzuzeigen.',
+    usageNote:'⚠️ Wenn Sie Ihr Passwort verlieren, gibt es keine Wiederherstellungsmöglichkeit. Bewahren Sie es sicher auf.',
+    usageClearTitle:'Schaltfläche Löschen',
+    usageClear1:'Drücken Sie jederzeit <strong>Löschen</strong>, um alle Felder, die Ausgabe und Ihre Zwischenablage zurückzusetzen.',
+    usageClear2:'Vor dem Löschen erscheint eine Bestätigungsabfrage.',
+    secEncTitle:'Verschlüsselung',
+    secEnc1:'<strong>AES-256-GCM</strong> — authentifizierte Verschlüsselung, die Vertraulichkeit schützt und Manipulation erkennt.',
+    secEnc2:'<strong>PBKDF2-SHA256</strong> mit 100.000 Iterationen — erschwert Brute-Force-Angriffe auf Ihr Passwort.',
+    secEnc3:'<strong>Zufälliges Salt &amp; IV</strong> pro Verschlüsselung — derselbe Text mit demselben Passwort erzeugt nie zweimal dieselbe Ausgabe.',
+    secPrivTitle:'Datenschutz & Speicherung',
+    secPriv1:'<strong>Vollständig offline.</strong> Ausgehende Verbindungen werden durch die Content Security Policy blockiert — nichts wird irgendwohin gesendet.',
+    secPriv2:'<strong>Keine Speicherung.</strong> Es werden niemals Cookies, localStorage oder gespeicherte Passwörter verwendet.',
+    secPriv3:'<strong>Zwischenablage.</strong> Andere Apps können Inhalte der Zwischenablage lesen — kopieren Sie nur, wenn es passend ist.',
+    secNote:'Sobald Text dieses Tool verlässt — über Zwischenablage, E-Mail oder Datei — liegt er außerhalb der Kontrolle dieses Tools.',
+    secOSTitle:'Open Source',
+    secOS1:'Vollständig Open Source unter <strong>GPL v3</strong>. Jeder kann den kompletten Quellcode prüfen und verifizieren.',
+    secOS2:'Quelle: <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'Gefällt Ihnen dieses Tool? Unterstützen Sie die Entwicklung!',
+    donateBody:'Dieses Tool ist vollständig kostenlos und Open Source. Wenn es Ihnen Zeit spart oder Ihre Daten schützt, können Sie die Entwicklung mit einer kleinen Spende unterstützen. Jeder Kaffee hilft!',
+    donateQrLabel:'Scannen, um per PayPal zu spenden',
+    donateBtn:'💙 &nbsp;Per PayPal spenden',
+    donateNote:'Vielen Dank für Ihre Unterstützung 💙',
+    privOverviewTitle:'Übersicht',
+    privOverview1:'<strong>Vollständig lokal.</strong> Diese App läuft komplett auf Ihrem Gerät.',
+    privOverview2:'<strong>Keine Datenerhebung.</strong> Es werden keine personenbezogenen Daten, Analysen oder Kennungen erfasst.',
+    privOverview3:'<strong>Keine Übertragung.</strong> Nichts, was Sie eingeben, wird irgendwohin gesendet.',
+    privEncTitle:'Verschlüsselung & Entschlüsselung',
+    privEnc1:'<strong>Verarbeitung auf dem Gerät.</strong> Verschlüsselung und Entschlüsselung erfolgen lokal mit der Web Crypto API.',
+    privEnc2:'<strong>Ihre Geheimnisse bleiben lokal.</strong> Ihr Text, Ihr Passwort und die Ausgabe verlassen Ihr Gerät über diese App nicht.',
+    privClipTitle:'Zwischenablage',
+    privClip1:'<strong>Einfügen.</strong> Liest den Inhalt der Zwischenablage nur, wenn Sie Einfügen wählen.',
+    privClip2:'<strong>Kopieren.</strong> Schreibt das Ergebnis nur dann in Ihre Zwischenablage, wenn Sie Kopieren wählen.',
+    privClip3:'<strong>Löschen.</strong> Kann Ihre Zwischenablage leeren, wenn Sie Löschen wählen.',
+    privClip4:'<strong>Kein Zugriff im Hintergrund.</strong> Daten der Zwischenablage werden zu keinem anderen Zeitpunkt gespeichert oder gelesen.',
+    privNetTitle:'Netzwerk & Dienste',
+    privNet1:'<strong>Keine Internetnutzung.</strong> Die App stellt keine Netzwerkanfragen.',
+    privNet2:'<strong>Keine Server.</strong> Sie kontaktiert kein Backend und keinen externen Dienst.',
+    privNet3:'<strong>Keine Drittanbieter.</strong> Es sind keine Werbung, Analysen, Absturzberichte oder Tracking-SDKs enthalten.',
+    privNote:'Alle Vorgänge sind vollständig offline. Nichts wird von dieser App hochgeladen, synchronisiert oder geteilt.',
+    privPermTitle:'Berechtigungen & Speicherung',
+    privPerm1:'<strong>Keine Geräteberechtigungen.</strong> Zugriff auf Kamera, Mikrofon, Standort, Kontakte oder Speicher wird nicht angefordert.',
+    privPerm2:'<strong>Keine gespeicherten Daten.</strong> Passwörter, Klartext, Geheimtext oder Sitzungsdaten werden nicht absichtlich in persistenten Browserspeicher geschrieben.',
+    privPerm3:'<strong>Keine Reste.</strong> Wenn Sie die App schließen, werden absichtlich keine Sitzungsdaten behalten.',
+    privPolicyTitle:'Richtlinie',
+    privPolicy1:'<strong>Kinder.</strong> Da keine Daten erfasst werden, stellt diese App kein Datenschutzrisiko für Nutzer jeden Alters dar.',
+    privPolicy2:'<strong>Aktualisierungen.</strong> Wenn diese Richtlinie geändert wird, ersetzt die aktualisierte Version die aktuelle.',
+    privContactTitle:'Kontakt',
+    privContact1:'Fragen zu dieser Richtlinie: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'Vollständige Richtlinienseite: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'Zuletzt aktualisiert: 17. April 2026',
+    helpFooter:'Version 1.0 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'Hilfe & Info',
+    btnLangTitle:'Sprache wählen',
+    btnThemeDark:'Zum dunklen Modus wechseln',
+    btnThemeLight:'Zum hellen Modus wechseln',
+    arrowEncStep1:'Geben Sie den zu verschlüsselnden Text ein und drücken Sie dann Absenden.',
+    arrowDecStep1:'Fügen Sie den verschlüsselten Base64-Text ein und drücken Sie dann Absenden.',
+    encPlaceholder:'Text eingeben oder einfügen, der verschlüsselt werden soll…',
+    decPlaceholder:'Verschlüsselten Base64-Text hier einfügen…',
+    arrowStep2:'Geben Sie Ihr Passwort ein und drücken Sie dann Absenden.',
+    warnNoTextEnc:'⚠️ Bitte geben Sie Text zum Verschlüsseln ein.',
+    warnNoTextDec:'⚠️ Bitte fügen Sie zuerst den verschlüsselten Text ein.',
+    warnNoPassword:'⚠️ Kein Passwort — das bietet keine echte Sicherheit.',
+    encResult:'Verschlüsselt (Base64):',
+    copyPrompt:'✔️ Drücken Sie "In Zwischenablage kopieren", um zu kopieren.',
+    encError:'Verschlüsselungsfehler: ',
+    decResult:'Entschlüsselter Text:',
+    decFailed:'Entschlüsselung fehlgeschlagen — falsches Passwort oder beschädigte Daten.',
+    clipEmpty:'Die Zwischenablage ist leer.',
+    clipDenied:'Zugriff auf die Zwischenablage verweigert — bitte manuell einfügen (Strg+V / Cmd+V).',
+    copied:'✔️ In die Zwischenablage kopiert.',
+    copyFailed:'Kopieren fehlgeschlagen — bitte kopieren Sie den Text manuell.',
+    cleared:'✔️ Alle Felder und die Zwischenablage wurden gelöscht.',
+    confirmSwitchEncTitle:'Zu Verschlüsseln wechseln?',
+    confirmSwitchEncMsg:'Die Ausgabe wird gelöscht. Speichern Sie vorher alles Wichtige.',
+    confirmSwitchEncBtn:'Wechseln',
+    confirmSwitchDecTitle:'Zu Entschlüsseln wechseln?',
+    confirmSwitchDecMsg:'Die Ausgabe wird gelöscht. Speichern Sie vorher alles Wichtige.',
+    confirmSwitchDecBtn:'Wechseln',
+    confirmClearTitle:'Alles löschen?',
+    confirmClearMsg:'Dadurch werden alle Textfelder, die Ausgabe und Ihre Zwischenablage gelöscht.',
+    confirmClearBtn:'Löschen',
+    errPrefix:'Fehler: '
+  }
+};
+
 // ── State ──
-let mode = null, step = 0, buffer = '', dark = false, acted = false;
+// Runtime state for the current session only. Nothing here is written to persistent storage except the
+// current language in sessionStorage so a reload within the same browser session keeps the chosen language.
+let mode = null, step = 0, buffer = '', dark = false, acted = false, currentLang = 'en';
+
+// Central translation helper with English fallback.
+function T(key) {
+  return (LANGS[currentLang] && LANGS[currentLang][key]) || LANGS.en[key] || key;
+}
+
+// Rebuild the language menu each time so the active checkmark always matches the current selection.
+function updateLangMenu() {
+  langMenu.innerHTML = '';
+  LANG_META.forEach(lang => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'lang-option' + (lang.code === currentLang ? ' active' : '');
+    opt.dataset.lang = lang.code;
+    opt.innerHTML = `<span>${lang.label}</span><span class="lang-check">${lang.code === currentLang ? '✓' : ''}</span>`;
+    opt.addEventListener('click', () => setLang(lang.code));
+    langMenu.appendChild(opt);
+  });
+}
+
+// Apply the selected language to all translatable elements and remember it for the current browser session.
+function setLang(code) {
+  currentLang = LANGS[code] ? code : 'en';
+  document.documentElement.lang = currentLang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = T(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = T(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = T(el.dataset.i18nTitle); });
+  document.querySelectorAll('[data-i18n-output]').forEach(el => { el.textContent = T(el.dataset.i18nOutput); });
+  btnTheme.title = dark ? T('btnThemeLight') : T('btnThemeDark');
+  try { sessionStorage.setItem('lang', currentLang); } catch(e) {}
+  langMenu.classList.remove('show');
+  updateLangMenu();
+}
+
+// Prefer the language chosen earlier in this session. Otherwise try the browser language, then fall back to English.
+function detectLang() {
+  try {
+    const saved = sessionStorage.getItem('lang');
+    if(saved && LANGS[saved]) return saved;
+  } catch(e) {}
+  const browserLang = (navigator.language || 'en').toLowerCase();
+  const match = LANG_META.find(lang => browserLang === lang.code.toLowerCase() || browserLang.startsWith(lang.code.toLowerCase() + '-'));
+  return match ? match.code : 'en';
+}
 
 // ── Theme ──
+// Theme is purely visual. It does not affect any cryptographic behavior or stored data.
 btnTheme.onclick = () => {
   dark = !dark;
   document.body.classList.toggle('dark', dark);
   btnTheme.textContent = dark ? '☀️' : '🌙';
-  btnTheme.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+  btnTheme.title = dark ? T('btnThemeLight') : T('btnThemeDark');
 };
 
+// Toggle the language menu and close it when the user clicks elsewhere.
+btnLang.onclick = e => {
+  e.stopPropagation();
+  langMenu.classList.toggle('show');
+};
+document.addEventListener('click', e => {
+  if(!langMenu.contains(e.target) && e.target !== btnLang) langMenu.classList.remove('show');
+});
+
 // ── Help ──
+// Help panel is plain client-side UI; no remote content is injected here.
 btnHelp.onclick = () => helpOvl.classList.add('show');
 helpCls.onclick = () => helpOvl.classList.remove('show');
 helpOvl.addEventListener('click', e => { if(e.target === helpOvl) helpOvl.classList.remove('show'); });
@@ -875,6 +1247,7 @@ document.querySelectorAll('.htab').forEach(tab => {
 });
 
 // ── Confirm dialog ──
+// Reusable confirmation dialog used before destructive UI actions like switching mode or clearing data.
 function confirm(title, msg, okLabel, onOk) {
   cTitle.textContent = title;
   cMsg.textContent   = msg;
@@ -886,6 +1259,7 @@ function confirm(title, msg, okLabel, onOk) {
 }
 
 // ── Eye toggle ──
+// Password visibility toggle changes only the input type in the DOM.
 eyeBtn.onclick = () => {
   const show = txtPw.type === 'password';
   txtPw.type = show ? 'text' : 'password';
@@ -893,6 +1267,7 @@ eyeBtn.onclick = () => {
 };
 
 // ── Output helpers ──
+// Output is rendered as plain text nodes to avoid injecting executable HTML into the console area.
 function append(text, color) {
   const d = document.createElement('div');
   d.textContent = text;
@@ -900,17 +1275,21 @@ function append(text, color) {
   out.appendChild(d);
   out.scrollTop = out.scrollHeight;
 }
-function arrow(text) {
+// Arrow lines are the step-by-step prompts shown to the user. They also carry i18n keys so they can
+// update if the user changes language after already starting an action.
+function arrow(key) {
   const l = document.createElement('div');
   const a = document.createElement('span');
   a.textContent = '➔ '; a.style.color = 'var(--accent)';
   const b = document.createElement('span');
-  b.textContent = text;
+  b.dataset.i18nOutput = key;
+  b.textContent = T(key);
   l.appendChild(a); l.appendChild(b);
   out.appendChild(l); out.scrollTop = out.scrollHeight;
 }
 
 // ── Reset ──
+// Return the app to its idle state. This clears only the current UI state, not the page itself.
 function reset() {
   mode = null; step = 0; buffer = ''; acted = false;
   txtBig.value = ''; txtPw.value = '';
@@ -925,6 +1304,7 @@ function reset() {
 }
 
 // ── Start a mode ──
+// Step 1 collects either plaintext (encrypt) or Base64 ciphertext (decrypt).
 function startMode(m) {
   out.innerHTML = '';
   txtBig.value = '';
@@ -932,11 +1312,11 @@ function startMode(m) {
   btnEnc.classList.toggle('active', m === 'encrypt');
   btnDec.classList.toggle('active', m === 'decrypt');
   if(m === 'encrypt') {
-    txtBig.placeholder = 'Type or paste the text you want to encrypt…';
-    arrow('Enter the text you want to encrypt, then press Submit.');
+    txtBig.placeholder = T('encPlaceholder');
+    arrow('arrowEncStep1');
   } else {
-    txtBig.placeholder = 'Paste the encrypted Base64 text here…';
-    arrow('Paste the encrypted Base64 text, then press Submit.');
+    txtBig.placeholder = T('decPlaceholder');
+    arrow('arrowDecStep1');
   }
   txtBig.style.display   = 'block';
   pwRow.style.display    = 'none';
@@ -949,33 +1329,39 @@ function startMode(m) {
 btnEnc.onclick = () => {
   if(mode === 'encrypt') return;
   if(mode && acted) {
-    confirm('Switch to Encrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('encrypt'));
+    confirm(T('confirmSwitchEncTitle'),T('confirmSwitchEncMsg'),T('confirmSwitchEncBtn'), () => startMode('encrypt'));
   } else { startMode('encrypt'); }
 };
 btnDec.onclick = () => {
   if(mode === 'decrypt') return;
   if(mode && acted) {
-    confirm('Switch to Decrypt?','The output will be cleared. Save anything important first.','Switch', () => startMode('decrypt'));
+    confirm(T('confirmSwitchDecTitle'),T('confirmSwitchDecMsg'),T('confirmSwitchDecBtn'), () => startMode('decrypt'));
   } else { startMode('decrypt'); }
 };
 
 // ── Keyboard shortcuts ──
-txtBig.addEventListener('keydown', e => { if(e.key === 'Enter' && mode && !e.shiftKey){ e.preventDefault(); btnSub.click(); }});
+// Enter submits the current step. The isComposing guard prevents breaking IME input for CJK users.
+txtBig.addEventListener('keydown', e => { if(e.key === 'Enter' && mode && !e.shiftKey && !e.isComposing){ e.preventDefault(); btnSub.click(); }});
 txtPw.addEventListener('keydown',  e => { if(e.key === 'Enter'){ e.preventDefault(); btnSub.click(); }});
 txtBig.addEventListener('input', () => { if(txtBig.value.trim()) acted = true; });
 
 // ── Paste button ──
+// Clipboard read happens only on explicit user action. If the browser blocks it, the user can still paste manually.
 btnPaste.onclick = async () => {
   try {
     const text = await navigator.clipboard.readText();
     if(text) { txtBig.value = text; txtBig.focus(); }
-    else { append('Clipboard is empty.','var(--text-sec)'); }
+    else { append(T('clipEmpty'),'var(--text-sec)'); }
   } catch(e) {
-    append('Clipboard access denied — please paste manually (Ctrl+V / Cmd+V).','#c44');
+    append(T('clipDenied'),'#c44');
   }
 };
 
 // ── Submit ──
+// This handler intentionally keeps the full encrypt/decrypt flow in one visible place:
+// 1) collect text
+// 2) collect password
+// 3) encrypt or decrypt locally with Web Crypto
 btnSub.onclick = async () => {
   if(!mode) return;
 
@@ -984,8 +1370,8 @@ btnSub.onclick = async () => {
       const w = document.createElement('div');
       w.className = 'warn warn-err';
       w.textContent = mode === 'encrypt'
-        ? '⚠️ Please enter some text to encrypt.'
-        : '⚠️ Please paste the encrypted text first.';
+        ? T('warnNoTextEnc')
+        : T('warnNoTextDec');
       out.appendChild(w); out.scrollTop = out.scrollHeight;
       return;
     }
@@ -996,17 +1382,18 @@ btnSub.onclick = async () => {
     btnPaste.style.display = 'none';
     txtPw.value = '';
     txtPw.type  = 'password'; eyeIcon.innerHTML = EYE_OPEN;
-    arrow('Enter your password, then press Submit.');
+    arrow('arrowStep2');
     txtPw.focus();
     return;
   }
 
   // Step 2 — password
+  // Empty passwords are allowed technically, but the UI warns because that removes the main security benefit.
   const pw = txtPw.value;
   if(!pw.trim()) {
     const w = document.createElement('div');
     w.className = 'warn warn-soft';
-    w.textContent = '⚠️ No password — this provides no real security.';
+    w.textContent = T('warnNoPassword');
     out.appendChild(w); out.scrollTop = out.scrollHeight;
   }
   pwRow.style.display  = 'none';
@@ -1016,24 +1403,34 @@ btnSub.onclick = async () => {
   let ok = false;
   if(mode === 'encrypt') {
     try {
+      // Generate a fresh random salt and IV for every encryption so the same text/password pair does not
+      // produce identical output twice.
       const salt = crypto.getRandomValues(new Uint8Array(16));
       const iv   = crypto.getRandomValues(new Uint8Array(12));
+
+      // Derive a 256-bit AES-GCM key from the user password with PBKDF2-SHA256.
       const pk   = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
       const key  = await crypto.subtle.deriveKey(
         {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
         {name:'AES-GCM',length:256},false,['encrypt']);
+
+      // Encrypt UTF-8 text locally in the browser. No network calls are involved.
       const ct   = await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
+
+      // Output format:
+      // [16-byte salt] + [12-byte IV] + [ciphertext+tag], then Base64 encoded for easy copy/share.
       const all  = new Uint8Array(16+12+ct.byteLength);
       all.set(salt,0); all.set(iv,16); all.set(new Uint8Array(ct),28);
       buffer = btoa(String.fromCharCode(...all));
-      append('Encrypted (Base64):','var(--accent)');
+      append(T('encResult'),'var(--accent)');
       append(buffer);
-      append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
+      append(T('copyPrompt'),'var(--accent)');
       btnCopy.style.display = 'inline-block';
       ok = true;
-    } catch(e){ append('Encryption error: '+e,'#c44'); }
+    } catch(e){ append(T('encError')+e,'#c44'); }
   } else {
     try {
+      // Reverse the packaging step from encryption and split the Base64 payload back into salt/IV/ciphertext.
       const all  = Uint8Array.from(atob(buffer), c => c.charCodeAt(0));
       if(all.length < 29) throw new Error('Input too short — not a valid encrypted blob.');
       const salt = all.slice(0,16), iv = all.slice(16,28), ct = all.slice(28);
@@ -1041,28 +1438,31 @@ btnSub.onclick = async () => {
       const key  = await crypto.subtle.deriveKey(
         {name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,
         {name:'AES-GCM',length:256},false,['decrypt']);
+
+      // If the password is wrong or the payload was altered, AES-GCM decryption will fail here.
       const pt   = await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
       buffer     = new TextDecoder().decode(pt);
-      append('Decrypted text:','var(--accent)');
+      append(T('decResult'),'var(--accent)');
       append(buffer);
-      append('✔️ Press "Copy to clipboard" to copy.','var(--accent)');
+      append(T('copyPrompt'),'var(--accent)');
       btnCopy.style.display = 'inline-block';
       ok = true;
     } catch(e){
-      if(String(e).includes('short')) append('Error: '+e,'#c44');
-      else append('Decryption failed — wrong password or corrupted data.','#c44');
+      if(String(e).includes('short')) append(T('errPrefix')+e,'#c44');
+      else append(T('decFailed'),'#c44');
     }
   }
   if(!ok) reset();
 };
 
 // ── Copy ──
+// Copy uses the modern clipboard API first. If the browser blocks it, fall back to a temporary textarea.
 btnCopy.onclick = async () => {
   if(!buffer) return;
   if(document.activeElement) document.activeElement.blur();
   try {
     await navigator.clipboard.writeText(buffer);
-    append('✔️ Copied to clipboard.','var(--accent)');
+    append(T('copied'),'var(--accent)');
     reset();
   } catch(e) {
     // Fallback for browsers that restrict clipboard write
@@ -1073,27 +1473,31 @@ btnCopy.onclick = async () => {
       document.body.appendChild(ta);
       ta.focus(); ta.select();
       const s = document.execCommand('copy');
-      document.body.removeChild(ta);
-      if(s){ append('✔️ Copied to clipboard.','var(--accent)'); reset(); }
-      else { append('Copy failed — please copy the text manually.','#c44'); }
-    } catch(e2){ append('Copy failed — please copy the text manually.','#c44'); }
+      ta.remove();
+      if(s){ append(T('copied'),'var(--accent)'); reset(); }
+      else { append(T('copyFailed'),'#c44'); }
+    } catch(error_){ append(T('copyFailed'),'#c44'); }
   }
 };
 
 // ── Clear ──
+// Clear wipes the current UI state and asks the browser to clear the clipboard when permitted.
 btnClear.onclick = () => {
   confirm(
-    'Clear Everything?',
-    'This will clear all text fields, the output, and your clipboard.',
-    'Clear',
+    T('confirmClearTitle'),
+    T('confirmClearMsg'),
+    T('confirmClearBtn'),
     async () => {
       try { await navigator.clipboard.writeText(''); } catch(e){}
       out.innerHTML = '';
       reset();
-      append('✔️ All fields and clipboard cleared.','var(--accent)');
+      append(T('cleared'),'var(--accent)');
     }
   );
 };
+
+// Apply the initial language once everything is wired up.
+setLang(detectLang());
 
 })();
 </script>

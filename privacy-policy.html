@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Static metadata for the published privacy page. -->
     <meta name="description" content="Privacy policy for the Encrypt &amp; Decrypt Data Utility Tool web version. Learn how the browser app handles encryption, clipboard access, storage, and network activity.">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <meta name="google-site-verification" content="idjCoV1cpdkScdzsT6ueb69RU5e9Sec1jk3MIDmB9Ik">
     <meta name="author" content="Amanda Hernow">
     <meta name="theme-color" content="#008B8B">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
+    <!-- CSP intentionally blocks outbound connections. Inline script/style are allowed because this page is
+         shipped as a self-contained static file with local language-switching logic only. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none';">
     <title>Privacy Policy | Encrypt &amp; Decrypt Data Utility Tool Web Version</title>
     <link rel="canonical" href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
@@ -29,6 +32,7 @@
     <meta property="twitter:description" content="Privacy policy for the browser-based Encrypt &amp; Decrypt Data Utility Tool web app.">
     <meta property="twitter:image" content="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/og-image.png">
     <meta property="twitter:image:alt" content="Preview image for the Encrypt and Decrypt Data Utility Tool web app">
+    <!-- Structured data here is informational only and does not change page runtime behavior. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -46,6 +50,7 @@
       }
     </script>
     <style>
+        /* This page is intentionally simple and self-contained for easy inspection. */
         :root {
           --accent:   #008B8B;
           --bg:       #f0f4f4;
@@ -58,7 +63,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-          font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+          font-family: 'Segoe UI', system-ui, -apple-system, 'Noto Sans', 'Noto Sans CJK SC', 'Noto Sans CJK TC', 'Noto Sans JP', sans-serif;
           background: var(--bg);
           color: var(--text);
           min-height: 100vh;
@@ -76,6 +81,7 @@
         }
 
         .titlebar {
+          position: relative;
           background: var(--accent);
           padding: 14px 20px;
           display: flex;
@@ -83,11 +89,88 @@
           gap: 10px;
         }
 
-        .titlebar span {
+        .titlebar > span {
+          flex: 1;
           color: #fff;
           font-size: 15px;
           font-weight: 700;
           letter-spacing: .01em;
+        }
+
+        .tb-btn {
+          width: 32px;
+          height: 30px;
+          background: rgba(0,0,0,.14);
+          border: 1px solid rgba(255,255,255,.28);
+          border-radius: 6px;
+          color: #fff;
+          font-size: 15px;
+          cursor: pointer;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .tb-btn:hover {
+          background: rgba(0,0,0,.22);
+          border-color: rgba(255,255,255,.42);
+        }
+
+        /* Same small language menu pattern as the main app, but scoped to this simpler page layout. */
+        .lang-menu {
+          position: absolute;
+          top: 44px;
+          right: 20px;
+          display: none;
+          min-width: 188px;
+          padding: 8px;
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: 10px;
+          box-shadow: 0 20px 60px rgba(0,0,0,.18);
+          z-index: 50;
+          overflow: hidden;
+        }
+
+        .lang-menu.show { display: block; }
+
+        .lang-option {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 10px 11px;
+          background: transparent;
+          border: none;
+          border-radius: 6px;
+          color: var(--text);
+          cursor: pointer;
+          font-size: 13px;
+          line-height: 1.2;
+          text-align: left;
+          transition: background .15s, color .15s;
+        }
+
+        .lang-option + .lang-option {
+          border-top: 1px solid var(--border);
+        }
+
+        .lang-option:hover { background: var(--bg); }
+        .lang-option.active {
+          color: var(--accent);
+          font-weight: 700;
+          background: rgba(0,139,139,.08);
+        }
+
+        .lang-option span:first-child { display: block; }
+        .lang-check {
+          width: 18px;
+          text-align: center;
+          color: var(--accent);
+          font-size: 12px;
+          font-weight: 800;
         }
 
         .body {
@@ -152,17 +235,19 @@
 <div class="card">
 
     <div class="titlebar">
-        <span>Encrypt &amp; Decrypt Data Utility Tool — Privacy Policy</span>
+        <span data-i18n="titlebar">Encrypt &amp; Decrypt Data Utility Tool — Privacy Policy</span>
+        <button class="tb-btn" id="btnLang" data-i18n-title="btnLangTitle" title="Choose language">🌐</button>
+        <div class="lang-menu" id="langMenu" aria-label="Language"></div>
     </div>
 
     <div class="body">
 
-        <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: 17 April 2026</p>
+        <h1 data-i18n="heading">Privacy Policy</h1>
+        <p class="updated" data-i18n="updated">Last updated: 17 April 2026</p>
 
         <section>
-            <h2>Overview</h2>
-            <p>
+            <h2 data-i18n="overviewTitle">Overview</h2>
+            <p data-i18n="overviewBody">
                 Encrypt &amp; Decrypt Data Utility Tool Web Version ("the Web App") is developed and maintained
                 by Amanda Hernow. This policy describes how the Web App handles your data. The short version is:
                 it does not collect, transmit, or store your text or password on any server. Everything stays in
@@ -171,8 +256,8 @@
         </section>
 
         <section>
-            <h2>Data Collection</h2>
-            <p>
+            <h2 data-i18n="dataTitle">Data Collection</h2>
+            <p data-i18n="dataBody">
                 The Web App collects no personal information, no analytics, no advertising identifiers, no crash
                 reports, and no usage profiles. It does not send your text, password, or encrypted output to any
                 backend service.
@@ -180,8 +265,8 @@
         </section>
 
         <section>
-            <h2>Encryption and Decryption Operations</h2>
-            <p>
+            <h2 data-i18n="cryptoTitle">Encryption and Decryption Operations</h2>
+            <p data-i18n="cryptoBody">
                 All cryptographic operations — encryption, decryption, and key derivation — are performed entirely
                 in your browser using the Web Crypto API. The text you enter, the password you use, and the
                 encrypted output do not leave your device through the Web App.
@@ -189,17 +274,17 @@
         </section>
 
         <section>
-            <h2>Clipboard Access</h2>
-            <p>
+            <h2 data-i18n="clipTitle">Clipboard Access</h2>
+            <p data-i18n="clipIntro">
                 The App interacts with your clipboard only through direct user action and only in the following
                 three ways:
             </p>
-            <p style="margin-top:10px;">
+            <p style="margin-top:10px;" data-i18n-html="clipActions">
                 When you tap <strong>Paste</strong>, the App reads your clipboard to fill the input field.
                 When you tap <strong>Copy</strong>, the App writes the result to your clipboard.
                 When you tap <strong>Clear</strong>, the App clears your clipboard.
             </p>
-            <p style="margin-top:10px;">
+            <p style="margin-top:10px;" data-i18n="clipPerm">
                 No clipboard content is stored, transmitted, or accessed at any other time. Depending on your
                 browser, clipboard access may require a browser prompt or browser permission when you initiate
                 that action.
@@ -207,24 +292,24 @@
         </section>
 
         <section>
-            <h2>Network Access</h2>
-            <p>
+            <h2 data-i18n="networkTitle">Network Access</h2>
+            <p data-i18n="networkBody">
                 The Web App performs encryption and decryption locally and does not require a backend server.
                 Routine use of the tool does not send your text or password anywhere.
             </p>
         </section>
 
         <section>
-            <h2>Third-Party Services</h2>
-            <p>
+            <h2 data-i18n="thirdTitle">Third-Party Services</h2>
+            <p data-i18n="thirdBody">
                 The Web App does not integrate advertising networks, analytics platforms, crash reporting tools,
                 or tracking services of any kind.
             </p>
         </section>
 
         <section>
-            <h2>Browser Permissions</h2>
-            <p>
+            <h2 data-i18n="permTitle">Browser Permissions</h2>
+            <p data-i18n="permBody">
                 The Web App does not request access to your camera, microphone, location, contacts, or similar
                 device features. Clipboard access is only attempted when you explicitly use copy, paste, or clear
                 actions inside the tool.
@@ -232,8 +317,8 @@
         </section>
 
         <section>
-            <h2>Data Storage</h2>
-            <p>
+            <h2 data-i18n="storageTitle">Data Storage</h2>
+            <p data-i18n="storageBody">
                 The Web App does not use cookies, localStorage, or saved passwords for its encryption workflow.
                 No passwords, plaintext, or ciphertext are intentionally written to persistent browser storage by
                 the tool itself.
@@ -241,8 +326,8 @@
         </section>
 
         <section>
-            <h2>Children</h2>
-            <p>
+            <h2 data-i18n="childrenTitle">Children</h2>
+            <p data-i18n="childrenBody">
                 The Web App does not knowingly collect data from anyone, including children under the age of 13.
                 Because it does not collect personal data, it does not create a server-side privacy profile for
                 users of any age.
@@ -250,8 +335,8 @@
         </section>
 
         <section>
-            <h2>Changes to This Policy</h2>
-            <p>
+            <h2 data-i18n="changesTitle">Changes to This Policy</h2>
+            <p data-i18n="changesBody">
                 If this policy is updated, the revised version will be published at this URL with an updated
                 date at the top. Continued use of the Web App after any changes constitutes acceptance of the
                 updated policy.
@@ -261,26 +346,171 @@
         <hr class="divider">
 
         <section>
-            <h2>Contact</h2>
-            <p>
+            <h2 data-i18n="contactTitle">Contact</h2>
+            <p data-i18n-html="contactBody">
                 If you have any questions about this privacy policy, please contact:
                 <a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>
             </p>
-            <p style="margin-top:10px;">
+            <p style="margin-top:10px;" data-i18n-html="returnBody">
                 Return to the web app:
                 <a href="index.html">Encrypt &amp; Decrypt Data Utility Tool</a>
             </p>
-            <p style="margin-top:10px;">
+            <p style="margin-top:10px;" data-i18n-html="sitemapBody">
                 HTML sitemap:
                 <a href="sitemap.html">sitemap.html</a>
             </p>
         </section>
 
-        <p class="footer">
+        <p class="footer" data-i18n="footer">
             © 2026 Amanda Hernow · All rights reserved · Licensed under GPL v3
         </p>
 
     </div>
 </div>
+<script>
+(function(){
+'use strict';
+
+// This page only needs a language toggle. There is no crypto logic here.
+const btnLang = document.getElementById('btnLang');
+const langMenu = document.getElementById('langMenu');
+
+// Supported languages for the current rollout.
+const LANG_META = [
+  {code:'en', label:'English'},
+  {code:'de', label:'Deutsch'}
+];
+
+// Inline translations keep this page fully offline and consistent with the main app's privacy model.
+const LANGS = {
+  en: {
+    docTitle:'Privacy Policy | Encrypt & Decrypt Data Utility Tool Web Version',
+    titlebar:'Encrypt & Decrypt Data Utility Tool — Privacy Policy',
+    btnLangTitle:'Choose language',
+    heading:'Privacy Policy',
+    updated:'Last updated: 17 April 2026',
+    overviewTitle:'Overview',
+    overviewBody:'Encrypt & Decrypt Data Utility Tool Web Version ("the Web App") is developed and maintained by Amanda Hernow. This policy describes how the Web App handles your data. The short version is: it does not collect, transmit, or store your text or password on any server. Everything stays in your browser on your device.',
+    dataTitle:'Data Collection',
+    dataBody:'The Web App collects no personal information, no analytics, no advertising identifiers, no crash reports, and no usage profiles. It does not send your text, password, or encrypted output to any backend service.',
+    cryptoTitle:'Encryption and Decryption Operations',
+    cryptoBody:'All cryptographic operations — encryption, decryption, and key derivation — are performed entirely in your browser using the Web Crypto API. The text you enter, the password you use, and the encrypted output do not leave your device through the Web App.',
+    clipTitle:'Clipboard Access',
+    clipIntro:'The App interacts with your clipboard only through direct user action and only in the following three ways:',
+    clipActions:'When you tap <strong>Paste</strong>, the App reads your clipboard to fill the input field. When you tap <strong>Copy</strong>, the App writes the result to your clipboard. When you tap <strong>Clear</strong>, the App clears your clipboard.',
+    clipPerm:'No clipboard content is stored, transmitted, or accessed at any other time. Depending on your browser, clipboard access may require a browser prompt or browser permission when you initiate that action.',
+    networkTitle:'Network Access',
+    networkBody:'The Web App performs encryption and decryption locally and does not require a backend server. Routine use of the tool does not send your text or password anywhere.',
+    thirdTitle:'Third-Party Services',
+    thirdBody:'The Web App does not integrate advertising networks, analytics platforms, crash reporting tools, or tracking services of any kind.',
+    permTitle:'Browser Permissions',
+    permBody:'The Web App does not request access to your camera, microphone, location, contacts, or similar device features. Clipboard access is only attempted when you explicitly use copy, paste, or clear actions inside the tool.',
+    storageTitle:'Data Storage',
+    storageBody:'The Web App does not use cookies, localStorage, or saved passwords for its encryption workflow. No passwords, plaintext, or ciphertext are intentionally written to persistent browser storage by the tool itself.',
+    childrenTitle:'Children',
+    childrenBody:'The Web App does not knowingly collect data from anyone, including children under the age of 13. Because it does not collect personal data, it does not create a server-side privacy profile for users of any age.',
+    changesTitle:'Changes to This Policy',
+    changesBody:'If this policy is updated, the revised version will be published at this URL with an updated date at the top. Continued use of the Web App after any changes constitutes acceptance of the updated policy.',
+    contactTitle:'Contact',
+    contactBody:'If you have any questions about this privacy policy, please contact: <a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>',
+    returnBody:'Return to the web app: <a href="index.html">Encrypt &amp; Decrypt Data Utility Tool</a>',
+    sitemapBody:'HTML sitemap: <a href="sitemap.html">sitemap.html</a>',
+    footer:'© 2026 Amanda Hernow · All rights reserved · Licensed under GPL v3'
+  },
+  de: {
+    docTitle:'Datenschutzerklärung | Webversion des Dienstprogramms zum Verschlüsseln & Entschlüsseln von Daten',
+    titlebar:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten — Datenschutzerklärung',
+    btnLangTitle:'Sprache wählen',
+    heading:'Datenschutzerklärung',
+    updated:'Zuletzt aktualisiert: 17. April 2026',
+    overviewTitle:'Übersicht',
+    overviewBody:'Die Webversion des Dienstprogramms zum Verschlüsseln & Entschlüsseln von Daten ("die Web-App") wird von Amanda Hernow entwickelt und gepflegt. Diese Richtlinie beschreibt, wie die Web-App mit Ihren Daten umgeht. Kurz gesagt: Sie sammelt, überträgt oder speichert Ihren Text oder Ihr Passwort auf keinem Server. Alles bleibt in Ihrem Browser auf Ihrem Gerät.',
+    dataTitle:'Datenerhebung',
+    dataBody:'Die Web-App erfasst keine personenbezogenen Informationen, keine Analysen, keine Werbekennungen, keine Absturzberichte und keine Nutzungsprofile. Sie sendet Ihren Text, Ihr Passwort oder die verschlüsselte Ausgabe an keinen Backend-Dienst.',
+    cryptoTitle:'Verschlüsselungs- und Entschlüsselungsvorgänge',
+    cryptoBody:'Alle kryptografischen Vorgänge — Verschlüsselung, Entschlüsselung und Schlüsselableitung — erfolgen vollständig in Ihrem Browser mit der Web Crypto API. Der eingegebene Text, das verwendete Passwort und die verschlüsselte Ausgabe verlassen Ihr Gerät über die Web-App nicht.',
+    clipTitle:'Zugriff auf die Zwischenablage',
+    clipIntro:'Die App greift nur durch direkte Nutzeraktion auf Ihre Zwischenablage zu und nur auf die folgenden drei Arten:',
+    clipActions:'Wenn Sie <strong>Einfügen</strong> antippen, liest die App Ihre Zwischenablage, um das Eingabefeld zu füllen. Wenn Sie <strong>Kopieren</strong> antippen, schreibt die App das Ergebnis in Ihre Zwischenablage. Wenn Sie <strong>Löschen</strong> antippen, leert die App Ihre Zwischenablage.',
+    clipPerm:'Inhalte der Zwischenablage werden zu keinem anderen Zeitpunkt gespeichert, übertragen oder gelesen. Je nach Browser kann beim Starten dieser Aktion eine Browserabfrage oder Berechtigung erforderlich sein.',
+    networkTitle:'Netzwerkzugriff',
+    networkBody:'Die Web-App führt Verschlüsselung und Entschlüsselung lokal aus und benötigt keinen Backend-Server. Die normale Nutzung des Tools sendet Ihren Text oder Ihr Passwort nirgendwohin.',
+    thirdTitle:'Dienste von Drittanbietern',
+    thirdBody:'Die Web-App bindet keinerlei Werbenetzwerke, Analyseplattformen, Absturzbericht-Tools oder Tracking-Dienste ein.',
+    permTitle:'Browserberechtigungen',
+    permBody:'Die Web-App fordert keinen Zugriff auf Kamera, Mikrofon, Standort, Kontakte oder ähnliche Gerätefunktionen an. Auf die Zwischenablage wird nur zugegriffen, wenn Sie Kopieren, Einfügen oder Löschen ausdrücklich im Tool verwenden.',
+    storageTitle:'Datenspeicherung',
+    storageBody:'Die Web-App verwendet keine Cookies, keinen localStorage und keine gespeicherten Passwörter für ihren Verschlüsselungsablauf. Passwörter, Klartext oder Geheimtext werden vom Tool selbst nicht absichtlich in persistenten Browserspeicher geschrieben.',
+    childrenTitle:'Kinder',
+    childrenBody:'Die Web-App sammelt wissentlich keine Daten von irgendjemandem, einschließlich Kindern unter 13 Jahren. Da sie keine personenbezogenen Daten erhebt, erstellt sie für Nutzer jeden Alters kein serverseitiges Datenschutzprofil.',
+    changesTitle:'Änderungen an dieser Richtlinie',
+    changesBody:'Wenn diese Richtlinie aktualisiert wird, wird die überarbeitete Version unter dieser URL mit einem aktualisierten Datum am Anfang veröffentlicht. Die weitere Nutzung der Web-App nach Änderungen gilt als Annahme der aktualisierten Richtlinie.',
+    contactTitle:'Kontakt',
+    contactBody:'Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie bitte: <a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>',
+    returnBody:'Zurück zur Web-App: <a href="index.html">Dienstprogramm zum Verschlüsseln &amp; Entschlüsseln von Daten</a>',
+    sitemapBody:'HTML-Sitemap: <a href="sitemap.html">sitemap.html</a>',
+    footer:'© 2026 Amanda Hernow · Alle Rechte vorbehalten · Lizenziert unter GPL v3'
+  }
+};
+
+let currentLang = 'en';
+
+// Translation helper with English fallback.
+function T(key) {
+  return (LANGS[currentLang] && LANGS[currentLang][key]) || LANGS.en[key] || key;
+}
+
+// Rebuild the menu so the active language indicator is always correct.
+function updateLangMenu() {
+  langMenu.innerHTML = '';
+  LANG_META.forEach(lang => {
+    const opt = document.createElement('button');
+    opt.type = 'button';
+    opt.className = 'lang-option' + (lang.code === currentLang ? ' active' : '');
+    opt.dataset.lang = lang.code;
+    opt.innerHTML = `<span>${lang.label}</span><span class="lang-check">${lang.code === currentLang ? '✓' : ''}</span>`;
+    opt.addEventListener('click', () => setLang(lang.code));
+    langMenu.appendChild(opt);
+  });
+}
+
+// Apply the selected language to the page and remember it for the current browser session only.
+function setLang(code) {
+  currentLang = LANGS[code] ? code : 'en';
+  document.documentElement.lang = currentLang;
+  document.title = T('docTitle');
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = T(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = T(el.dataset.i18nTitle); });
+  try { sessionStorage.setItem('lang', currentLang); } catch(e) {}
+  langMenu.classList.remove('show');
+  updateLangMenu();
+}
+
+// Reuse the current session language if available, otherwise use the browser language when supported.
+function detectLang() {
+  try {
+    const saved = sessionStorage.getItem('lang');
+    if(saved && LANGS[saved]) return saved;
+  } catch(e) {}
+  const browserLang = (navigator.language || 'en').toLowerCase();
+  const match = LANG_META.find(lang => browserLang === lang.code.toLowerCase() || browserLang.startsWith(lang.code.toLowerCase() + '-'));
+  return match ? match.code : 'en';
+}
+
+// Show/hide the language menu and close it when the user clicks elsewhere.
+btnLang.onclick = e => {
+  e.stopPropagation();
+  langMenu.classList.toggle('show');
+};
+
+document.addEventListener('click', e => {
+  if(!langMenu.contains(e.target) && e.target !== btnLang) langMenu.classList.remove('show');
+});
+
+// Apply the initial language once the page is ready.
+setLang(detectLang());
+})();
+</script>
 </body>
 </html>

@@ -378,7 +378,8 @@ const langMenu = document.getElementById('langMenu');
 // Supported languages for the current rollout.
 const LANG_META = [
   {code:'en', label:'English'},
-  {code:'de', label:'Deutsch'}
+  {code:'de', label:'Deutsch'},
+  {code:'zh-Hans', label:'中文（简体）'}
 ];
 
 // Inline translations keep this page fully offline and consistent with the main app's privacy model.
@@ -450,6 +451,40 @@ const LANGS = {
     returnBody:'Zurück zur Web-App: <a href="index.html">Dienstprogramm zum Verschlüsseln &amp; Entschlüsseln von Daten</a>',
     sitemapBody:'HTML-Sitemap: <a href="sitemap.html">sitemap.html</a>',
     footer:'© 2026 Amanda Hernow · Alle Rechte vorbehalten · Lizenziert unter GPL v3'
+  },
+  'zh-Hans': {
+    docTitle:'隐私政策 | 加密与解密数据工具 Web 版',
+    titlebar:'加密与解密数据工具 —— 隐私政策',
+    btnLangTitle:'选择语言',
+    heading:'隐私政策',
+    updated:'最后更新：2026 年 4 月 17 日',
+    overviewTitle:'概览',
+    overviewBody:'加密与解密数据工具 Web 版（“Web 应用”）由 Amanda Hernow 开发和维护。本政策说明 Web 应用如何处理您的数据。简而言之：它不会在任何服务器上收集、传输或存储您的文本或密码。所有内容都保留在您设备上的浏览器中。',
+    dataTitle:'数据收集',
+    dataBody:'Web 应用不会收集个人信息、分析数据、广告标识符、崩溃报告或使用画像。它不会将您的文本、密码或加密输出发送到任何后端服务。',
+    cryptoTitle:'加密和解密操作',
+    cryptoBody:'所有密码学操作——加密、解密和密钥派生——都完全在您的浏览器中通过 Web Crypto API 执行。您输入的文本、您使用的密码以及加密后的输出都不会通过 Web 应用离开您的设备。',
+    clipTitle:'剪贴板访问',
+    clipIntro:'本应用仅在您直接操作时与剪贴板交互，并且仅限以下三种方式：',
+    clipActions:'当您点击<strong>粘贴</strong>时，本应用会读取您的剪贴板以填充输入框。当您点击<strong>复制</strong>时，本应用会将结果写入您的剪贴板。当您点击<strong>清除</strong>时，本应用会清空您的剪贴板。',
+    clipPerm:'剪贴板内容不会在其他任何时间被存储、传输或访问。根据您的浏览器设置，在您发起该操作时，剪贴板访问可能需要浏览器提示或权限。',
+    networkTitle:'网络访问',
+    networkBody:'Web 应用在本地执行加密和解密，不需要后端服务器。正常使用该工具时，不会将您的文本或密码发送到任何地方。',
+    thirdTitle:'第三方服务',
+    thirdBody:'Web 应用不集成任何广告网络、分析平台、崩溃报告工具或任何形式的跟踪服务。',
+    permTitle:'浏览器权限',
+    permBody:'Web 应用不会请求访问您的摄像头、麦克风、位置、联系人或类似设备功能。只有当您在工具中明确使用复制、粘贴或清除操作时，才会尝试访问剪贴板。',
+    storageTitle:'数据存储',
+    storageBody:'Web 应用在其加密流程中不使用 Cookie、localStorage 或已保存的密码。密码、明文或密文不会被该工具有意写入持久浏览器存储。',
+    childrenTitle:'儿童',
+    childrenBody:'Web 应用不会有意收集任何人的数据，包括 13 岁以下儿童。由于它不收集个人数据，因此不会为任何年龄的用户创建服务器端隐私画像。',
+    changesTitle:'本政策的变更',
+    changesBody:'如果本政策更新，修订后的版本将通过此 URL 发布，并在顶部标明更新日期。在任何更改后继续使用 Web 应用，即表示接受更新后的政策。',
+    contactTitle:'联系',
+    contactBody:'如果您对本隐私政策有任何疑问，请联系：<a href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>',
+    returnBody:'返回 Web 应用：<a href="index.html">加密与解密数据工具</a>',
+    sitemapBody:'HTML 站点地图：<a href="sitemap.html">sitemap.html</a>',
+    footer:'© 2026 Amanda Hernow · 保留所有权利 · 根据 GPL v3 许可'
   }
 };
 

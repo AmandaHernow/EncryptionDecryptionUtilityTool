@@ -51,6 +51,14 @@
         .titlebar .title{flex:1;color:#fff;font-weight:600;font-size:13.5px;letter-spacing:.01em}
         .tb-btn{width:30px;height:28px;background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:5px;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;flex-shrink:0}
         .tb-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.7)}
+        .lang-wrap{position:relative;flex-shrink:0}
+        .lang-menu{position:fixed;top:44px;right:8px;display:none;min-width:188px;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);z-index:9800;overflow:hidden}
+        .lang-menu.show{display:block}
+        .lang-option{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;background:transparent;border:none;border-radius:6px;color:var(--text);cursor:pointer;font-size:13px;line-height:1.2;text-align:left;transition:background .15s,color .15s}
+        .lang-option+.lang-option{border-top:1px solid var(--border)}
+        .lang-option:hover{background:var(--bg-sec)}
+        .lang-option.active{color:var(--accent);font-weight:700}
+        .lang-check{width:18px;text-align:center;color:var(--accent);font-size:12px;font-weight:800}
 
         /* ── Header info ── */
         .header-info{padding:9px 16px 7px;border-bottom:1px solid var(--border);background:var(--bg-sec)}
@@ -192,21 +200,25 @@
 
     <div class="titlebar">
         <img src="data:image/png;base64,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" alt="Icon">
-        <div class="title">Encrypt &amp; Decrypt Data Utility Tool</div>
+        <div class="title" data-i18n="appTitle">Encrypt &amp; Decrypt Data Utility Tool</div>
         <button class="tb-btn" id="btnTheme" title="Toggle theme">🌙</button>
-        <button class="tb-btn" id="btnHelp"  title="Help &amp; About">?</button>
+        <div class="lang-wrap">
+            <button class="tb-btn" id="btnLang" title="Choose language">🌐</button>
+            <div class="lang-menu" id="langMenu"></div>
+        </div>
+        <button class="tb-btn" id="btnHelp" title="Help &amp; About">?</button>
     </div>
 
     <div class="header-info">
-        <div class="app-name">AES-256 / PBKDF2 Encryption &amp; Decryption Utility &nbsp;·&nbsp; v1.0</div>
-        <div class="app-desc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
+        <div class="app-name">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2</div>
+        <div class="app-desc" data-i18n="hdrDesc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
     </div>
 
-    <div class="main-title">Main Menu</div>
+    <div class="main-title" data-i18n="mainTitle">Main Menu</div>
 
     <div class="button-panel">
-        <button id="btnEncrypt">🔒&nbsp; Encrypt</button>
-        <button id="btnDecrypt">🔓&nbsp; Decrypt</button>
+        <button id="btnEncrypt">🔒&nbsp; <span data-i18n="encryptBtn">Encrypt</span></button>
+        <button id="btnDecrypt">🔓&nbsp; <span data-i18n="decryptBtn">Decrypt</span></button>
     </div>
 
     <div id="output" class="output"></div>
@@ -214,7 +226,7 @@
     <div class="input-row">
         <textarea id="txtLargeInput" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" maxlength="10000000"></textarea>
         <div id="smallInputContainer">
-            <label for="txtSmallInput">Password:</label>
+            <label for="txtSmallInput" data-i18n="pwLabel">Password:</label>
             <div class="pw-wrap">
                 <input type="password" id="txtSmallInput" placeholder="Enter password" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
                 <button id="eyeToggle" title="Show/hide password" tabindex="-1">
@@ -226,12 +238,12 @@
             </div>
         </div>
         <div class="action-row">
-            <button id="btnSubmit" style="display:none">Submit</button>
+            <button id="btnSubmit" style="display:none" data-i18n="submitBtn">Submit</button>
             <button id="btnCopy"   style="display:none">Paste from clipboard</button>
-            <button id="btnExit">Clear</button>
+            <button id="btnExit" data-i18n="clearBtn">Clear</button>
         </div>
     </div>
-    <div class="app-footer">© 2026 Amanda Hernow · All rights reserved</div>
+    <div class="app-footer" data-i18n-html="footerRights">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</div>
 </div>
 
 <!-- ════════════════════ CONFIRM MODAL ════════════════════ -->
@@ -254,14 +266,14 @@
 
         <div id="helpHead">
             <div id="helpHeadTop">
-                <span>Help &amp; About</span>
+                <span data-i18n="helpTitle">Help &amp; About</span>
                 <button id="helpClose" title="Close">✕</button>
             </div>
             <div id="helpTabs">
-                <button class="htab active" data-panel="usagePanel">Usage</button>
-                <button class="htab" data-panel="secPanel">Security</button>
-                <button class="htab" data-panel="donatePanel">Donate</button>
-                <button class="htab" data-panel="privacyPanel">Privacy</button>
+                <button class="htab active" data-panel="usagePanel" data-i18n="helpTab1">Usage</button>
+                <button class="htab" data-panel="secPanel" data-i18n="helpTab2">Security</button>
+                <button class="htab" data-panel="donatePanel" data-i18n="helpTab3">Donate</button>
+                <button class="htab" data-panel="privacyPanel" data-i18n="helpTab4">Privacy</button>
             </div>
         </div>
 
@@ -270,7 +282,7 @@
             <img id="helpAvatar" src="data:image/jpeg;base64,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" alt="Amanda Hernow">
             <div id="helpAuthorInfo">
                 <span class="a-name">Amanda Hernow</span>
-                <span class="a-role">Developer</span>
+                <span class="a-role" data-i18n="authorRole">Developer</span>
                 <a class="a-mail" href="mailto:encrypt.decrypt.support@hernow.net">encrypt.decrypt.support@hernow.net</a>
             </div>
         </div>
@@ -280,29 +292,29 @@
             <!-- ── USAGE ── -->
             <div id="usagePanel" class="hpanel active">
                 <div class="hsec">
-                    <div class="hsec-title">How to Encrypt</div>
+                    <div class="hsec-title" data-i18n="usageEncTitle">How to Encrypt</div>
                     <div class="steps">
-                        <div class="step"><div class="snum">1</div><div class="stxt">Click <strong>Encrypt</strong> and enter the text you want to protect.</div></div>
-                        <div class="step"><div class="snum">2</div><div class="stxt">Press <strong>Submit</strong>.</div></div>
-                        <div class="step"><div class="snum">3</div><div class="stxt">Enter a strong password to lock the message.</div></div>
-                        <div class="step"><div class="snum">4</div><div class="stxt">Press <strong>Submit</strong> again. Copy the result.</div></div>
+                        <div class="step"><div class="snum">1</div><div class="stxt" data-i18n-html="usageEnc1">Click <strong>Encrypt</strong> and enter the text you want to protect.</div></div>
+                        <div class="step"><div class="snum">2</div><div class="stxt" data-i18n-html="usageEnc2">Press <strong>Submit</strong>.</div></div>
+                        <div class="step"><div class="snum">3</div><div class="stxt" data-i18n="usageEnc3">Enter a strong password to lock the message.</div></div>
+                        <div class="step"><div class="snum">4</div><div class="stxt" data-i18n-html="usageEnc4">Press <strong>Submit</strong> again. Copy the result.</div></div>
                     </div>
                 </div>
                 <div class="hsec">
-                    <div class="hsec-title">How to Decrypt</div>
+                    <div class="hsec-title" data-i18n="usageDecTitle">How to Decrypt</div>
                     <div class="steps">
-                        <div class="step"><div class="snum">1</div><div class="stxt">Click <strong>Decrypt</strong> and paste the encrypted Base64 text.</div></div>
-                        <div class="step"><div class="snum">2</div><div class="stxt">Press <strong>Submit</strong>.</div></div>
-                        <div class="step"><div class="snum">3</div><div class="stxt">Enter the password used during encryption.</div></div>
-                        <div class="step"><div class="snum">4</div><div class="stxt">Press <strong>Submit</strong> again to reveal the original text.</div></div>
+                        <div class="step"><div class="snum">1</div><div class="stxt" data-i18n-html="usageDec1">Click <strong>Decrypt</strong> and paste the encrypted Base64 text.</div></div>
+                        <div class="step"><div class="snum">2</div><div class="stxt" data-i18n-html="usageDec2">Press <strong>Submit</strong>.</div></div>
+                        <div class="step"><div class="snum">3</div><div class="stxt" data-i18n="usageDec3">Enter the password used during encryption.</div></div>
+                        <div class="step"><div class="snum">4</div><div class="stxt" data-i18n-html="usageDec4">Press <strong>Submit</strong> again to reveal the original text.</div></div>
                     </div>
                 </div>
-                <div class="hnote">⚠️ If you lose your password, there is no recovery option. Keep it safe.</div>
+                <div class="hnote" data-i18n="usageNote">⚠️ If you lose your password, there is no recovery option. Keep it safe.</div>
                 <div class="hsec">
-                    <div class="hsec-title">Clear Button</div>
+                    <div class="hsec-title" data-i18n="usageClearTitle">Clear Button</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>Press <strong>Clear</strong> at any time to reset all fields, the output window, and your clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div>A confirmation prompt will appear before anything is cleared.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="usageClear1">Press <strong>Clear</strong> at any time to reset all fields, the output window, and your clipboard.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="usageClear2">A confirmation prompt will appear before anything is cleared.</div></div>
                     </div>
                 </div>
             </div>
@@ -310,36 +322,36 @@
             <!-- ── SECURITY ── -->
             <div id="secPanel" class="hpanel">
                 <div class="hsec">
-                    <div class="hsec-title">Encryption</div>
+                    <div class="hsec-title" data-i18n="secEncTitle">Encryption</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div><strong>AES-256-GCM</strong> — authenticated encryption, protects confidentiality and detects tampering.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>PBKDF2-SHA256</strong> (100 000 iterations) — hardens your password against brute-force attacks.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>Random salt &amp; IV</strong> per session — the same text never produces the same ciphertext.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc1"><strong>AES-256-GCM</strong> — authenticated encryption, protects confidentiality and detects tampering.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc2"><strong>PBKDF2-SHA256</strong> (100,000 iterations) — hardens your password against brute-force attacks.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc3"><strong>Random salt &amp; IV</strong> per session — the same text never produces the same ciphertext.</div></div>
                     </div>
                 </div>
                 <div class="hsec">
-                    <div class="hsec-title">Privacy &amp; Storage</div>
+                    <div class="hsec-title" data-i18n-html="secPrivTitle">Privacy &amp; Storage</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div><strong>Fully offline.</strong> Network access is blocked by Content Security Policy — nothing is sent anywhere.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>Clipboard.</strong> Other apps may read clipboard contents — use Copy only when appropriate.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secPriv1"><strong>Fully offline.</strong> Network access is blocked by Content Security Policy — nothing is sent anywhere.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secPriv2"><strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secPriv3"><strong>Clipboard.</strong> Other apps may read clipboard contents — use Copy only when appropriate.</div></div>
                     </div>
                 </div>
-                <div class="hnote">Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.</div>
+                <div class="hnote" data-i18n="secNote">Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.</div>
                 <div class="hsec">
-                    <div class="hsec-title">Open Source &amp; Transparency</div>
+                    <div class="hsec-title" data-i18n-html="secOSTitle">Open Source &amp; Transparency</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>This app is <strong>fully open source</strong>. Anyone can inspect, audit, and verify the complete source code.</div></div>
-                        <div class="bull"><div class="dot"></div><div>Because this is a security tool, full transparency is a core principle — you should never have to trust blindly.</div></div>
-                        <div class="bull"><div class="dot"></div><div>Source code available at:<br><a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all;font-size:12px">github.com/AmandaHernow/EncryptionDecryptionUtilityTool</a></div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secOS1">This app is <strong>fully open source</strong>. Anyone can inspect, audit, and verify the complete source code.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secOS2">Because this is a security tool, full transparency is a core principle — you should never have to trust blindly.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secOS3">Source code available at:<br><a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all;font-size:12px">github.com/AmandaHernow/EncryptionDecryptionUtilityTool</a></div></div>
                     </div>
                 </div>
                 <div class="hsec">
-                    <div class="hsec-title">Clear Button</div>
+                    <div class="hsec-title" data-i18n="secClearTitle">Clear Button</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>The <strong>Clear</strong> button wipes all input fields, the output window, and your <strong>system clipboard</strong> in one go.</div></div>
-                        <div class="bull"><div class="dot"></div><div>Use it when you are done to make sure no sensitive text remains on screen or in the clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div>A confirmation prompt appears before anything is cleared.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secClear1">The <strong>Clear</strong> button wipes all input fields, the output window, and your <strong>system clipboard</strong> in one go.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="secClear2">Use it when you are done to make sure no sensitive text remains on screen or in the clipboard.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="secClear3">A confirmation prompt appears before anything is cleared.</div></div>
                     </div>
                 </div>
             </div>
@@ -348,388 +360,663 @@
             <div id="donatePanel" class="hpanel">
                 <div class="donate-hero">
                     <span class="donate-icon">☕</span>
-                    <div class="donate-headline">Like this tool? Any donation is welcome!</div>
-                    <div class="donate-body">This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!</div>
+                    <div class="donate-headline" data-i18n="donateHeadline">Like this tool? Any donation is welcome!</div>
+                    <div class="donate-body" data-i18n="donateBody">This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!</div>
                     <div class="donate-qr-wrap">
                         <img class="donate-qr" src="data:image/jpeg;base64,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" alt="PayPal QR Code">
-                        <div class="donate-qr-label">Scan with your camera to donate via PayPal</div>
+                        <div class="donate-qr-label" data-i18n="donateQrLabel">Scan with your camera to donate via PayPal</div>
                     </div>
-                    <a class="donate-btn" href="https://www.paypal.me/amandahernow" target="_blank" rel="noopener noreferrer">💙 &nbsp;Donate via PayPal</a>
-                    <div class="donate-note">Thank you so much for your support 💙</div>
+                    <a class="donate-btn" href="https://www.paypal.me/amandahernow" target="_blank" rel="noopener noreferrer" data-i18n-html="donateBtn">💙 &nbsp;Donate via PayPal</a>
+                    <div class="donate-note" data-i18n="donateNote">Thank you so much for your support 💙</div>
                 </div>
             </div>
             <!-- ── PRIVACY ── -->
             <div id="privacyPanel" class="hpanel">
                 <div class="hsec">
-                    <div class="hsec-title">Overview</div>
+                    <div class="hsec-title" data-i18n="privOverviewTitle">Overview</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>Encrypt &amp; Decrypt Data Utility Tool is developed and maintained by Amanda Hernow. This app does not collect, transmit, or store any data of any kind. Everything stays on your device.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="privOverview1">Encrypt &amp; Decrypt Data Utility Tool is developed and maintained by Amanda Hernow. This app does not collect, transmit, or store any data of any kind. Everything stays on your device.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Data Collection</div>
+                    <div class="hsec-title" data-i18n="privDataTitle">Data Collection</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>No personal information, no usage statistics, no analytics, no crash reports, and no identifiers of any kind are gathered, stored, or transmitted.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privData1">No personal information, no usage statistics, no analytics, no crash reports, and no identifiers of any kind are gathered, stored, or transmitted.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Encryption and Decryption</div>
+                    <div class="hsec-title" data-i18n="privEncTitle">Encryption and Decryption</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>All cryptographic operations are performed entirely on your device using the Web Crypto API.</div></div>
-                        <div class="bull"><div class="dot"></div><div>The text you enter, the password you use, and the encrypted output never leave your device through this app.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privEnc1">All cryptographic operations are performed entirely on your device using the Web Crypto API.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privEnc2">The text you enter, the password you use, and the encrypted output never leave your device through this app.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Clipboard Access</div>
+                    <div class="hsec-title" data-i18n="privClipTitle">Clipboard Access</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div><strong>Paste</strong> reads your clipboard to fill the input field.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>Copy</strong> writes the result to your clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div><strong>Clear</strong> clears your clipboard.</div></div>
-                        <div class="bull"><div class="dot"></div><div>No clipboard content is stored, transmitted, or accessed at any other time.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="privClip1"><strong>Paste</strong> reads your clipboard to fill the input field.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="privClip2"><strong>Copy</strong> writes the result to your clipboard.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="privClip3"><strong>Clear</strong> clears your clipboard.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privClip4">No clipboard content is stored, transmitted, or accessed at any other time.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Network Access</div>
+                    <div class="hsec-title" data-i18n="privNetTitle">Network Access</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>The app makes no network requests, does not contact any server, and does not communicate with any external service. All operations are fully offline.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privNet1">The app makes no network requests, does not contact any server, and does not communicate with any external service. All operations are fully offline.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Third-Party Services</div>
+                    <div class="hsec-title" data-i18n="privThirdTitle">Third-Party Services</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>No third-party SDKs, advertising networks, analytics platforms, crash reporting tools, or tracking services are integrated.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privThird1">No third-party SDKs, advertising networks, analytics platforms, crash reporting tools, or tracking services are integrated.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Device Permissions</div>
+                    <div class="hsec-title" data-i18n="privPermTitle">Device Permissions</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>The app declares no device permissions. No access to camera, microphone, location, contacts, storage, or other device resources is requested or used.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privPerm1">The app declares no device permissions. No access to camera, microphone, location, contacts, storage, or other device resources is requested or used.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Data Storage</div>
+                    <div class="hsec-title" data-i18n="privStorageTitle">Data Storage</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>No passwords, plaintext, ciphertext, or other data is written to device storage or any persistent location.</div></div>
-                        <div class="bull"><div class="dot"></div><div>When you close the app, no trace of your session remains.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privStorage1">No passwords, plaintext, ciphertext, or other data is written to device storage or any persistent location.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privStorage2">When you close the app, no trace of your session remains.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Children</div>
+                    <div class="hsec-title" data-i18n="privChildTitle">Children</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>The app does not knowingly collect data from anyone, including children under 13. Because it collects no data at all, it poses no privacy risk to users of any age.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privChild1">The app does not knowingly collect data from anyone, including children under 13. Because it collects no data at all, it poses no privacy risk to users of any age.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Changes to This Policy</div>
+                    <div class="hsec-title" data-i18n="privChangesTitle">Changes to This Policy</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>If this policy is updated, the revised version will be published with an updated date. Continued use of the app after changes constitutes acceptance of the updated policy.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n="privChanges1">If this policy is updated, the revised version will be published with an updated date. Continued use of the app after changes constitutes acceptance of the updated policy.</div></div>
                     </div>
                 </div>
 
                 <div class="hsec">
-                    <div class="hsec-title">Contact</div>
+                    <div class="hsec-title" data-i18n="privContactTitle">Contact</div>
                     <div class="bullets">
-                        <div class="bull"><div class="dot"></div><div>Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="privContact1">Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a></div></div>
                     </div>
                 </div>
 
-                <div class="hnote" style="margin-top:16px;">
-                    Last updated: 25 March 2026
-                </div>
+                <div class="hnote" style="margin-top:16px;" data-i18n="privLastUpdated">Last updated: 25 March 2026</div>
             </div>
         </div><!-- /helpBody -->
 
-        <div id="helpFoot">Version 1.0 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
+        <div id="helpFoot" data-i18n-html="helpFooter">Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
     </div>
 </div>
 
 <script>
-    (function(){
-        // ── Custom confirm dialog ──
-        function showConfirm(title, msg, okLabel, onOk){
-            document.getElementById('confirmTitle').textContent=title;
-            document.getElementById('confirmMsg').textContent=msg;
-            document.getElementById('btnConfirmOk').textContent=okLabel;
-            const overlay=document.getElementById('confirmOverlay');
-            overlay.classList.add('show');
-            const ok=document.getElementById('btnConfirmOk');
-            const cancel=document.getElementById('btnConfirmCancel');
-            function cleanup(){overlay.classList.remove('show');ok.replaceWith(ok.cloneNode(true));cancel.replaceWith(cancel.cloneNode(true));}
-            document.getElementById('btnConfirmOk').onclick=()=>{cleanup();onOk();};
-            document.getElementById('btnConfirmCancel').onclick=()=>cleanup();
+(function(){
+'use strict';
+
+// ── Supported languages ──
+const LANG_META = [
+    {code:'en', label:'English'},
+    {code:'de', label:'Deutsch'}
+];
+
+// ── Translations ──
+const LANGS = {
+    en: {
+        appTitle:'Encrypt & Decrypt Data Utility Tool',
+        hdrDesc:'Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.',
+        mainTitle:'Main Menu',
+        encryptBtn:'Encrypt',
+        decryptBtn:'Decrypt',
+        pwLabel:'Password:',
+        pwPlaceholder:'Enter password',
+        eyeBtnTitle:'Show/hide password',
+        submitBtn:'Submit',
+        pasteBtn:'Paste from clipboard',
+        copyBtn:'Copy to clipboard',
+        clearBtn:'Clear',
+        footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3',
+        confirmCancel:'Cancel',
+        btnHelpTitle:'Help & About',
+        btnLangTitle:'Choose language',
+        btnThemeDark:'Switch to dark mode',
+        btnThemeLight:'Switch to light mode',
+        helpTitle:'Help & About',
+        helpTab1:'Usage',
+        helpTab2:'Security',
+        helpTab3:'Donate',
+        helpTab4:'Privacy',
+        authorRole:'Developer',
+        usageEncTitle:'How to Encrypt',
+        usageEnc1:'Click <strong>Encrypt</strong> and enter the text you want to protect.',
+        usageEnc2:'Press <strong>Submit</strong>.',
+        usageEnc3:'Enter a strong password to lock the message.',
+        usageEnc4:'Press <strong>Submit</strong> again. Copy the result.',
+        usageDecTitle:'How to Decrypt',
+        usageDec1:'Click <strong>Decrypt</strong> and paste the encrypted Base64 text.',
+        usageDec2:'Press <strong>Submit</strong>.',
+        usageDec3:'Enter the password used during encryption.',
+        usageDec4:'Press <strong>Submit</strong> again to reveal the original text.',
+        usageNote:'⚠️ If you lose your password, there is no recovery option. Keep it safe.',
+        usageClearTitle:'Clear Button',
+        usageClear1:'Press <strong>Clear</strong> at any time to reset all fields, the output window, and your clipboard.',
+        usageClear2:'A confirmation prompt will appear before anything is cleared.',
+        secEncTitle:'Encryption',
+        secEnc1:'<strong>AES-256-GCM</strong> — authenticated encryption, protects confidentiality and detects tampering.',
+        secEnc2:'<strong>PBKDF2-SHA256</strong> (100,000 iterations) — hardens your password against brute-force attacks.',
+        secEnc3:'<strong>Random salt &amp; IV</strong> per session — the same text never produces the same ciphertext.',
+        secPrivTitle:'Privacy &amp; Storage',
+        secPriv1:'<strong>Fully offline.</strong> Network access is blocked by Content Security Policy — nothing is sent anywhere.',
+        secPriv2:'<strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.',
+        secPriv3:'<strong>Clipboard.</strong> Other apps may read clipboard contents — use Copy only when appropriate.',
+        secNote:"Once text leaves this tool — via clipboard, email, or file — it is outside this tool's control.",
+        secOSTitle:'Open Source &amp; Transparency',
+        secOS1:'This app is <strong>fully open source</strong>. Anyone can inspect, audit, and verify the complete source code.',
+        secOS2:'Because this is a security tool, full transparency is a core principle — you should never have to trust blindly.',
+        secOS3:'Source code available at:<br><a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all;font-size:12px">github.com/AmandaHernow/EncryptionDecryptionUtilityTool</a>',
+        secClearTitle:'Clear Button',
+        secClear1:'The <strong>Clear</strong> button wipes all input fields, the output window, and your <strong>system clipboard</strong> in one go.',
+        secClear2:'Use it when you are done to make sure no sensitive text remains on screen or in the clipboard.',
+        secClear3:'A confirmation prompt appears before anything is cleared.',
+        donateHeadline:'Like this tool? Any donation is welcome!',
+        donateBody:'This tool is completely free and open-source. If it saves you time or keeps your data safe, consider supporting its development with a small donation. Every coffee helps!',
+        donateQrLabel:'Scan with your camera to donate via PayPal',
+        donateBtn:'💙 &nbsp;Donate via PayPal',
+        donateNote:'Thank you so much for your support 💙',
+        privOverviewTitle:'Overview',
+        privOverview1:'Encrypt &amp; Decrypt Data Utility Tool is developed and maintained by Amanda Hernow. This app does not collect, transmit, or store any data of any kind. Everything stays on your device.',
+        privDataTitle:'Data Collection',
+        privData1:'No personal information, no usage statistics, no analytics, no crash reports, and no identifiers of any kind are gathered, stored, or transmitted.',
+        privEncTitle:'Encryption and Decryption',
+        privEnc1:'All cryptographic operations are performed entirely on your device using the Web Crypto API.',
+        privEnc2:'The text you enter, the password you use, and the encrypted output never leave your device through this app.',
+        privClipTitle:'Clipboard Access',
+        privClip1:'<strong>Paste</strong> reads your clipboard to fill the input field.',
+        privClip2:'<strong>Copy</strong> writes the result to your clipboard.',
+        privClip3:'<strong>Clear</strong> clears your clipboard.',
+        privClip4:'No clipboard content is stored, transmitted, or accessed at any other time.',
+        privNetTitle:'Network Access',
+        privNet1:'The app makes no network requests, does not contact any server, and does not communicate with any external service. All operations are fully offline.',
+        privThirdTitle:'Third-Party Services',
+        privThird1:'No third-party SDKs, advertising networks, analytics platforms, crash reporting tools, or tracking services are integrated.',
+        privPermTitle:'Device Permissions',
+        privPerm1:'The app declares no device permissions. No access to camera, microphone, location, contacts, storage, or other device resources is requested or used.',
+        privStorageTitle:'Data Storage',
+        privStorage1:'No passwords, plaintext, ciphertext, or other data is written to device storage or any persistent location.',
+        privStorage2:'When you close the app, no trace of your session remains.',
+        privChildTitle:'Children',
+        privChild1:'The app does not knowingly collect data from anyone, including children under 13. Because it collects no data at all, it poses no privacy risk to users of any age.',
+        privChangesTitle:'Changes to This Policy',
+        privChanges1:'If this policy is updated, the revised version will be published with an updated date. Continued use of the app after changes constitutes acceptance of the updated policy.',
+        privContactTitle:'Contact',
+        privContact1:'Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+        privLastUpdated:'Last updated: 25 March 2026',
+        helpFooter:'Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+        arrowEncStep1:'Enter the text you want to encrypt, then press Submit.',
+        arrowDecStep1:'Paste the encrypted Base64 text, then press Submit.',
+        encPlaceholder:'Enter text to encrypt',
+        decPlaceholder:'Paste the Base64 encrypted text here',
+        arrowStep2:'Enter your password, then press Submit.',
+        warnNoTextEnc:'⚠️ Please enter some text to encrypt.',
+        warnNoTextDec:'⚠️ Please paste the encrypted text before continuing.',
+        warnNoPassword:'⚠️ No password used — this message has low security.',
+        encResult:'Encrypted (Base64):',
+        copyPromptEnc:'Press "Copy to clipboard" to copy the encrypted text ✔️',
+        copyPromptDec:'Press "Copy to clipboard" to copy the decrypted text ✔️',
+        encError:'Encryption error: ',
+        decResult:'Decrypted text:',
+        decError:'Decryption error: ',
+        clipDenied:'Paste failed — please long-press the text field and select Paste.',
+        copied:'Copied to clipboard ✔️',
+        copyFailed:'Copy failed — please copy the text manually.',
+        cleared:'All fields and clipboard cleared. ✔️',
+        confirmSwitchEncTitle:'Switch to Encrypt?',
+        confirmSwitchEncMsg:'The output window will be cleared. Make sure you have saved anything important.',
+        confirmSwitchEncBtn:'Switch',
+        confirmSwitchDecTitle:'Switch to Decrypt?',
+        confirmSwitchDecMsg:'The output window will be cleared. Make sure you have saved anything important.',
+        confirmSwitchDecBtn:'Switch',
+        confirmClearTitle:'Clear Everything?',
+        confirmClearMsg:'This will clear all text fields, the output window, and your clipboard. This cannot be undone.',
+        confirmClearBtn:'Clear'
+    },
+    de: {
+        appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
+        hdrDesc:'Schützen Sie Ihren Text mit einem Passwort für die sichere Weitergabe. Die gesamte Verschlüsselung erfolgt lokal — nichts verlässt Ihr Gerät.',
+        mainTitle:'Hauptmenü',
+        encryptBtn:'Verschlüsseln',
+        decryptBtn:'Entschlüsseln',
+        pwLabel:'Passwort:',
+        pwPlaceholder:'Passwort eingeben',
+        eyeBtnTitle:'Passwort anzeigen/ausblenden',
+        submitBtn:'Absenden',
+        pasteBtn:'Aus Zwischenablage einfügen',
+        copyBtn:'In Zwischenablage kopieren',
+        clearBtn:'Löschen',
+        footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; Alle Rechte vorbehalten &nbsp;·&nbsp; GPL v3',
+        confirmCancel:'Abbrechen',
+        btnHelpTitle:'Hilfe & Info',
+        btnLangTitle:'Sprache wählen',
+        btnThemeDark:'Zum dunklen Modus wechseln',
+        btnThemeLight:'Zum hellen Modus wechseln',
+        helpTitle:'Hilfe & Info',
+        helpTab1:'Nutzung',
+        helpTab2:'Sicherheit',
+        helpTab3:'Spenden',
+        helpTab4:'Datenschutz',
+        authorRole:'Entwicklerin',
+        usageEncTitle:'So verschlüsseln Sie',
+        usageEnc1:'Klicken Sie auf <strong>Verschlüsseln</strong> und geben Sie den zu schützenden Text ein.',
+        usageEnc2:'Drücken Sie <strong>Absenden</strong>.',
+        usageEnc3:'Geben Sie ein starkes Passwort ein, um die Nachricht zu sperren.',
+        usageEnc4:'Drücken Sie erneut <strong>Absenden</strong>. Kopieren Sie das Ergebnis.',
+        usageDecTitle:'So entschlüsseln Sie',
+        usageDec1:'Klicken Sie auf <strong>Entschlüsseln</strong> und fügen Sie den verschlüsselten Base64-Text ein.',
+        usageDec2:'Drücken Sie <strong>Absenden</strong>.',
+        usageDec3:'Geben Sie das Passwort ein, das beim Verschlüsseln verwendet wurde.',
+        usageDec4:'Drücken Sie erneut <strong>Absenden</strong>, um den ursprünglichen Text anzuzeigen.',
+        usageNote:'⚠️ Wenn Sie Ihr Passwort verlieren, gibt es keine Wiederherstellungsmöglichkeit. Bewahren Sie es sicher auf.',
+        usageClearTitle:'Schaltfläche Löschen',
+        usageClear1:'Drücken Sie jederzeit <strong>Löschen</strong>, um alle Felder, das Ausgabefenster und Ihre Zwischenablage zurückzusetzen.',
+        usageClear2:'Vor dem Löschen erscheint eine Bestätigungsabfrage.',
+        secEncTitle:'Verschlüsselung',
+        secEnc1:'<strong>AES-256-GCM</strong> — authentifizierte Verschlüsselung, schützt die Vertraulichkeit und erkennt Manipulation.',
+        secEnc2:'<strong>PBKDF2-SHA256</strong> (100.000 Iterationen) — erschwert Brute-Force-Angriffe auf Ihr Passwort.',
+        secEnc3:'<strong>Zufälliges Salt &amp; IV</strong> pro Sitzung — derselbe Text erzeugt nie zweimal dasselbe Chiffrat.',
+        secPrivTitle:'Datenschutz &amp; Speicherung',
+        secPriv1:'<strong>Vollständig offline.</strong> Netzwerkzugriff wird durch die Content Security Policy blockiert — nichts wird irgendwohin gesendet.',
+        secPriv2:'<strong>Keine Speicherung.</strong> Es werden niemals Cookies, localStorage oder gespeicherte Passwörter verwendet.',
+        secPriv3:'<strong>Zwischenablage.</strong> Andere Apps können Inhalte der Zwischenablage lesen — verwenden Sie Kopieren nur, wenn es angemessen ist.',
+        secNote:'Sobald Text dieses Tool verlässt — über Zwischenablage, E-Mail oder Datei — liegt er außerhalb der Kontrolle dieses Tools.',
+        secOSTitle:'Open Source &amp; Transparenz',
+        secOS1:'Diese App ist <strong>vollständig Open Source</strong>. Jeder kann den kompletten Quellcode prüfen und verifizieren.',
+        secOS2:'Da dies ein Sicherheitstool ist, ist vollständige Transparenz ein Kernprinzip — Sie sollten niemals blind vertrauen müssen.',
+        secOS3:'Quellcode verfügbar unter:<br><a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all;font-size:12px">github.com/AmandaHernow/EncryptionDecryptionUtilityTool</a>',
+        secClearTitle:'Schaltfläche Löschen',
+        secClear1:'Die Schaltfläche <strong>Löschen</strong> löscht alle Eingabefelder, das Ausgabefenster und Ihre <strong>Systemzwischenablage</strong> auf einmal.',
+        secClear2:'Verwenden Sie sie nach Abschluss der Arbeit, um sicherzustellen, dass kein sensibler Text auf dem Bildschirm oder in der Zwischenablage verbleibt.',
+        secClear3:'Vor dem Löschen erscheint eine Bestätigungsabfrage.',
+        donateHeadline:'Gefällt Ihnen dieses Tool? Jede Spende ist willkommen!',
+        donateBody:'Dieses Tool ist vollständig kostenlos und Open Source. Wenn es Ihnen Zeit spart oder Ihre Daten schützt, können Sie die Entwicklung mit einer kleinen Spende unterstützen. Jeder Kaffee hilft!',
+        donateQrLabel:'Scannen Sie mit Ihrer Kamera, um per PayPal zu spenden',
+        donateBtn:'💙 &nbsp;Per PayPal spenden',
+        donateNote:'Vielen Dank für Ihre Unterstützung 💙',
+        privOverviewTitle:'Übersicht',
+        privOverview1:'Encrypt &amp; Decrypt Data Utility Tool wurde von Amanda Hernow entwickelt und wird von ihr gepflegt. Diese App erfasst, überträgt oder speichert keinerlei Daten. Alles verbleibt auf Ihrem Gerät.',
+        privDataTitle:'Datenerfassung',
+        privData1:'Es werden keinerlei persönliche Informationen, Nutzungsstatistiken, Analysen, Absturzberichte oder Kennungen erfasst, gespeichert oder übertragen.',
+        privEncTitle:'Verschlüsselung und Entschlüsselung',
+        privEnc1:'Alle kryptografischen Operationen werden vollständig auf Ihrem Gerät mit der Web Crypto API durchgeführt.',
+        privEnc2:'Der eingegebene Text, das verwendete Passwort und die verschlüsselte Ausgabe verlassen Ihr Gerät über diese App nicht.',
+        privClipTitle:'Zugriff auf die Zwischenablage',
+        privClip1:'<strong>Einfügen</strong> liest Ihre Zwischenablage, um das Eingabefeld zu füllen.',
+        privClip2:'<strong>Kopieren</strong> schreibt das Ergebnis in Ihre Zwischenablage.',
+        privClip3:'<strong>Löschen</strong> löscht Ihre Zwischenablage.',
+        privClip4:'Inhalte der Zwischenablage werden zu keinem anderen Zeitpunkt gespeichert, übertragen oder abgerufen.',
+        privNetTitle:'Netzwerkzugriff',
+        privNet1:'Die App stellt keine Netzwerkanfragen, kontaktiert keinen Server und kommuniziert nicht mit einem externen Dienst. Alle Vorgänge sind vollständig offline.',
+        privThirdTitle:'Drittanbieter-Dienste',
+        privThird1:'Es sind keine Drittanbieter-SDKs, Werbenetzwerke, Analyseplattformen, Absturzmeldedienste oder Tracking-Dienste integriert.',
+        privPermTitle:'Geräteberechtigungen',
+        privPerm1:'Die App erklärt keine Geräteberechtigungen. Es wird kein Zugriff auf Kamera, Mikrofon, Standort, Kontakte, Speicher oder andere Geräteressourcen angefordert oder verwendet.',
+        privStorageTitle:'Datenspeicherung',
+        privStorage1:'Passwörter, Klartext, Chiffretext oder andere Daten werden nicht in den Gerätespeicher oder an einen persistenten Speicherort geschrieben.',
+        privStorage2:'Wenn Sie die App schließen, verbleibt keine Sitzungsspur.',
+        privChildTitle:'Kinder',
+        privChild1:'Die App erfasst wissentlich keine Daten von irgendjemandem, einschließlich Kindern unter 13 Jahren. Da sie überhaupt keine Daten erfasst, stellt sie kein Datenschutzrisiko für Nutzer jeden Alters dar.',
+        privChangesTitle:'Änderungen dieser Richtlinie',
+        privChanges1:'Wenn diese Richtlinie aktualisiert wird, wird die überarbeitete Version mit einem aktualisierten Datum veröffentlicht. Die weitere Nutzung der App nach Änderungen gilt als Zustimmung zur aktualisierten Richtlinie.',
+        privContactTitle:'Kontakt',
+        privContact1:'Fragen zu dieser Richtlinie: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+        privLastUpdated:'Zuletzt aktualisiert: 25. März 2026',
+        helpFooter:'Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+        arrowEncStep1:'Geben Sie den zu verschlüsselnden Text ein und drücken Sie dann Absenden.',
+        arrowDecStep1:'Fügen Sie den verschlüsselten Base64-Text ein und drücken Sie dann Absenden.',
+        encPlaceholder:'Text zum Verschlüsseln eingeben',
+        decPlaceholder:'Verschlüsselten Base64-Text hier einfügen',
+        arrowStep2:'Geben Sie Ihr Passwort ein und drücken Sie dann Absenden.',
+        warnNoTextEnc:'⚠️ Bitte geben Sie Text zum Verschlüsseln ein.',
+        warnNoTextDec:'⚠️ Bitte fügen Sie zuerst den verschlüsselten Text ein.',
+        warnNoPassword:'⚠️ Kein Passwort verwendet — diese Nachricht hat eine geringe Sicherheit.',
+        encResult:'Verschlüsselt (Base64):',
+        copyPromptEnc:'Drücken Sie "In Zwischenablage kopieren", um den verschlüsselten Text zu kopieren ✔️',
+        copyPromptDec:'Drücken Sie "In Zwischenablage kopieren", um den entschlüsselten Text zu kopieren ✔️',
+        encError:'Verschlüsselungsfehler: ',
+        decResult:'Entschlüsselter Text:',
+        decError:'Entschlüsselungsfehler: ',
+        clipDenied:'Einfügen fehlgeschlagen — bitte halten Sie das Textfeld gedrückt und wählen Sie Einfügen.',
+        copied:'In die Zwischenablage kopiert ✔️',
+        copyFailed:'Kopieren fehlgeschlagen — bitte kopieren Sie den Text manuell.',
+        cleared:'Alle Felder und Zwischenablage gelöscht. ✔️',
+        confirmSwitchEncTitle:'Zu Verschlüsseln wechseln?',
+        confirmSwitchEncMsg:'Das Ausgabefenster wird gelöscht. Stellen Sie sicher, dass Sie alles Wichtige gespeichert haben.',
+        confirmSwitchEncBtn:'Wechseln',
+        confirmSwitchDecTitle:'Zu Entschlüsseln wechseln?',
+        confirmSwitchDecMsg:'Das Ausgabefenster wird gelöscht. Stellen Sie sicher, dass Sie alles Wichtige gespeichert haben.',
+        confirmSwitchDecBtn:'Wechseln',
+        confirmClearTitle:'Alles löschen?',
+        confirmClearMsg:'Dadurch werden alle Textfelder, das Ausgabefenster und Ihre Zwischenablage gelöscht. Dies kann nicht rückgängig gemacht werden.',
+        confirmClearBtn:'Löschen'
+    }
+};
+
+// ── State ──
+let mode=null, step=0, buffer='', userHasActed=false, dark=false, currentLang='en', copyBtnMode='paste';
+
+function T(key){ return (LANGS[currentLang]&&LANGS[currentLang][key])||LANGS.en[key]||key; }
+
+// ── Language menu ──
+const langMenu=document.getElementById('langMenu');
+const btnLang=document.getElementById('btnLang');
+
+function updateLangMenu(){
+    langMenu.innerHTML='';
+    LANG_META.forEach(lang=>{
+        const opt=document.createElement('button');
+        opt.type='button';
+        opt.className='lang-option'+(lang.code===currentLang?' active':'');
+        opt.dataset.lang=lang.code;
+        opt.innerHTML='<span>'+lang.label+'</span><span class="lang-check">'+(lang.code===currentLang?'✓':'')+'</span>';
+        opt.addEventListener('click',()=>setLang(lang.code));
+        langMenu.appendChild(opt);
+    });
+}
+
+function applyTranslations(){
+    document.documentElement.lang=currentLang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=T(el.dataset.i18n);});
+    document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=T(el.dataset.i18nHtml);});
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=T(el.dataset.i18nPh);});
+    document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=T(el.dataset.i18nTitle);});
+    // Update password input placeholder (no data-i18n-ph attribute, set directly)
+    const pwInput=document.getElementById('txtSmallInput');
+    if(pwInput) pwInput.placeholder=T('pwPlaceholder');
+    // Update theme button title
+    const btnThemeEl=document.getElementById('btnTheme');
+    if(btnThemeEl) btnThemeEl.title=dark?T('btnThemeLight'):T('btnThemeDark');
+    // Update lang button title
+    if(btnLang) btnLang.title=T('btnLangTitle');
+    // Update help button title
+    const btnHelpEl=document.getElementById('btnHelp');
+    if(btnHelpEl) btnHelpEl.title=T('btnHelpTitle');
+}
+
+function setLang(code){
+    currentLang=LANGS[code]?code:'en';
+    try{sessionStorage.setItem('lang',currentLang);}catch(e){}
+    applyTranslations();
+    langMenu.classList.remove('show');
+    updateLangMenu();
+}
+
+function detectLang(){
+    try{const saved=sessionStorage.getItem('lang');if(saved&&LANGS[saved])return saved;}catch(e){}
+    const bl=(navigator.language||'en').toLowerCase();
+    const match=LANG_META.find(l=>bl===l.code.toLowerCase()||bl.startsWith(l.code.toLowerCase()+'-'));
+    return match?match.code:'en';
+}
+
+btnLang.onclick=e=>{e.stopPropagation();langMenu.classList.toggle('show');};
+document.addEventListener('click',e=>{if(!langMenu.contains(e.target)&&e.target!==btnLang)langMenu.classList.remove('show');});
+
+// ── DOM refs ──
+const out=document.getElementById('output'),
+      big=document.getElementById('txtLargeInput'),
+      sc=document.getElementById('smallInputContainer'),
+      small=document.getElementById('txtSmallInput'),
+      btn=document.getElementById('btnSubmit'),
+      btnCopy=document.getElementById('btnCopy'),
+      encBtn=document.getElementById('btnEncrypt'),
+      decBtn=document.getElementById('btnDecrypt'),
+      exitBtn=document.getElementById('btnExit'),
+      btnTheme=document.getElementById('btnTheme'),
+      btnHelp=document.getElementById('btnHelp'),
+      helpOverlay=document.getElementById('helpOverlay'),
+      helpClose=document.getElementById('helpClose');
+
+const eyeOpen  ='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+const eyeClosed='<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+
+// ── Theme ──
+btnTheme.onclick=()=>{
+    dark=!dark;
+    document.body.classList.toggle('dark',dark);
+    btnTheme.textContent=dark?'☀️':'🌙';
+    btnTheme.title=dark?T('btnThemeLight'):T('btnThemeDark');
+};
+
+// ── Help ──
+btnHelp.onclick=()=>helpOverlay.style.display='block';
+function closeHelp(){helpOverlay.style.display='none';}
+helpClose.onclick=closeHelp;
+helpOverlay.addEventListener('click',e=>{if(e.target===helpOverlay)closeHelp();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&helpOverlay.style.display==='block')closeHelp();});
+
+document.querySelectorAll('.htab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+        document.querySelectorAll('.htab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.hpanel').forEach(p=>p.classList.remove('active'));
+        tab.classList.add('active');
+        const p=document.getElementById(tab.dataset.panel);
+        if(p)p.classList.add('active');
+    });
+});
+
+// ── Eye toggle ──
+const eyeBtn=document.getElementById('eyeToggle');
+eyeBtn.onclick=()=>{
+    const isPassword=small.type==='password';
+    small.type=isPassword?'text':'password';
+    document.getElementById('eyeIcon').innerHTML=isPassword?eyeClosed:eyeOpen;
+};
+
+// ── Confirm dialog ──
+function showConfirm(title,msg,okLabel,onOk){
+    document.getElementById('confirmTitle').textContent=title;
+    document.getElementById('confirmMsg').textContent=msg;
+    document.getElementById('btnConfirmOk').textContent=okLabel;
+    const overlay=document.getElementById('confirmOverlay');
+    overlay.classList.add('show');
+    const okBtn=document.getElementById('btnConfirmOk');
+    const cancelBtn=document.getElementById('btnConfirmCancel');
+    function cleanup(){overlay.classList.remove('show');okBtn.replaceWith(okBtn.cloneNode(true));cancelBtn.replaceWith(cancelBtn.cloneNode(true));}
+    document.getElementById('btnConfirmOk').onclick=()=>{cleanup();onOk();};
+    document.getElementById('btnConfirmCancel').onclick=()=>cleanup();
+}
+
+// ── Output helpers ──
+function append(text,color='var(--text)'){
+    const d=document.createElement('div');
+    d.textContent=text;d.style.color=color;
+    out.appendChild(d);out.scrollTop=out.scrollHeight;
+}
+function arrow(key){
+    const l=document.createElement('div');
+    const a=document.createElement('span');a.textContent='➔ ';a.style.color='var(--accent)';
+    const b=document.createElement('span');b.textContent=T(key);
+    l.appendChild(a);l.appendChild(b);out.appendChild(l);out.scrollTop=out.scrollHeight;
+}
+
+// ── Reset ──
+function reset(){
+    mode=null;step=0;buffer='';userHasActed=false;copyBtnMode='paste';
+    big.value='';small.value='';
+    big.style.display='none';sc.style.display='none';
+    btn.style.display='none';btnCopy.style.display='none';
+    small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;
+}
+
+function setActiveBtn(activeMode){
+    encBtn.classList.toggle('active-mode',activeMode==='encrypt');
+    decBtn.classList.toggle('active-mode',activeMode==='decrypt');
+}
+
+// ── Start mode ──
+function startMode(newMode){
+    out.innerHTML='';
+    big.value='';
+    if(newMode==='encrypt'){
+        big.placeholder=T('encPlaceholder');
+        arrow('arrowEncStep1');
+    } else {
+        big.placeholder=T('decPlaceholder');
+        arrow('arrowDecStep1');
+    }
+    mode=newMode;step=1;userHasActed=false;
+    setActiveBtn(newMode);
+    big.style.display='block';sc.style.display='none';btn.style.display='inline-block';
+    copyBtnMode='paste';btnCopy.textContent=T('pasteBtn');btnCopy.style.display='inline-block';
+    big.focus();
+}
+
+big.addEventListener('input',()=>{if(big.value.trim()!=='')userHasActed=true;});
+big.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&mode==='decrypt'&&!e.shiftKey&&!e.isComposing){e.preventDefault();btn.click();}
+});
+small.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();btn.click();}});
+
+encBtn.onclick=()=>{
+    if(mode==='encrypt')return;
+    if(mode!==null&&userHasActed){
+        showConfirm(T('confirmSwitchEncTitle'),T('confirmSwitchEncMsg'),T('confirmSwitchEncBtn'),()=>startMode('encrypt'));
+    } else { startMode('encrypt'); }
+};
+decBtn.onclick=()=>{
+    if(mode==='decrypt')return;
+    if(mode!==null&&userHasActed){
+        showConfirm(T('confirmSwitchDecTitle'),T('confirmSwitchDecMsg'),T('confirmSwitchDecBtn'),()=>startMode('decrypt'));
+    } else { startMode('decrypt'); }
+};
+
+// ── Submit ──
+btn.onclick=async()=>{
+    if(!mode)return;
+    if(step===1){
+        const trimmed=big.value.trim();
+        if(!trimmed){
+            const existing=document.getElementById('warnEmpty');
+            if(existing)existing.remove();
+            const w=document.createElement('div');
+            w.id='warnEmpty';w.className='warn-empty';
+            w.textContent=mode==='encrypt'?T('warnNoTextEnc'):T('warnNoTextDec');
+            out.appendChild(w);out.scrollTop=out.scrollHeight;
+            return;
         }
+        buffer=mode==='decrypt'?big.value.replace(/\s+/g,''):big.value;
+        step=2;userHasActed=true;
+        big.style.display='none';sc.style.display='flex';small.value='';
+        small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;
+        btnCopy.style.display='none';
+        arrow('arrowStep2');small.focus();return;
+    }
+    const pw=small.value;
+    if(!pw.trim()){
+        const w=document.createElement('div');
+        w.className='warn-password';
+        w.textContent=T('warnNoPassword');
+        out.appendChild(w);out.scrollTop=out.scrollHeight;
+    }
+    sc.style.display='none';btn.style.display='none';
+    small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;
+    let ok=false;
+    if(mode==='encrypt'){
+        try{
+            const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+            const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+            const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['encrypt']);
+            const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
+            const all=new Uint8Array(16+12+ct.byteLength);all.set(salt,0);all.set(iv,16);all.set(new Uint8Array(ct),28);
+            buffer=btoa(String.fromCharCode(...all));
+            append(T('encResult'),'var(--accent)');append(buffer);
+            copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
+            append(T('copyPromptEnc'),'var(--accent)');ok=true;
+        }catch(e){append(T('encError')+e,'red');}
+    } else {
+        try{
+            const all=Uint8Array.from(atob(buffer),c=>c.charCodeAt(0));
+            if(all.length<29)throw new Error('Input too short — not a valid encrypted blob.');
+            const salt=all.slice(0,16),iv=all.slice(16,28),ct=all.slice(28);
+            const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+            const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['decrypt']);
+            const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
+            buffer=new TextDecoder().decode(pt);
+            append(T('decResult'),'var(--accent)');append(buffer);
+            copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
+            append(T('copyPromptDec'),'var(--accent)');ok=true;
+        }catch(e){append(T('decError')+e,'red');}
+    }
+    if(!ok)reset();
+};
 
-        const out=document.getElementById('output'),
-              big=document.getElementById('txtLargeInput'),
-              sc=document.getElementById('smallInputContainer'),
-              small=document.getElementById('txtSmallInput'),
-              btn=document.getElementById('btnSubmit'),
-              btnCopy=document.getElementById('btnCopy'),
-              encBtn=document.getElementById('btnEncrypt'),
-              decBtn=document.getElementById('btnDecrypt'),
-              exitBtn=document.getElementById('btnExit'),
-              btnTheme=document.getElementById('btnTheme'),
-              btnHelp=document.getElementById('btnHelp'),
-              helpOverlay=document.getElementById('helpOverlay'),
-              helpClose=document.getElementById('helpClose');
-
-        // Theme
-        let dark=false;
-        btnTheme.onclick=()=>{
-            dark=!dark;
-            document.body.classList.toggle('dark',dark);
-            btnTheme.textContent=dark?'☀️':'🌙';
-            btnTheme.title=dark?'Switch to light mode':'Switch to dark mode';
-        };
-
-        // Help
-        btnHelp.onclick=()=>helpOverlay.style.display='block';
-        function closeHelp(){helpOverlay.style.display='none';}
-        helpClose.onclick=closeHelp;
-        helpOverlay.addEventListener('click',e=>{if(e.target===helpOverlay)closeHelp();});
-        document.addEventListener('keydown',e=>{if(e.key==='Escape'&&helpOverlay.style.display==='block')closeHelp();});
-
-        // Tabs
-        document.querySelectorAll('.htab').forEach(tab=>{
-            tab.addEventListener('click',()=>{
-                document.querySelectorAll('.htab').forEach(t=>t.classList.remove('active'));
-                document.querySelectorAll('.hpanel').forEach(p=>p.classList.remove('active'));
-                tab.classList.add('active');
-                const p=document.getElementById(tab.dataset.panel);
-                if(p)p.classList.add('active');
-            });
-        });
-
-        // ── Eye toggle ──
-        const eyeBtn = document.getElementById('eyeToggle');
-        const eyeOpen  = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-        const eyeClosed = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
-        eyeBtn.onclick = () => {
-            const isPassword = small.type === 'password';
-            small.type = isPassword ? 'text' : 'password';
-            document.getElementById('eyeIcon').innerHTML = isPassword ? eyeClosed : eyeOpen;
-        };
-
-        // Track if user has typed anything
-        big.addEventListener('input',()=>{ if(big.value.trim()!=='') userHasActed=true; });
-
-        // Key shortcuts
-        big.addEventListener('keydown',e=>{
-            if(e.key==='Enter' && mode==='decrypt'){
-                e.preventDefault();
-                btn.click();
+// ── Paste / Copy button ──
+btnCopy.onclick=async()=>{
+    if(copyBtnMode==='paste'){
+        try{
+            if(window.AndroidClipboard&&window.AndroidClipboard.getText){
+                const text=window.AndroidClipboard.getText();
+                if(text){big.value=text;big.focus();return;}
             }
-        });
-        small.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();btn.click();}});
-
-        let mode=null,step=0,buffer='',userHasActed=false;
-
-        function append(text,color='var(--text)'){
-            const d=document.createElement('div');
-            d.textContent=text;d.style.color=color;
-            out.appendChild(d);out.scrollTop=out.scrollHeight;
+            const text=await navigator.clipboard.readText();
+            if(text){big.value=text;big.focus();}
+        }catch(e){
+            append(T('clipDenied'),'red');
         }
-        function arrow(text){
-            const l=document.createElement('div');
-            const a=document.createElement('span');a.textContent='➔ ';a.style.color='var(--accent)';
-            const b=document.createElement('span');b.textContent=text;
-            l.appendChild(a);l.appendChild(b);out.appendChild(l);out.scrollTop=out.scrollHeight;
-        }
-        function reset(){
-            mode=null;step=0;buffer='';userHasActed=false;
-            big.value='';small.value='';
-            big.style.display='none';sc.style.display='none';
-            btn.style.display='none';btnCopy.style.display='none';
-        }
+        return;
+    }
+    if(!buffer)return;
+    if(document.activeElement)document.activeElement.blur();
+    try{
+        await navigator.clipboard.writeText(buffer);
+        append(T('copied'),'var(--accent)');reset();
+    }catch(e){
+        try{
+            const ta=document.createElement('textarea');
+            ta.value=buffer;ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';
+            document.body.appendChild(ta);ta.focus();ta.select();
+            const ok=document.execCommand('copy');
+            document.body.removeChild(ta);
+            if(ok){append(T('copied'),'var(--accent)');}
+            else{append(T('copyFailed'),'red');}
+            reset();
+        }catch(e2){append(T('copyFailed'),'red');reset();}
+    }
+};
 
-        function setActiveBtn(activeMode){
-            encBtn.classList.toggle('active-mode', activeMode==='encrypt');
-            decBtn.classList.toggle('active-mode', activeMode==='decrypt');
-        }
-
-        function startMode(newMode){
-            out.innerHTML='';
-            big.value='';
-            if(newMode==='encrypt'){
-                big.placeholder='Enter text to encrypt';
-                arrow('Enter the text you want to encrypt, then press Submit.');
+// ── Clear ──
+exitBtn.onclick=()=>{
+    showConfirm(T('confirmClearTitle'),T('confirmClearMsg'),T('confirmClearBtn'),async()=>{
+        try{
+            if(window.AndroidClipboard&&window.AndroidClipboard.clear){
+                window.AndroidClipboard.clear();
             } else {
-                big.placeholder='Paste the Base64 encrypted text here';
-                arrow('Paste the encrypted Base64 text, then press Submit.');
+                await navigator.clipboard.writeText('');
             }
-            mode=newMode;step=1;userHasActed=false;
-            setActiveBtn(newMode);
-            big.style.display='block';sc.style.display='none';btn.style.display='inline-block';
-            btnCopy.textContent='Paste from clipboard';btnCopy.style.display='inline-block';
-            big.focus();
-        }
+        }catch(e){}
+        out.innerHTML='';
+        reset();
+        setActiveBtn(null);
+        append(T('cleared'),'var(--accent)');
+    });
+};
 
-        encBtn.onclick=()=>{
-            if(mode==='encrypt') return;
-            if(mode!==null && userHasActed){
-                showConfirm(
-                    'Switch to Encrypt?',
-                    'The output window will be cleared. Make sure you have saved anything important.',
-                    'Switch',
-                    ()=>startMode('encrypt')
-                );
-            } else { startMode('encrypt'); }
-        };
-        decBtn.onclick=()=>{
-            if(mode==='decrypt') return;
-            if(mode!==null && userHasActed){
-                showConfirm(
-                    'Switch to Decrypt?',
-                    'The output window will be cleared. Make sure you have saved anything important.',
-                    'Switch',
-                    ()=>startMode('decrypt')
-                );
-            } else { startMode('decrypt'); }
-        };
+// ── Init ──
+currentLang=detectLang();
+updateLangMenu();
+applyTranslations();
 
-        btn.onclick=async()=>{
-            if(!mode)return;
-            let ok=false;
-            if(step===1){
-                // Block if nothing entered
-                const trimmed=big.value.trim();
-                if(!trimmed){
-                    // Remove any existing warning first
-                    const existing=document.getElementById('warnEmpty');
-                    if(existing)existing.remove();
-                    const w=document.createElement('div');
-                    w.id='warnEmpty';w.className='warn-empty';
-                    w.textContent= mode==='encrypt'
-                        ? '⚠️ Please enter some text to encrypt.'
-                        : '⚠️ Please paste the encrypted text before continuing.';
-                    out.appendChild(w);out.scrollTop=out.scrollHeight;
-                    return;
-                }
-                buffer = mode === 'decrypt' ? big.value.replace(/\s+/g, '') : big.value;
-                step = 2;
-                userHasActed = true;
-                big.style.display='none';sc.style.display='flex';small.value='';
-                // Reset eye toggle
-                small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;
-                btnCopy.style.display='none';
-                arrow('Enter your password, then press Submit.');small.focus();return;
-            }
-            const pw=small.value;
-            // Yellow warning for empty password — still proceeds
-            if(!pw.trim()){
-                const w=document.createElement('div');
-                w.className='warn-password';
-                w.textContent='⚠️ No password used — this message has low security.';
-                out.appendChild(w);out.scrollTop=out.scrollHeight;
-            }
-            sc.style.display='none';btn.style.display='none';
-            // Reset eye toggle when password step is done
-            small.type='password';document.getElementById('eyeIcon').innerHTML=eyeOpen;
-            if(mode==='encrypt'){
-                try{
-                    const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
-                    const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
-                    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['encrypt']);
-                    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
-                    const all=new Uint8Array(16+12+ct.byteLength);all.set(salt,0);all.set(iv,16);all.set(new Uint8Array(ct),28);
-                    const b64=btoa(String.fromCharCode(...all));
-                    append('Encrypted (Base64):','var(--accent)');append(b64);buffer=b64;
-                    btnCopy.textContent='Copy to clipboard';btnCopy.style.display='inline-block';
-                    append('Press "Copy to clipboard" to copy the encrypted text ✔️','var(--accent)');ok=true;
-                }catch(e){append('Encryption error: '+e,'red');}
-            }else{
-                try{
-                    const all=Uint8Array.from(atob(buffer),c=>c.charCodeAt(0));
-                    if(all.length<29)throw'Blob too short';
-                    const salt=all.slice(0,16),iv=all.slice(16,28),ct=all.slice(28);
-                    const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
-                    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['decrypt']);
-                    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
-                    const dec=new TextDecoder().decode(pt);
-                    append('Decrypted text:','var(--accent)');append(dec);buffer=dec;
-                    btnCopy.textContent='Copy to clipboard';btnCopy.style.display='inline-block';
-                    append('Press "Copy to clipboard" to copy the decrypted text ✔️','var(--accent)');ok=true;
-                }catch(e){append('Decryption error: '+e,'red');}
-            }
-            if(!ok)reset();
-        };
-
-        btnCopy.onclick=async()=>{
-            // PASTE mode (step 1)
-            if(btnCopy.textContent==='Paste from clipboard'){
-                try{
-                    // Try Android JS bridge first (most reliable in WebView)
-                    if(window.AndroidClipboard && window.AndroidClipboard.getText){
-                        const text=window.AndroidClipboard.getText();
-                        if(text){big.value=text;big.focus();return;}
-                    }
-                    // Fallback to navigator clipboard API
-                    const text=await navigator.clipboard.readText();
-                    big.value=text;
-                    big.focus();
-                }catch(e){
-                    append('Paste failed — please long-press the text field and select Paste.','red');
-                }
-                return;
-            }
-            // COPY mode (after result)
-            if(!buffer)return;
-            // Blur any focused element to prevent keyboard flash
-            if(document.activeElement) document.activeElement.blur();
-            try{
-                await navigator.clipboard.writeText(buffer);
-                append('Copied to clipboard ✔️','var(--accent)');
-                reset();
-            }catch(e){
-                try{
-                    const ta=document.createElement('textarea');
-                    ta.value=buffer;
-                    ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';
-                    document.body.appendChild(ta);
-                    ta.focus();ta.select();
-                    const ok=document.execCommand('copy');
-                    document.body.removeChild(ta);
-                    if(ok){append('Copied to clipboard ✔️','var(--accent)');}
-                    else{append('Copy failed — please copy the text manually.','red');}
-                    reset();
-                }catch(e2){
-                    append('Copy failed — please copy the text manually.','red');
-                    reset();
-                }
-            }
-        };
-
-        exitBtn.onclick=()=>{
-            showConfirm(
-                'Clear Everything?',
-                'This will clear all text fields, the output window, and your clipboard. This cannot be undone.',
-                'Clear',
-                async()=>{
-            // Clear clipboard — use Android bridge if available, fallback to JS
-            try{
-                if(window.AndroidClipboard && window.AndroidClipboard.clear){
-                    window.AndroidClipboard.clear();
-                } else {
-                    await navigator.clipboard.writeText('');
-                }
-            }catch(e){}
-                    out.innerHTML='';
-                    reset();
-                    setActiveBtn(null);
-                    append('All fields and clipboard cleared. ✔️','var(--accent)');
-                }
-            );
-        };
-    })();
+})();
 </script>
 </body>
 </html>

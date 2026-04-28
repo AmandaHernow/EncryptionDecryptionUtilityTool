@@ -54,8 +54,8 @@ Language support is being tracked across all platform versions. At the moment, o
 
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
-| English | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| German / Deutsch | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| English | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| German / Deutsch | ✅ | ✅ | 📋 Planned | 📋 Planned |
 | French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Simplified Chinese / 中文（简体） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |

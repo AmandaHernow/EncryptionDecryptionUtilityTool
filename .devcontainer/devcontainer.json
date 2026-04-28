@@ -1,0 +1,26 @@
+{
+  "name": "EncryptionDecryptionUtilityTool",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.codespaces",
+        "github.vscode-pull-request-github",
+        "anthropic.claude-code",
+        "eamodio.gitlens",
+        "donjayamanne.githistory",
+        "ritwickdey.liveserver",
+        "esbenp.prettier-vscode",
+        "ecmel.vscode-html-css",
+        "formulahendry.auto-close-tag",
+        "christian-kohler.path-intellisense",
+        "streetsidesoftware.code-spell-checker",
+        "redhat.java",
+        "vscjava.vscode-java-pack",
+        "redhat.vscode-yaml",
+        "pkief.material-icon-theme",
+        "sdras.night-owl",
+        "akamud.vscode-theme-onedark"
+      ]
+    }
+  }
+}

@@ -54,17 +54,30 @@ Language support is being tracked across all platform versions. At the moment, o
 
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
-| English | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| German / Deutsch | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| English | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| German / Deutsch | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Simplified Chinese / 中文（简体） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Traditional Chinese / 中文（繁體） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Japanese / 日本語 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Simplified Chinese / 中文（简体） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Traditional Chinese / 中文（繁體） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Japanese / 日本語 | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Italian / Italiano | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Portuguese / Português | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Arabic / العربية | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Farsi / فارسی | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 
 Currently implemented on the web version:
 - `index.html`
 - `privacy-policy.html`
+
+---
+
+## Independent Decryption
+
+Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools without needing this software.
+
+> ### [Independent Decryption Guide](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html)
 
 ---
 

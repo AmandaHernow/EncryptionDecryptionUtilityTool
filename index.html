@@ -1057,6 +1057,7 @@ const LANGS = {
     encError:'Encryption error: ',
     decResult:'Decrypted text:',
     decFailed:'Decryption failed — wrong password or corrupted data.',
+    invalidEncryptedText:'Invalid encrypted text — please paste the complete encrypted output.',
     clipEmpty:'Clipboard is empty.',
     clipDenied:'Clipboard access denied — please paste manually (Ctrl+V / Cmd+V).',
     copied:'✔️ Copied to clipboard.',
@@ -1071,7 +1072,6 @@ const LANGS = {
     confirmClearTitle:'Clear Everything?',
     confirmClearMsg:'This will clear all text fields, the output window, and <u><strong>YOUR CLIPBOARD</strong></u>. This cannot be undone.<br><small><i>• FYI, you do not need to clear any content to switch between Decryption & Encryption mode.</i></small>',
     confirmClearBtn:'Clear All',
-    errPrefix:'Error: '
   },
   de: {
     appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
@@ -1178,6 +1178,7 @@ const LANGS = {
     encError:'Verschlüsselungsfehler: ',
     decResult:'Entschlüsselter Text:',
     decFailed:'Entschlüsselung fehlgeschlagen — falsches Passwort oder beschädigte Daten.',
+    invalidEncryptedText:'Ungültiger verschlüsselter Text — bitte fügen Sie die vollständige verschlüsselte Ausgabe ein.',
     clipEmpty:'Die Zwischenablage ist leer.',
     clipDenied:'Zugriff auf die Zwischenablage verweigert — bitte manuell einfügen (Strg+V / Cmd+V).',
     copied:'✔️ In die Zwischenablage kopiert.',
@@ -1192,7 +1193,6 @@ const LANGS = {
     confirmClearTitle:'Alles löschen?',
     confirmClearMsg:'Dies löscht alle Textfelder, das Ausgabefenster und <u><strong>IHRE ZWISCHENABLAGE</strong></u>. Dies kann nicht rückgängig gemacht werden.<br><small><i>• Hinweis: Sie müssen den Inhalt nicht löschen, um zwischen Entschlüsselung und Verschlüsselung zu wechseln.</i></small>',
     confirmClearBtn:'Alles löschen',
-    errPrefix:'Fehler: '
   },
   fr: {
     appTitle:'Outil de chiffrement et de déchiffrement de données',
@@ -1299,6 +1299,7 @@ const LANGS = {
     encError:'Erreur de chiffrement : ',
     decResult:'Texte déchiffré :',
     decFailed:'Échec du déchiffrement — mot de passe incorrect ou données corrompues.',
+    invalidEncryptedText:'Texte chiffré non valide — veuillez coller la sortie chiffrée complète.',
     clipEmpty:'Le presse-papiers est vide.',
     clipDenied:'Accès au presse-papiers refusé — veuillez coller manuellement (Ctrl+V / Cmd+V).',
     copied:'✔️ Copié dans le presse-papiers.',
@@ -1313,7 +1314,6 @@ const LANGS = {
     confirmClearTitle:'Tout effacer ?',
     confirmClearMsg:'Cela effacera tous les champs de texte, la fenêtre de sortie et <u><strong>VOTRE PRESSE-PAPIERS</strong></u>. Cette action est irréversible.<br><small><i>• À noter : vous n’avez pas besoin d’effacer le contenu pour passer du mode Déchiffrement au mode Chiffrement.</i></small>',
     confirmClearBtn:'Tout effacer',
-    errPrefix:'Erreur : '
   },
   es: {
     appTitle:'Herramienta de cifrado y descifrado de datos',
@@ -1420,6 +1420,7 @@ const LANGS = {
     encError:'Error de cifrado: ',
     decResult:'Texto descifrado:',
     decFailed:'Error al descifrar — contraseña incorrecta o datos dañados.',
+    invalidEncryptedText:'Texto cifrado no válido — pega la salida cifrada completa.',
     clipEmpty:'El portapapeles está vacío.',
     clipDenied:'Acceso al portapapeles denegado — pega manualmente (Ctrl+V / Cmd+V).',
     copied:'✔️ Copiado al portapapeles.',
@@ -1434,7 +1435,6 @@ const LANGS = {
     confirmClearTitle:'¿Borrar todo?',
     confirmClearMsg:'Esto borrará todos los campos de texto, la ventana de salida y <u><strong>TU PORTAPAPELES</strong></u>. Esta acción no se puede deshacer.<br><small><i>• Nota: no necesitas borrar ningún contenido para cambiar entre el modo Descifrar y Cifrar.</i></small>',
     confirmClearBtn:'Borrar todo',
-    errPrefix:'Error: '
   },
   it: {
     appTitle:'Strumento di cifratura e decifratura dei dati',
@@ -1541,6 +1541,7 @@ const LANGS = {
     encError:'Errore di cifratura: ',
     decResult:'Testo decifrato:',
     decFailed:'Decifratura non riuscita — password errata o dati danneggiati.',
+    invalidEncryptedText:'Testo cifrato non valido — incolla l’output cifrato completo.',
     clipEmpty:'Gli appunti sono vuoti.',
     clipDenied:'Accesso agli appunti negato — incolla manualmente (Ctrl+V / Cmd+V).',
     copied:'✔️ Copiato negli appunti.',
@@ -1555,7 +1556,6 @@ const LANGS = {
     confirmClearTitle:'Cancellare tutto?',
     confirmClearMsg:'Questo cancellerà tutti i campi di testo, la finestra di output e <u><strong>I TUOI APPUNTI</strong></u>. Questa azione non può essere annullata.<br><small><i>• Nota: non è necessario cancellare il contenuto per passare dalla modalità Decifra alla modalità Cifra.</i></small>',
     confirmClearBtn:'Cancella tutto',
-    errPrefix:'Errore: '
   },
   pt: {
     appTitle:'Ferramenta de Criptografia e Descriptografia de Dados',
@@ -1662,6 +1662,7 @@ const LANGS = {
     encError:'Erro de criptografia: ',
     decResult:'Texto descriptografado:',
     decFailed:'Falha na descriptografia — senha incorreta ou dados corrompidos.',
+    invalidEncryptedText:'Texto criptografado inválido — cole a saída criptografada completa.',
     clipEmpty:'A área de transferência está vazia.',
     clipDenied:'Acesso à área de transferência negado — cole manualmente (Ctrl+V / Cmd+V).',
     copied:'✔️ Copiado para a área de transferência.',
@@ -1676,7 +1677,6 @@ const LANGS = {
     confirmClearTitle:'Limpar tudo?',
     confirmClearMsg:'Isso limpará todos os campos de texto, a janela de saída e <u><strong>SUA ÁREA DE TRANSFERÊNCIA</strong></u>. Esta ação não pode ser desfeita.<br><small><i>• Observação: você não precisa limpar nenhum conteúdo para alternar entre os modos Descriptografar e Criptografar.</i></small>',
     confirmClearBtn:'Limpar tudo',
-    errPrefix:'Erro: '
   },
   'zh-Hans': {
     appTitle:'加密与解密数据工具',
@@ -1783,6 +1783,7 @@ const LANGS = {
     encError:'加密错误：',
     decResult:'解密后的文本：',
     decFailed:'解密失败——密码错误或数据已损坏。',
+    invalidEncryptedText:'加密文本无效——请粘贴完整的加密输出。',
     clipEmpty:'剪贴板为空。',
     clipDenied:'无法访问剪贴板——请手动粘贴（Ctrl+V / Cmd+V）。',
     copied:'✔️ 已复制到剪贴板。',
@@ -1797,7 +1798,6 @@ const LANGS = {
     confirmClearTitle:'清除所有内容？',
     confirmClearMsg:'这将清除所有文本字段、输出窗口以及<u><strong>您的剪贴板</strong></u>。此操作无法撤销。<br><small><i>• 提示：在解密和加密模式之间切换时，您不需要清除任何内容。</i></small>',
     confirmClearBtn:'全部清除',
-    errPrefix:'错误：'
   },
   ja: {
     appTitle:'暗号化・復号化データユーティリティツール',
@@ -1904,6 +1904,7 @@ const LANGS = {
     encError:'暗号化エラー：',
     decResult:'復号化されたテキスト：',
     decFailed:'復号化に失敗しました——パスワードが間違っているかデータが破損しています。',
+    invalidEncryptedText:'暗号化テキストが無効です——完全な暗号化出力を貼り付けてください。',
     clipEmpty:'クリップボードが空です。',
     clipDenied:'クリップボードへのアクセスが拒否されました——手動で貼り付けてください（Ctrl+V / Cmd+V）。',
     copied:'✔️ クリップボードにコピーしました。',
@@ -1918,7 +1919,6 @@ const LANGS = {
     confirmClearTitle:'すべてをクリアしますか？',
     confirmClearMsg:'すべてのテキストフィールド、出力ウィンドウ、<u><strong>クリップボード</strong></u>がクリアされます。この操作は元に戻せません。<br><small><i>• 補足：復号化モードと暗号化モードを切り替えるために内容をクリアする必要はありません。</i></small>',
     confirmClearBtn:'すべてクリア',
-    errPrefix:'エラー：'
   },
   'zh-Hant': {
     appTitle:'加密與解密數據工具',
@@ -2025,6 +2025,7 @@ const LANGS = {
     encError:'加密錯誤：',
     decResult:'解密後的文字：',
     decFailed:'解密失敗——密碼錯誤或資料已損毀。',
+    invalidEncryptedText:'加密文字無效——請貼上完整的加密輸出。',
     clipEmpty:'剪貼簿為空。',
     clipDenied:'無法存取剪貼簿——請手動貼上（Ctrl+V / Cmd+V）。',
     copied:'✔️ 已複製到剪貼簿。',
@@ -2039,7 +2040,6 @@ const LANGS = {
     confirmClearTitle:'清除所有內容？',
     confirmClearMsg:'這將清除所有文字欄位、輸出視窗以及<u><strong>您的剪貼簿</strong></u>。此操作無法復原。<br><small><i>• 提示：在解密和加密模式之間切換時，您不需要清除任何內容。</i></small>',
     confirmClearBtn:'全部清除',
-    errPrefix:'錯誤：'
   },
   ko: {
     appTitle:'암호화 및 복호화 데이터 유틸리티 도구',
@@ -2146,6 +2146,7 @@ const LANGS = {
     encError:'암호화 오류: ',
     decResult:'복호화된 텍스트:',
     decFailed:'복호화 실패——비밀번호가 잘못되었거나 데이터가 손상되었습니다.',
+    invalidEncryptedText:'암호화 텍스트가 유효하지 않습니다——전체 암호화 출력을 붙여넣으세요.',
     clipEmpty:'클립보드가 비어 있습니다.',
     clipDenied:'클립보드 접근이 거부되었습니다——수동으로 붙여넣으세요 (Ctrl+V / Cmd+V).',
     copied:'✔️ 클립보드에 복사되었습니다.',
@@ -2160,7 +2161,6 @@ const LANGS = {
     confirmClearTitle:'모두 지우시겠습니까?',
     confirmClearMsg:'모든 텍스트 필드, 출력 창 및 <u><strong>클립보드</strong></u>가 지워집니다. 이 작업은 되돌릴 수 없습니다.<br><small><i>• 참고: 복호화와 암호화 모드를 전환하기 위해 내용을 지울 필요는 없습니다.</i></small>',
     confirmClearBtn:'모두 지우기',
-    errPrefix:'오류: '
   }
 };
 
@@ -2172,6 +2172,17 @@ let mode = null, step = 0, buffer = '', dark = false, acted = false, currentLang
 // Central translation helper with English fallback.
 function T(key) {
   return (LANGS[currentLang] && LANGS[currentLang][key]) || LANGS.en[key] || key;
+}
+
+function cleanError(error) {
+  return String(error).replace(/^Error:\s*/, '');
+}
+
+function isInvalidEncryptedTextError(error) {
+  const text = String(error);
+  return text.includes('invalid-encrypted-text') ||
+    error?.name === 'InvalidCharacterError' ||
+    text.includes('not correctly encoded');
 }
 
 // Rebuild the language menu each time so the active checkmark always matches the current selection.
@@ -2430,12 +2441,12 @@ btnSub.onclick = async () => {
       append(T('copyPrompt'),'var(--accent)');
       btnCopy.style.display = 'inline-block';
       ok = true;
-    } catch(e){ append(T('encError')+e,'#c44'); }
+    } catch(e){ append(T('encError')+cleanError(e),'#c44'); }
   } else {
     try {
       // Reverse the packaging step from encryption and split the Base64 payload back into salt/IV/ciphertext.
       const all  = Uint8Array.from(atob(buffer), c => c.charCodeAt(0));
-      if(all.length < 29) throw new Error('Input too short — not a valid encrypted blob.');
+      if(all.length < 29) throw new Error('invalid-encrypted-text');
       const salt = all.slice(0,16), iv = all.slice(16,28), ct = all.slice(28);
       const pk   = await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
       const key  = await crypto.subtle.deriveKey(
@@ -2451,7 +2462,7 @@ btnSub.onclick = async () => {
       btnCopy.style.display = 'inline-block';
       ok = true;
     } catch(e){
-      if(String(e).includes('short')) append(T('errPrefix')+e,'#c44');
+      if(isInvalidEncryptedTextError(e)) append(T('invalidEncryptedText'),'#c44');
       else append(T('decFailed'),'#c44');
     }
   }

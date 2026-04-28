@@ -68,6 +68,14 @@ Currently implemented on the web version:
 
 ---
 
+## Independent Decryption
+
+Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools like OpenSSL without needing this software.
+
+> ### [Independent Decryption Guide](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html)
+
+---
+
 ## How It Works
 
 ### Encrypt

@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; img-src data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
@@ -76,11 +77,11 @@
         .button-panel button.active-mode{background:var(--accent-dark);box-shadow:inset 0 2px 6px rgba(0,0,0,.20)}
 
         /* ── Output ── */
-        .output{flex:1;margin:0 16px;border:1px solid var(--border);border-radius:7px;padding:10px 12px;overflow-y:auto;overflow-x:hidden;white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;font-family:'Cascadia Code',Consolas,monospace;font-size:13px;background:var(--out-bg);color:var(--text);transition:background .25s,border-color .25s}
+        .output{flex:1;min-height:80px;margin:0 16px;border:1px solid var(--border);border-radius:7px;padding:10px 12px;overflow-y:auto;overflow-x:hidden;white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;font-family:'Cascadia Code',Consolas,monospace;font-size:13px;background:var(--out-bg);color:var(--text);transition:background .25s,border-color .25s}
 
         /* ── Input row ── */
-        .input-row{display:flex;flex-direction:column;gap:8px;padding:10px 16px}
-        #txtLargeInput{display:none;width:100%;height:140px;resize:none;padding:8px 10px;border:1px solid var(--border);border-radius:7px;font-family:inherit;font-size:13px;background:var(--in-bg);color:var(--text);transition:border-color .15s,background .25s}
+        .input-row{display:flex;flex-direction:column;gap:8px;padding:10px 16px;flex-shrink:0}
+        #txtLargeInput{display:none;width:100%;height:140px;min-height:100px;resize:none;padding:8px 10px;border:1px solid var(--border);border-radius:7px;font-family:inherit;font-size:13px;background:var(--in-bg);color:var(--text);transition:border-color .15s,background .25s}
         #txtLargeInput:focus{outline:none;border-color:var(--accent)}
         #smallInputContainer{display:none;align-items:center;gap:10px}
         #smallInputContainer label{color:var(--accent);font-weight:600;font-size:13px;white-space:nowrap}
@@ -118,6 +119,8 @@
         #btnConfirmCancel:hover{background:var(--bg-sec)}
         #btnConfirmOk{color:var(--accent)}
         #btnConfirmOk:hover{background:var(--bg-sec)}
+        #confirmBox #btnConfirmOk { color: #d32f2f; }
+        #confirmBox #btnConfirmOk:hover { background: rgba(211, 47, 47, 0.05); }
 
         /* ════════════════════════════════════════════
            HELP PANEL
@@ -327,6 +330,7 @@
                         <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc1"><strong>AES-256-GCM</strong> — authenticated encryption, protects confidentiality and detects tampering.</div></div>
                         <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc2"><strong>PBKDF2-SHA256</strong> (100,000 iterations) — hardens your password against brute-force attacks.</div></div>
                         <div class="bull"><div class="dot"></div><div data-i18n-html="secEnc3"><strong>Random salt &amp; IV</strong> per session — the same text never produces the same ciphertext.</div></div>
+                        <div class="bull"><div class="dot"></div><div data-i18n-html="secEncIndep">Your data is yours. Learn how to decrypt messages <strong>independently</strong> using OpenSSL: <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html" target="_blank" style="color:var(--accent)">Decryption Guide</a></div></div>
                     </div>
                 </div>
                 <div class="hsec">
@@ -517,6 +521,7 @@ const LANGS = {
         secEnc1:'<strong>AES-256-GCM</strong> — authenticated encryption, protects confidentiality and detects tampering.',
         secEnc2:'<strong>PBKDF2-SHA256</strong> (100,000 iterations) — hardens your password against brute-force attacks.',
         secEnc3:'<strong>Random salt &amp; IV</strong> per session — the same text never produces the same ciphertext.',
+        secEncIndep:'Your data is yours. Learn how to decrypt messages <strong>independently</strong> using OpenSSL: <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html" target="_blank" style="color:var(--accent)">Decryption Guide</a>',
         secPrivTitle:'Privacy &amp; Storage',
         secPriv1:'<strong>Fully offline.</strong> Network access is blocked by Content Security Policy — nothing is sent anywhere.',
         secPriv2:'<strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.',
@@ -589,8 +594,8 @@ const LANGS = {
         confirmSwitchDecMsg:'The output window will be cleared. Make sure you have saved anything important.',
         confirmSwitchDecBtn:'Switch',
         confirmClearTitle:'Clear Everything?',
-        confirmClearMsg:'This will clear all text fields, the output window, and your clipboard. This cannot be undone.',
-        confirmClearBtn:'Clear'
+        confirmClearMsg:'This will clear all text fields, the output window, and <u><strong>YOUR CLIPBOARD</strong></u>. This cannot be undone.<br><small><i>• FYI, You do not need to clear any content to switch between Decryption & Encryption mode.</i></small>',
+        confirmClearBtn:'Clear All'
     },
     de: {
         appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
@@ -635,6 +640,7 @@ const LANGS = {
         secEnc1:'<strong>AES-256-GCM</strong> — authentifizierte Verschlüsselung, schützt die Vertraulichkeit und erkennt Manipulation.',
         secEnc2:'<strong>PBKDF2-SHA256</strong> (100.000 Iterationen) — erschwert Brute-Force-Angriffe auf Ihr Passwort.',
         secEnc3:'<strong>Zufälliges Salt &amp; IV</strong> pro Sitzung — derselbe Text erzeugt nie zweimal dasselbe Chiffrat.',
+        secEncIndep:'Ihre Daten gehören Ihnen. Erfahren Sie, wie Sie Nachrichten <strong>unabhängig</strong> mit OpenSSL entschlüsseln: <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html" target="_blank" style="color:var(--accent)">Entschlüsselungs-Leitfaden</a>',
         secPrivTitle:'Datenschutz &amp; Speicherung',
         secPriv1:'<strong>Vollständig offline.</strong> Netzwerkzugriff wird durch die Content Security Policy blockiert — nichts wird irgendwohin gesendet.',
         secPriv2:'<strong>Keine Speicherung.</strong> Es werden niemals Cookies, localStorage oder gespeicherte Passwörter verwendet.',
@@ -707,8 +713,8 @@ const LANGS = {
         confirmSwitchDecMsg:'Das Ausgabefenster wird gelöscht. Stellen Sie sicher, dass Sie alles Wichtige gespeichert haben.',
         confirmSwitchDecBtn:'Wechseln',
         confirmClearTitle:'Alles löschen?',
-        confirmClearMsg:'Dadurch werden alle Textfelder, das Ausgabefenster und Ihre Zwischenablage gelöscht. Dies kann nicht rückgängig gemacht werden.',
-        confirmClearBtn:'Löschen'
+        confirmClearMsg:'Dies löscht alle Textfelder, das Ausgabefenster und <u><strong>IHRE ZWISCHENABLAGE</strong></u>. Dies kann nicht rückgängig gemacht werden.<br><small><i>• Hinweis: Sie müssen den Inhalt nicht löschen, um zwischen Verschlüsselung und Entschlüsselung zu wechseln.</i></small>',
+        confirmClearBtn:'Alles löschen'
     }
 };
 
@@ -825,7 +831,7 @@ eyeBtn.onclick=()=>{
 // ── Confirm dialog ──
 function showConfirm(title,msg,okLabel,onOk){
     document.getElementById('confirmTitle').textContent=title;
-    document.getElementById('confirmMsg').textContent=msg;
+    document.getElementById('confirmMsg').innerHTML=msg.replace(/\n/g, '<br>');
     document.getElementById('btnConfirmOk').textContent=okLabel;
     const overlay=document.getElementById('confirmOverlay');
     overlay.classList.add('show');

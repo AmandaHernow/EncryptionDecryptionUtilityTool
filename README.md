@@ -62,8 +62,8 @@ Language support is being tracked across all platform versions. At the moment, o
 | Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | French / Français | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Spanish / Español | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Italian / Italiano | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Portuguese / Português | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Italian / Italiano | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Portuguese / Português | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Arabic / العربية | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Farsi / فارسی | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 

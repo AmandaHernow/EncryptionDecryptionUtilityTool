@@ -52,6 +52,8 @@ It was originally built as an internal utility tool and has since been rewritten
 
 Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
 
+The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, and Portuguese.
+
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
 | English | ✅ | ✅ | 📋 Planned | 📋 Planned |
@@ -60,10 +62,10 @@ Language support is being tracked across all platform versions. At the moment, o
 | Traditional Chinese / 中文（繁體） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Japanese / 日本語 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Italian / Italiano | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Portuguese / Português | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| French / Français | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Spanish / Español | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Italian / Italiano | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Portuguese / Português | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Arabic / العربية | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Farsi / فارسی | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 

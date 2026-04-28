@@ -52,6 +52,8 @@ It was originally built as an internal utility tool and has since been rewritten
 
 Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
 
+The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, and Portuguese.
+
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
 | English | ✅ | ✅ | 📋 Planned | 📋 Planned |

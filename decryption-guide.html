@@ -3,96 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Independent Decryption Guide | Encrypt & Decrypt Utility Tool</title>
+    <link rel="canonical" href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html">
+    <title>Independent Decryption Guide | Encrypt &amp; Decrypt Utility Tool</title>
     <style>
         :root {
-            --accent: #008B8B;
+            --accent:      #008B8B;
             --accent-dark: #006666;
-            --bg: #fdfdfd;
-            --text: #1a1a1a;
-            --code-bg: #f4f4f4;
-            --border: #ddd;
+            --bg:          #f8fafa;
+            --card:        #ffffff;
+            --text:        #1a1a1a;
+            --text-sec:    #4a6060;
+            --code-bg:     #f0f4f4;
+            --border:      #d0dada;
         }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); max-width: 820px; margin: 0 auto; padding: 40px 20px; }
-        h1, h2 { color: var(--accent); }
-        h3 { color: var(--text); margin-top: 18px; }
-        .tab-container { margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-        .tabs { display: flex; background: #eee; border-bottom: 1px solid var(--border); }
-        .tab { padding: 12px 20px; cursor: pointer; border: none; background: none; font-weight: bold; flex: 1; transition: 0.2s; font-size: 14px; }
-        .tab.active { background: white; color: var(--accent); border-bottom: 2px solid var(--accent); }
-        .panel { display: none; padding: 24px 20px; background: white; }
-        .panel.active { display: block; }
-        code { background: var(--code-bg); padding: 2px 5px; border-radius: 4px; font-family: 'Cascadia Code', Consolas, monospace; font-size: 0.9em; }
-        pre { background: var(--code-bg); padding: 16px; border-radius: 8px; overflow-x: auto; border: 1px solid var(--border); font-family: 'Cascadia Code', Consolas, monospace; font-size: 13px; line-height: 1.6; }
-        .note { background: #fff8e1; border-left: 4px solid #ffc107; padding: 14px 16px; margin: 20px 0; font-size: 0.9em; border-radius: 0 6px 6px 0; }
-        .tip  { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 14px 16px; margin: 20px 0; font-size: 0.9em; border-radius: 0 6px 6px 0; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: var(--accent); text-decoration: none; font-weight: bold; }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.75;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 36px 20px 60px;
+        }
+        h1 { color: var(--accent); margin: 0 0 12px; font-size: 1.8rem; }
+        h2 { color: var(--accent); margin: 6px 0 16px; font-size: 1.25rem; }
+        p  { margin: 0 0 14px; }
+        a  { color: var(--accent); }
+        a:hover { text-decoration: underline; }
+
+        /* ── back link ── */
+        .back-link {
+            display: inline-block; margin-bottom: 22px;
+            color: var(--accent); text-decoration: none; font-weight: 700;
+        }
         .back-link:hover { text-decoration: underline; }
-        .format-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
-        .format-table th { background: var(--accent); color: white; padding: 8px 12px; text-align: left; }
-        .format-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-family: 'Cascadia Code', Consolas, monospace; }
+
+        /* ── intro box ── */
+        .intro-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+        }
+        .intro-box ul { margin: 8px 0 0 20px; padding: 0; }
+        .intro-box li { margin-bottom: 6px; }
+
+        /* ── tabs ── */
+        .tab-container { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card); }
+        .tabs { display: flex; background: #e4ecec; border-bottom: 1px solid var(--border); }
+        .tab  {
+            flex: 1; padding: 13px 10px; border: none; background: none;
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            transition: background .15s, color .15s;
+            color: var(--text-sec);
+        }
+        .tab.active  { background: var(--card); color: var(--accent); border-bottom: 3px solid var(--accent); }
+        .tab:hover:not(.active) { background: #d4e4e4; }
+        .panel       { display: none; padding: 28px 26px 32px; }
+        .panel.active { display: block; }
+
+        /* ── step ── */
+        .step { display: flex; gap: 16px; margin: 26px 0 4px; }
+        .step-num {
+            background: var(--accent); color: #fff;
+            border-radius: 50%; width: 30px; height: 30px; min-width: 30px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; margin-top: 2px;
+        }
+        .step-body { flex: 1; }
+        .step-body h3 { margin: 0 0 10px; color: var(--accent); font-size: 1rem; }
+
+        /* ── callout boxes ── */
+        .note, .tip, .warn {
+            padding: 13px 16px; margin: 14px 0;
+            border-radius: 0 8px 8px 0; font-size: 0.9em; line-height: 1.6;
+        }
+        .note { background: #fff8e1; border-left: 4px solid #f59e0b; }
+        .tip  { background: #ecfdf5; border-left: 4px solid #22c55e; }
+        .warn { background: #fef2f2; border-left: 4px solid #ef4444; }
+
+        /* ── code & pre ── */
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px; border-radius: 4px;
+            font-family: 'Cascadia Code', Consolas, 'Courier New', monospace;
+            font-size: 0.875em;
+        }
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 16px; margin: 10px 0 18px;
+            overflow-x: auto;
+            font-family: 'Cascadia Code', Consolas, 'Courier New', monospace;
+            font-size: 13px; line-height: 1.65;
+        }
+
+        /* ── keyboard keys ── */
+        kbd {
+            display: inline-block;
+            background: #e8e8e8; border: 1px solid #b8b8b8;
+            border-radius: 4px; padding: 1px 7px;
+            font-family: inherit; font-size: 0.82em;
+            box-shadow: 0 1px 0 #a0a0a0;
+        }
+
+        /* ── ol/ul inside steps ── */
+        .step-body ol, .step-body ul { margin: 8px 0 12px 22px; padding: 0; }
+        .step-body li { margin-bottom: 7px; }
+
+        /* ── divider ── */
+        hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+
+        /* ── troubleshoot ── */
+        .ts-item { margin-bottom: 16px; }
+        .ts-item .ts-err { font-weight: 700; color: #b91c1c; }
+        .ts-item .ts-fix { margin-top: 4px; color: var(--text-sec); }
+
+        /* ── format table ── */
+        .format-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13.5px; }
+        .format-table th { background: var(--accent); color: #fff; padding: 9px 12px; text-align: left; }
+        .format-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+        .format-table td:first-child { font-family: monospace; }
         .format-table tr:last-child td { border-bottom: none; }
-        .step-label { display: inline-block; background: var(--accent); color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 12px; font-weight: bold; margin-right: 6px; }
-        ol { padding-left: 0; list-style: none; }
-        ol li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px; }
-        ol li .step-label { flex-shrink: 0; margin-top: 2px; }
+
+        /* ── footer ── */
+        .page-footer {
+            margin-top: 40px; text-align: center;
+            font-size: 12px; color: var(--text-sec);
+        }
     </style>
 </head>
 <body>
-    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/" class="back-link">← Back to App</a>
-    <h1>Independent Decryption Guide</h1>
-    <p>Your data is encrypted using standard, open algorithms — <strong>AES-256-GCM</strong> with <strong>PBKDF2-SHA256</strong> key derivation. This means you can always decrypt your messages <strong>without this app</strong>, using tools available on any computer.</p>
 
-    <div class="note">
-        <strong>You will need:</strong> your original password and the Base64 encrypted string produced by the app.
+<a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/" class="back-link">← Back to App</a>
+
+<h1>Independent Decryption Guide</h1>
+<p>Your data is encrypted with open, standard algorithms that <strong>any computer can decrypt</strong> — without needing this app. This guide walks you through it step by step, even if you have never used a command-line tool before.</p>
+<p><em>Estimated time: 5 – 10 minutes.</em></p>
+
+<div class="intro-box">
+    <strong>Before you start, you will need two things:</strong>
+    <ul>
+        <li>The <strong>password</strong> you used when you encrypted the message.</li>
+        <li>The <strong>encrypted text</strong> produced by the app — a long block of letters, numbers, and symbols that looks like: <code>U2FsdGVkX1+abc123...</code></li>
+    </ul>
+</div>
+
+<div class="tab-container">
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('win',   this)">Windows</button>
+        <button class="tab"        onclick="showTab('mac',   this)">Mac</button>
+        <button class="tab"        onclick="showTab('linux', this)">Linux</button>
     </div>
 
-    <h2>Encrypted Data Format</h2>
-    <p>When decoded from Base64, the blob has this exact layout:</p>
-    <table class="format-table">
-        <tr><th>Bytes</th><th>Length</th><th>Contents</th></tr>
-        <tr><td>0 – 15</td><td>16 bytes</td><td>Random salt (for PBKDF2 key derivation)</td></tr>
-        <tr><td>16 – 27</td><td>12 bytes</td><td>Random IV / nonce (for AES-GCM)</td></tr>
-        <tr><td>28 – end-17</td><td>variable</td><td>Ciphertext</td></tr>
-        <tr><td>last 16</td><td>16 bytes</td><td>GCM authentication tag</td></tr>
-    </table>
-    <p>Key derivation: <strong>PBKDF2-SHA256, 100,000 iterations, 32-byte output</strong>.</p>
+    <!-- ══════════════════════════════════════════
+         WINDOWS
+    ══════════════════════════════════════════ -->
+    <div id="win" class="panel active">
+        <h2>Windows — PowerShell 7</h2>
+        <p>We will use <strong>PowerShell 7</strong>, a free command-line tool from Microsoft. It has everything needed built in — no extra downloads beyond PowerShell itself.</p>
 
-    <div class="tab-container">
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('win', this)">Windows (PowerShell 7+)</button>
-            <button class="tab"        onclick="showTab('mac', this)">Mac / Linux (Python 3)</button>
+        <!-- Step 1 -->
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+                <h3>Install PowerShell 7</h3>
+                <p>The easiest way is through the <strong>Microsoft Store</strong> — it takes about two minutes:</p>
+                <ol>
+                    <li>Click the <strong>Start</strong> button (Windows logo in the bottom-left corner).</li>
+                    <li>Open the <strong>Microsoft Store</strong> (search for it if you can't find it).</li>
+                    <li>In the search bar at the top of the Store, type <strong>PowerShell</strong> and press <kbd>Enter</kbd>.</li>
+                    <li>Click the result that says <strong>PowerShell</strong> with <em>"Microsoft Corporation"</em> listed as the publisher.</li>
+                    <li>Click <strong>Get</strong> (or <strong>Install</strong>) and wait for it to finish.</li>
+                </ol>
+                <div class="tip">
+                    <strong>Alternative — direct download:</strong> If you prefer not to use the Store, visit the official Microsoft installation guide at<br>
+                    <a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows" target="_blank" rel="noopener noreferrer">learn.microsoft.com — Installing PowerShell on Windows</a><br>
+                    Download the file ending in <code>-win-x64.msi</code> and run it, clicking <strong>Next</strong> on each screen.
+                </div>
+            </div>
         </div>
 
-        <!-- WINDOWS -->
-        <div id="win" class="panel active">
-            <h2>Windows — PowerShell 7+</h2>
-            <p>PowerShell 7 ships with .NET which includes built-in <strong>AES-256-GCM</strong> and <strong>PBKDF2-SHA256</strong> — no extra software needed.</p>
-
-            <div class="tip">
-                <strong>Check your version:</strong> Run <code>$PSVersionTable.PSVersion</code> in PowerShell. You need 7.0 or later.
-                If you only have Windows PowerShell 5.x, <a href="https://github.com/PowerShell/PowerShell/releases/latest" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">download PowerShell 7</a> first.
+        <!-- Step 2 -->
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+                <h3>Open PowerShell 7</h3>
+                <ol>
+                    <li>Click the <strong>Start</strong> button.</li>
+                    <li>Type <strong>PowerShell 7</strong>.</li>
+                    <li>Click <strong>PowerShell 7</strong> in the results. (It may also be listed as <em>pwsh</em>.)</li>
+                    <li>A dark window with a blinking cursor appears — this is your terminal. It will show something like <code>PS C:\Users\YourName&gt;</code>.</li>
+                </ol>
+                <div class="note">
+                    <strong>Make sure you open "PowerShell 7"</strong>, not "Windows PowerShell" — the older one (version 5) will not work. PowerShell 7 usually has a black icon; the old one has a blue icon.
+                </div>
+                <div class="tip">
+                    To <strong>paste</strong> text into PowerShell, <strong>right-click</strong> anywhere in the window. You can also press <kbd>Ctrl</kbd>+<kbd>V</kbd>.
+                </div>
             </div>
+        </div>
 
-            <h3>Step 1 — Save your encrypted string</h3>
-            <p>Paste the Base64 string from the app into a plain text file and save it as <code>secret.txt</code> in your home folder (e.g. <code>C:\Users\YourName\secret.txt</code>).</p>
+        <!-- Step 3 -->
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+                <h3>Save your encrypted text to a file</h3>
+                <p>Copy the command below into PowerShell. Then <strong>replace everything between the two quote marks</strong> with your actual encrypted text — delete the placeholder text entirely and paste yours in its place.</p>
+<pre>"PASTE_YOUR_FULL_ENCRYPTED_TEXT_HERE" | Set-Content "$HOME\secret.txt" -Encoding utf8</pre>
+                <p>Press <kbd>Enter</kbd>. This saves your encrypted text as a file called <code>secret.txt</code> in your home folder (<code>C:\Users\YourName\</code>).</p>
+                <div class="note">
+                    Make sure the <em>entire</em> encrypted string is inside the quote marks with nothing cut off — it may be very long.
+                </div>
+            </div>
+        </div>
 
-            <h3>Step 2 — Run the decryption script</h3>
-            <p>Open <strong>PowerShell 7</strong>, replace <code>YOUR_PASSWORD_HERE</code> with your real password, then paste and run the entire block:</p>
+        <!-- Step 4 -->
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+                <h3>Edit and run the decryption script</h3>
+                <p>Copy the entire script below. Before you paste it into PowerShell:</p>
+                <ul>
+                    <li>Find the line that says <code>'YOUR_PASSWORD_HERE'</code></li>
+                    <li>Replace that text with your actual password — <strong>keep the single quote marks</strong> around it</li>
+                </ul>
+                <p>Then paste the whole thing into PowerShell (right-click to paste) and press <kbd>Enter</kbd>.</p>
+<pre>$password = 'YOUR_PASSWORD_HERE'
 
-<pre># ── Replace with your actual password ──
-$password = "YOUR_PASSWORD_HERE"
-
-# ── Read and decode the Base64 blob ──
-$bytes = [Convert]::FromBase64String((Get-Content "$HOME\secret.txt" -Raw).Trim())
-
-# ── Split into components ──
+$bytes      = [Convert]::FromBase64String((Get-Content "$HOME\secret.txt" -Raw).Trim())
 [byte[]]$salt       = $bytes[0..15]
 [byte[]]$iv         = $bytes[16..27]
 [byte[]]$ciphertext = $bytes[28..($bytes.Length - 17)]
 [byte[]]$tag        = $bytes[($bytes.Length - 16)..($bytes.Length - 1)]
 
-# ── Derive the AES key with PBKDF2-SHA256 (100,000 iterations) ──
 $pbkdf2 = [System.Security.Cryptography.Rfc2898DeriveBytes]::new(
     [System.Text.Encoding]::UTF8.GetBytes($password),
     $salt, 100000,
@@ -100,106 +246,361 @@ $pbkdf2 = [System.Security.Cryptography.Rfc2898DeriveBytes]::new(
 [byte[]]$key = $pbkdf2.GetBytes(32)
 $pbkdf2.Dispose()
 
-# ── Decrypt with AES-256-GCM (also verifies the auth tag) ──
-$aesGcm    = [System.Security.Cryptography.AesGcm]::new($key)
+$aesGcm    = [System.Security.Cryptography.AesGcm]::new([byte[]]$key)
 $plaintext = New-Object byte[] $ciphertext.Length
 $aesGcm.Decrypt($iv, $ciphertext, $tag, $plaintext)
 $aesGcm.Dispose()
 
-# ── Print the result ──
-[System.Text.Encoding]::UTF8.GetString($plaintext)</pre>
-
-            <div class="note">
-                <strong>Wrong password?</strong> AES-GCM will throw an <em>AuthenticationTagMismatchException</em> — this means the password is incorrect or the data was modified. No output is shown when authentication fails.
+Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</pre>
+                <div class="note">
+                    <strong>Password contains a single quote <code>'</code>?</strong> Write it as two single quotes: <code>''</code> inside the script. Example: if your password is <code>it's</code>, write <code>'it''s'</code>.<br>
+                    <strong>Password contains a dollar sign <code>$</code>?</strong> Single quotes protect it — no changes needed.
+                </div>
             </div>
         </div>
 
-        <!-- MAC / LINUX -->
-        <div id="mac" class="panel">
-            <h2>Mac / Linux — Python 3</h2>
-            <p>Python 3 is pre-installed on macOS and most Linux distributions. You also need the <strong>cryptography</strong> package, which handles PBKDF2 + AES-GCM with full authentication.</p>
-
-            <h3>Step 1 — Install the cryptography package (once)</h3>
-<pre>pip3 install cryptography</pre>
-
-            <h3>Step 2 — Save your encrypted string</h3>
-            <p>Paste the Base64 string from the app into a file:</p>
-<pre>pbpaste > ~/secret.txt      # macOS — pastes from clipboard
-# or just: nano ~/secret.txt  and paste manually</pre>
-
-            <h3>Step 3 — Run the decryption script</h3>
-            <p>Save the following as <code>decrypt.py</code>, replace <code>YOUR_PASSWORD_HERE</code>, then run it:</p>
-
-<pre>import base64
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-import os
-
-# ── Replace with your actual password ──
-password = b"YOUR_PASSWORD_HERE"
-
-# ── Read and decode the Base64 blob ──
-with open(os.path.expanduser("~/secret.txt")) as f:
-    data = base64.b64decode(f.read().strip())
-
-# ── Split into components ──
-salt       = data[:16]
-iv         = data[16:28]
-ciphertext = data[28:]   # includes the 16-byte GCM tag at the end
-
-# ── Derive the AES key with PBKDF2-SHA256 (100,000 iterations) ──
-kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=100000,
-)
-key = kdf.derive(password)
-
-# ── Decrypt with AES-256-GCM (also verifies the auth tag) ──
-plaintext = AESGCM(key).decrypt(iv, ciphertext, None)
-print(plaintext.decode("utf-8"))</pre>
-
-            <p>Run it from Terminal:</p>
-<pre>python3 decrypt.py</pre>
-
-            <div class="note">
-                <strong>Wrong password?</strong> The <code>cryptography</code> library raises an <em>InvalidTag</em> exception — this means the password is incorrect or the data was modified. No output is shown when authentication fails.
+        <!-- Step 5 -->
+        <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+                <h3>See your result</h3>
+                <p>After a second or two your decrypted message will appear in the terminal window. You can select and copy it just like normal text.</p>
             </div>
+        </div>
 
-            <h3>One-liner alternative</h3>
-            <p>If you prefer, you can run it inline without saving a file (replace the password first):</p>
-<pre>python3 - &lt;&lt;'EOF'
-import base64, os
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+        <hr>
+        <h3>Troubleshooting</h3>
 
-password = b"YOUR_PASSWORD_HERE"
-data = base64.b64decode(open(os.path.expanduser("~/secret.txt")).read().strip())
-salt, iv, ct = data[:16], data[16:28], data[28:]
-key = PBKDF2HMAC(hashes.SHA256(), 32, salt, 100000).derive(password)
-print(AESGCM(key).decrypt(iv, ct, None).decode())
-EOF</pre>
+        <div class="ts-item">
+            <div class="ts-err">❌ "AuthenticationTagMismatch" or "Decryption failed"</div>
+            <div class="ts-fix">The password is wrong. Check for typos, missing capital letters, or extra spaces. Edit the <code>$password</code> line and run the script again.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "Cannot find path … secret.txt" or "FileNotFoundError"</div>
+            <div class="ts-fix">The file was not saved. Repeat Step 3 and make sure your full encrypted text is inside the quotes.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ Error mentions "AesGcm" and "overload"</div>
+            <div class="ts-fix">Your PowerShell 7 version may be very old. Uninstall it and reinstall from the Microsoft Store to get the latest version.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ Nothing happens, or you see a different error</div>
+            <div class="ts-fix">Make sure you opened <strong>PowerShell 7</strong> (not the old blue Windows PowerShell 5). Search "PowerShell 7" in the Start menu to be sure.</div>
         </div>
     </div>
 
-    <h2 style="margin-top: 32px;">Why This Works Without the App</h2>
-    <p>This tool uses only open, standardised algorithms:</p>
-    <ul style="margin: 10px 0 10px 20px; line-height: 2;">
-        <li><strong>PBKDF2-SHA256</strong> — defined in <a href="https://datatracker.ietf.org/doc/html/rfc8018" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">RFC 8018</a>, available in every crypto library.</li>
-        <li><strong>AES-256-GCM</strong> — a NIST standard, supported natively in .NET, Python, OpenSSL, Go, Rust, and more.</li>
-    </ul>
-    <p>Any implementation that follows the format table above will decrypt your data correctly.</p>
+    <!-- ══════════════════════════════════════════
+         MAC
+    ══════════════════════════════════════════ -->
+    <div id="mac" class="panel">
+        <h2>Mac — Python 3</h2>
+        <p>We will use <strong>Python 3</strong> and a free helper package called <strong>cryptography</strong>. The setup takes about 5 minutes and only needs to be done once.</p>
 
-    <script>
-        function showTab(id, btn) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById(id).classList.add('active');
-        }
-    </script>
+        <!-- Step 1 -->
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+                <h3>Open Terminal</h3>
+                <p>Terminal is the command-line tool on Mac. You can find it two ways:</p>
+                <ul>
+                    <li><strong>Spotlight (easiest):</strong> Press <kbd>⌘ Cmd</kbd>+<kbd>Space</kbd>, type <strong>Terminal</strong>, press <kbd>Enter</kbd>.</li>
+                    <li><strong>Finder:</strong> Go to <strong>Applications → Utilities → Terminal</strong>.</li>
+                </ul>
+                <p>A window opens with a prompt — this is your terminal. You type commands here and press <kbd>Enter</kbd> to run them.</p>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+                <h3>Check that Python 3 is installed</h3>
+                <p>Type the following and press <kbd>Enter</kbd>:</p>
+<pre>python3 --version</pre>
+                <ul>
+                    <li>If you see <code>Python 3.x.x</code> — Python is installed. Go to Step 3.</li>
+                    <li>If a popup appears asking to install developer tools — click <strong>Install</strong> and wait. Python 3 will be included.</li>
+                    <li>If you see an error — go to <a href="https://www.python.org/downloads/macos/" target="_blank" rel="noopener noreferrer">python.org/downloads/macos</a>, download the latest <strong>macOS installer</strong>, and run it. Then try the command above again.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+                <h3>Install the cryptography package</h3>
+                <p>Type this and press <kbd>Enter</kbd>:</p>
+<pre>pip3 install cryptography</pre>
+                <p>Wait until you see a line that says <code>Successfully installed cryptography-...</code>. This only needs to be done once ever.</p>
+                <div class="note">
+                    If you see <em>"pip3: command not found"</em>, try instead:<br>
+                    <code>python3 -m pip install cryptography</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+                <h3>Save your encrypted text to a file</h3>
+                <p>Type this command and press <kbd>Enter</kbd>:</p>
+<pre>cat > ~/secret.txt</pre>
+                <p>The cursor will move to a new blank line — that means Terminal is waiting for you to type or paste something.</p>
+                <ol>
+                    <li>Paste your encrypted text: press <kbd>⌘ Cmd</kbd>+<kbd>V</kbd>.</li>
+                    <li>Press <kbd>Enter</kbd> once more to go to a new line.</li>
+                    <li>Press <kbd>Ctrl</kbd>+<kbd>D</kbd> (hold Control, tap D). This saves the file.</li>
+                </ol>
+                <div class="tip">
+                    <strong>Mac shortcut:</strong> If you already copied the encrypted text from the app, you can instead run:<br>
+                    <code>pbpaste &gt; ~/secret.txt</code><br>
+                    This pastes your clipboard directly into the file in one step.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+                <h3>Create the decryption script</h3>
+                <p>We will use <code>nano</code>, a simple text editor built into Mac. Type this and press <kbd>Enter</kbd>:</p>
+<pre>nano ~/decrypt.py</pre>
+                <p>The terminal changes to show a plain text editor. Now paste the script below (<kbd>⌘ Cmd</kbd>+<kbd>V</kbd>). <strong>Before pasting, change <code>YOUR_PASSWORD_HERE</code> to your actual password</strong> (keep the double quote marks around it).</p>
+<pre>import base64, os
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+password = b"YOUR_PASSWORD_HERE"
+
+with open(os.path.expanduser("~/secret.txt")) as f:
+    data = base64.b64decode(f.read().strip())
+
+salt, iv, ciphertext = data[:16], data[16:28], data[28:]
+
+kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
+key = kdf.derive(password)
+
+plaintext = AESGCM(key).decrypt(iv, ciphertext, None)
+print(plaintext.decode("utf-8"))</pre>
+                <p>To save and close nano:</p>
+                <ol>
+                    <li>Press <kbd>Ctrl</kbd>+<kbd>X</kbd></li>
+                    <li>Press <kbd>Y</kbd> to confirm you want to save</li>
+                    <li>Press <kbd>Enter</kbd> to keep the filename <code>decrypt.py</code></li>
+                </ol>
+                <div class="note">
+                    <strong>Password contains a double quote <code>"</code>?</strong> Write it as <code>\"</code> inside the script. Example: if your password is <code>say "hi"</code>, write <code>b"say \"hi\""</code>.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+            <div class="step-num">6</div>
+            <div class="step-body">
+                <h3>Run the script</h3>
+                <p>Type this and press <kbd>Enter</kbd>:</p>
+<pre>python3 ~/decrypt.py</pre>
+                <p>Your decrypted message will appear on the next line.</p>
+            </div>
+        </div>
+
+        <hr>
+        <h3>Troubleshooting</h3>
+
+        <div class="ts-item">
+            <div class="ts-err">❌ "cryptography.exceptions.InvalidTag"</div>
+            <div class="ts-fix">The password is wrong. Open the script again (<code>nano ~/decrypt.py</code>), check the password carefully — watch out for capital letters and extra spaces — save, and run again.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "ModuleNotFoundError: No module named 'cryptography'"</div>
+            <div class="ts-fix">The package wasn't installed. Run: <code>pip3 install cryptography</code></div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "FileNotFoundError: … secret.txt"</div>
+            <div class="ts-fix">The encrypted file wasn't saved. Repeat Step 4 carefully, especially the <kbd>Ctrl</kbd>+<kbd>D</kbd> at the end to save.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "python3: command not found"</div>
+            <div class="ts-fix">Python isn't installed. Follow Step 2 to install it from python.org, then try again.</div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         LINUX
+    ══════════════════════════════════════════ -->
+    <div id="linux" class="panel">
+        <h2>Linux — Python 3</h2>
+        <p>We will use <strong>Python 3</strong> and the free <strong>cryptography</strong> package. Python 3 is pre-installed on most Linux distributions.</p>
+
+        <!-- Step 1 -->
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+                <h3>Open a Terminal</h3>
+                <p>How to open a terminal depends on your desktop:</p>
+                <ul>
+                    <li><strong>Ubuntu / GNOME:</strong> Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>, or search "Terminal" in the Activities overview.</li>
+                    <li><strong>KDE Plasma:</strong> Right-click the desktop and choose <strong>Open Terminal</strong>, or press <kbd>Alt</kbd>+<kbd>F2</kbd> and type <code>konsole</code>.</li>
+                    <li><strong>Any desktop:</strong> Search for "Terminal" or "Console" in your application menu.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+                <h3>Check Python 3 and install if needed</h3>
+                <p>Type this and press <kbd>Enter</kbd>:</p>
+<pre>python3 --version</pre>
+                <p>If you see <code>Python 3.x.x</code> — skip to Step 3. If not, install it:</p>
+                <ul>
+                    <li><strong>Ubuntu / Debian / Linux Mint:</strong>
+<pre>sudo apt update &amp;&amp; sudo apt install python3 python3-pip</pre></li>
+                    <li><strong>Fedora / RHEL:</strong>
+<pre>sudo dnf install python3 python3-pip</pre></li>
+                    <li><strong>Arch / Manjaro:</strong>
+<pre>sudo pacman -S python python-pip</pre></li>
+                </ul>
+                <p>You will be asked for your system password — type it and press <kbd>Enter</kbd>. Note: the password will <em>not</em> appear as you type. That is normal.</p>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+                <h3>Install the cryptography package</h3>
+<pre>pip3 install cryptography</pre>
+                <p>Wait until you see <code>Successfully installed cryptography-...</code>. This only needs to be done once.</p>
+                <div class="note">
+                    If you see a permissions error, try:<br>
+                    <code>pip3 install --user cryptography</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+                <h3>Save your encrypted text to a file</h3>
+                <p>Type this command and press <kbd>Enter</kbd>:</p>
+<pre>cat > ~/secret.txt</pre>
+                <p>The cursor moves to a blank line — Terminal is waiting for input.</p>
+                <ol>
+                    <li>Paste your encrypted text. In most Linux terminals you paste with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> (not Ctrl+V).</li>
+                    <li>Press <kbd>Enter</kbd> to go to a new line.</li>
+                    <li>Press <kbd>Ctrl</kbd>+<kbd>D</kbd> to save and close.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+                <h3>Create the decryption script</h3>
+                <p>Open the nano text editor:</p>
+<pre>nano ~/decrypt.py</pre>
+                <p>Paste the script below. <strong>Change <code>YOUR_PASSWORD_HERE</code> to your actual password</strong> first (keep the double quote marks).</p>
+                <p>To paste in nano: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> (or right-click if your terminal supports it).</p>
+<pre>import base64, os
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+password = b"YOUR_PASSWORD_HERE"
+
+with open(os.path.expanduser("~/secret.txt")) as f:
+    data = base64.b64decode(f.read().strip())
+
+salt, iv, ciphertext = data[:16], data[16:28], data[28:]
+
+kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
+key = kdf.derive(password)
+
+plaintext = AESGCM(key).decrypt(iv, ciphertext, None)
+print(plaintext.decode("utf-8"))</pre>
+                <p>Save and exit nano:</p>
+                <ol>
+                    <li>Press <kbd>Ctrl</kbd>+<kbd>X</kbd></li>
+                    <li>Press <kbd>Y</kbd> to confirm saving</li>
+                    <li>Press <kbd>Enter</kbd> to keep the filename</li>
+                </ol>
+                <div class="note">
+                    <strong>nano not found?</strong> Install it with: <code>sudo apt install nano</code> (Ubuntu/Debian) or <code>sudo dnf install nano</code> (Fedora).
+                </div>
+                <div class="note">
+                    <strong>Password contains a double quote <code>"</code>?</strong> Write it as <code>\"</code>. Example: <code>b"say \"hi\""</code>.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+            <div class="step-num">6</div>
+            <div class="step-body">
+                <h3>Run the script</h3>
+<pre>python3 ~/decrypt.py</pre>
+                <p>Your decrypted message will appear on the next line.</p>
+            </div>
+        </div>
+
+        <hr>
+        <h3>Troubleshooting</h3>
+
+        <div class="ts-item">
+            <div class="ts-err">❌ "cryptography.exceptions.InvalidTag"</div>
+            <div class="ts-fix">The password is wrong. Open the script again with <code>nano ~/decrypt.py</code>, fix the password, save, and run again.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "ModuleNotFoundError: No module named 'cryptography'"</div>
+            <div class="ts-fix">Run: <code>pip3 install cryptography</code> or <code>pip3 install --user cryptography</code></div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "FileNotFoundError: … secret.txt"</div>
+            <div class="ts-fix">The encrypted file wasn't saved. Repeat Step 4, and make sure you pressed <kbd>Ctrl</kbd>+<kbd>D</kbd> at the end to save it.</div>
+        </div>
+        <div class="ts-item">
+            <div class="ts-err">❌ "python3: command not found"</div>
+            <div class="ts-fix">Python isn't installed. Follow Step 2 for your distribution.</div>
+        </div>
+    </div>
+</div>
+
+<h2 style="margin-top: 40px;">Why this works without the app</h2>
+<p>This tool encrypts using only open, standardised algorithms — any implementation that follows the same format will produce the same result:</p>
+<table class="format-table">
+    <tr><th>Bytes</th><th>Length</th><th>Contents</th></tr>
+    <tr><td>0 – 15</td><td>16 bytes</td><td>Random salt (for PBKDF2 key derivation)</td></tr>
+    <tr><td>16 – 27</td><td>12 bytes</td><td>Random IV / nonce (for AES-GCM)</td></tr>
+    <tr><td>28 – (end−17)</td><td>variable</td><td>Ciphertext</td></tr>
+    <tr><td>last 16</td><td>16 bytes</td><td>GCM authentication tag</td></tr>
+</table>
+<p>
+    <strong>PBKDF2-SHA256</strong> (100,000 iterations) — open standard, defined in <a href="https://datatracker.ietf.org/doc/html/rfc8018" target="_blank" rel="noopener noreferrer">RFC 8018</a>.<br>
+    <strong>AES-256-GCM</strong> — NIST standard, available in .NET, Python, OpenSSL, Go, Rust, and more.
+</p>
+
+<div class="page-footer">
+    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/">Back to App</a> &nbsp;·&nbsp;
+    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+    © 2026 Amanda Hernow
+</div>
+
+<script>
+    function showTab(id, btn) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(id).classList.add('active');
+    }
+</script>
 </body>
 </html>

@@ -284,12 +284,19 @@ body{
   font-size:14px;font-weight:700;
   letter-spacing:.02em;cursor:pointer;
   transition:background .15s,transform .1s,box-shadow .15s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
 }
 .mode-btn:hover{background:var(--accent-dark);}
 .mode-btn:active{transform:scale(.97);}
 .mode-btn.active{
   background:var(--accent-dark);
   box-shadow:inset 0 2px 8px rgba(0,0,0,.25);
+}
+.mode-icon{
+  width:17px;height:17px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;
 }
 
 /* ═══════════════════════════════════════════════
@@ -458,8 +465,8 @@ textarea{
 }
 #cCancel{color:var(--text-sec);border-right:1px solid var(--border);}
 #cCancel:hover{background:var(--bg-sec);}
-#cOk{color:var(--accent);}
-#cOk:hover{background:var(--bg-sec);}
+#cOk{color:#d32f2f;}
+#cOk:hover{background:rgba(211,47,47,.06);}
 
 /* ═══════════════════════════════════════════════
    HELP PANEL
@@ -643,7 +650,7 @@ textarea{
 
   <!-- HEADER INFO -->
   <div class="hdr">
-    <div class="hdr-label">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.1</div>
+    <div class="hdr-label" data-i18n-html="hdrLabel">AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2</div>
     <div class="hdr-desc" data-i18n="hdrDesc">Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.</div>
   </div>
 
@@ -652,8 +659,20 @@ textarea{
 
   <!-- MODE BUTTONS -->
   <div class="btn-panel">
-    <button class="mode-btn" id="btnEncrypt">🔒&nbsp; <span data-i18n="encryptBtn">Encrypt</span></button>
-    <button class="mode-btn" id="btnDecrypt">🔓&nbsp; <span data-i18n="decryptBtn">Decrypt</span></button>
+    <button class="mode-btn" id="btnEncrypt">
+      <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+      </svg>
+      <span data-i18n="encryptBtn">Encrypt</span>
+    </button>
+    <button class="mode-btn" id="btnDecrypt">
+      <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+        <path d="M8 11V7a4 4 0 0 1 7.3-2"></path>
+      </svg>
+      <span data-i18n="decryptBtn">Decrypt</span>
+    </button>
   </div>
 
   <!-- OUTPUT -->
@@ -685,12 +704,13 @@ textarea{
   <div class="crawl-hub">
     <strong data-i18n="siteLinksLabel">Site links:</strong>
     <a href="index.html" data-i18n="homeLink">Home</a> ·
+    <a href="decryption-guide.html">Decryption Guide</a> ·
     <a href="privacy-policy.html" data-i18n="privacyLink">Privacy Policy</a> ·
     <a href="sitemap.html" data-i18n="sitemapLink">HTML Sitemap</a>
   </div>
 
   <!-- FOOTER -->
-  <div class="app-footer"><span data-i18n-html="footerRights">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</span> &nbsp;·&nbsp; <a href="privacy-policy.html" data-i18n="privacyLink">Privacy Policy</a> &nbsp;·&nbsp; <a href="sitemap.html" data-i18n="sitemapLink">HTML Sitemap</a></div>
+  <div class="app-footer"><span data-i18n-html="footerRights">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</span></div>
 
 </div><!-- /card -->
 </div><!-- /page -->
@@ -774,6 +794,7 @@ textarea{
             <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc1"><strong>AES-256-GCM</strong> — authenticated encryption that protects confidentiality and detects tampering.</div></div>
             <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc2"><strong>PBKDF2-SHA256</strong> with 100,000 iterations — hardens your password against brute-force attacks.</div></div>
             <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEnc3"><strong>Random salt &amp; IV</strong> per encryption — the same text and password never produce the same output twice.</div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt" data-i18n-html="secEncIndep">Your data is yours. Learn how to decrypt messages <strong>independently</strong> without this app: <a href="decryption-guide.html" style="color:var(--accent)">Decryption Guide</a></div></div>
           </div>
         </div>
         <div class="hsec">
@@ -878,7 +899,7 @@ textarea{
 
     </div><!-- /help-body -->
 
-    <div class="help-foot" data-i18n-html="helpFooter">Version 1.1 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
+    <div class="help-foot" data-i18n-html="helpFooter">Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
   </div>
 </div>
 
@@ -918,13 +939,18 @@ const EYE_CLOSED = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8
 // Supported languages for the current rollout.
 const LANG_META = [
   {code:'en', label:'English'},
-  {code:'de', label:'Deutsch'}
+  {code:'de', label:'Deutsch'},
+  {code:'zh-Hans', label:'中文（简体）'},
+  {code:'zh-Hant', label:'中文（繁體）'},
+  {code:'ja', label:'日本語'},
+  {code:'ko', label:'한국어'}
 ];
 
 // Inline translations keep the web app fully offline and avoid any external fetches.
 const LANGS = {
   en: {
     appTitle:'Encrypt & Decrypt Data Utility Tool',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
     hdrDesc:'Password-protect your text for secure sharing. All encryption happens locally — nothing leaves your device.',
     mainTitle:'Main Menu',
     encryptBtn:'Encrypt',
@@ -966,6 +992,7 @@ const LANGS = {
     secEnc1:'<strong>AES-256-GCM</strong> — authenticated encryption that protects confidentiality and detects tampering.',
     secEnc2:'<strong>PBKDF2-SHA256</strong> with 100,000 iterations — hardens your password against brute-force attacks.',
     secEnc3:'<strong>Random salt &amp; IV</strong> per encryption — the same text and password never produce the same output twice.',
+    secEncIndep:'Your data is yours. Learn how to decrypt messages <strong>independently</strong> without this app: <a href="decryption-guide.html" style="color:var(--accent)">Decryption Guide</a>',
     secPrivTitle:'Privacy & Storage',
     secPriv1:'<strong>Fully offline.</strong> Outbound connections are blocked by Content Security Policy — nothing is sent anywhere.',
     secPriv2:'<strong>Zero storage.</strong> No cookies, localStorage, or saved passwords are ever used.',
@@ -1007,7 +1034,7 @@ const LANGS = {
     privContact1:'Questions about this policy: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
     privContact2:'Full policy page: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
     privLastUpdated:'Last updated: 17 April 2026',
-    helpFooter:'Version 1.1 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    helpFooter:'Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
     btnHelpTitle:'Help & About',
     btnLangTitle:'Choose language',
     btnThemeDark:'Switch to dark mode',
@@ -1037,12 +1064,13 @@ const LANGS = {
     confirmSwitchDecMsg:'The output will be cleared. Save anything important first.',
     confirmSwitchDecBtn:'Switch',
     confirmClearTitle:'Clear Everything?',
-    confirmClearMsg:'This will clear all text fields, the output, and your clipboard.',
-    confirmClearBtn:'Clear',
+    confirmClearMsg:'This will clear all text fields, the output window, and <u><strong>YOUR CLIPBOARD</strong></u>. This cannot be undone.<br><small><i>• FYI, you do not need to clear any content to switch between Decryption & Encryption mode.</i></small>',
+    confirmClearBtn:'Clear All',
     errPrefix:'Error: '
   },
   de: {
     appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
     hdrDesc:'Schützen Sie Ihren Text mit einem Passwort für die sichere Weitergabe. Die gesamte Verschlüsselung erfolgt lokal — nichts verlässt Ihr Gerät.',
     mainTitle:'Hauptmenü',
     encryptBtn:'Verschlüsseln',
@@ -1084,6 +1112,7 @@ const LANGS = {
     secEnc1:'<strong>AES-256-GCM</strong> — authentifizierte Verschlüsselung, die Vertraulichkeit schützt und Manipulation erkennt.',
     secEnc2:'<strong>PBKDF2-SHA256</strong> mit 100.000 Iterationen — erschwert Brute-Force-Angriffe auf Ihr Passwort.',
     secEnc3:'<strong>Zufälliges Salt &amp; IV</strong> pro Verschlüsselung — derselbe Text mit demselben Passwort erzeugt nie zweimal dieselbe Ausgabe.',
+    secEncIndep:'Ihre Daten gehören Ihnen. Erfahren Sie, wie Sie Nachrichten <strong>unabhängig</strong> ohne diese App entschlüsseln: <a href="decryption-guide.html" style="color:var(--accent)">Entschlüsselungs-Leitfaden</a>',
     secPrivTitle:'Datenschutz & Speicherung',
     secPriv1:'<strong>Vollständig offline.</strong> Ausgehende Verbindungen werden durch die Content Security Policy blockiert — nichts wird irgendwohin gesendet.',
     secPriv2:'<strong>Keine Speicherung.</strong> Es werden niemals Cookies, localStorage oder gespeicherte Passwörter verwendet.',
@@ -1125,7 +1154,7 @@ const LANGS = {
     privContact1:'Fragen zu dieser Richtlinie: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
     privContact2:'Vollständige Richtlinienseite: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
     privLastUpdated:'Zuletzt aktualisiert: 17. April 2026',
-    helpFooter:'Version 1.1 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    helpFooter:'Version 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
     btnHelpTitle:'Hilfe & Info',
     btnLangTitle:'Sprache wählen',
     btnThemeDark:'Zum dunklen Modus wechseln',
@@ -1155,9 +1184,489 @@ const LANGS = {
     confirmSwitchDecMsg:'Die Ausgabe wird gelöscht. Speichern Sie vorher alles Wichtige.',
     confirmSwitchDecBtn:'Wechseln',
     confirmClearTitle:'Alles löschen?',
-    confirmClearMsg:'Dadurch werden alle Textfelder, die Ausgabe und Ihre Zwischenablage gelöscht.',
-    confirmClearBtn:'Löschen',
+    confirmClearMsg:'Dies löscht alle Textfelder, das Ausgabefenster und <u><strong>IHRE ZWISCHENABLAGE</strong></u>. Dies kann nicht rückgängig gemacht werden.<br><small><i>• Hinweis: Sie müssen den Inhalt nicht löschen, um zwischen Entschlüsselung und Verschlüsselung zu wechseln.</i></small>',
+    confirmClearBtn:'Alles löschen',
     errPrefix:'Fehler: '
+  },
+  'zh-Hans': {
+    appTitle:'加密与解密数据工具',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
+    hdrDesc:'使用密码保护您的文本以便安全分享。所有加密都在本地完成——没有任何内容离开您的设备。',
+    mainTitle:'主菜单',
+    encryptBtn:'加密',
+    decryptBtn:'解密',
+    pwLabel:'密码：',
+    pwPlaceholder:'输入密码',
+    eyeBtnTitle:'显示/隐藏密码',
+    submitBtn:'提交',
+    pasteBtn:'从剪贴板粘贴',
+    copyBtn:'复制到剪贴板',
+    clearBtn:'清除',
+    siteLinksLabel:'站点链接：',
+    homeLink:'首页',
+    privacyLink:'隐私政策',
+    sitemapLink:'HTML 站点地图',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; 保留所有权利 &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'取消',
+    helpTitle:'帮助与说明',
+    helpTab1:'使用方法',
+    helpTab2:'安全性',
+    helpTab3:'支持',
+    helpTab4:'隐私',
+    authorRole:'开发者',
+    usageEncTitle:'如何加密',
+    usageEnc1:'点击<strong>加密</strong>，然后输入或粘贴您想要保护的文本。',
+    usageEnc2:'按<strong>提交</strong>。',
+    usageEnc3:'输入一个强密码来锁定消息。',
+    usageEnc4:'再次按<strong>提交</strong>，然后复制结果。',
+    usageDecTitle:'如何解密',
+    usageDec1:'点击<strong>解密</strong>并粘贴加密后的 Base64 文本。',
+    usageDec2:'按<strong>提交</strong>。',
+    usageDec3:'输入加密时使用的密码。',
+    usageDec4:'再次按<strong>提交</strong>以显示原始文本。',
+    usageNote:'⚠️ 如果您丢失密码，将无法恢复。请妥善保管。',
+    usageClearTitle:'清除按钮',
+    usageClear1:'您可以随时按<strong>清除</strong>来重置所有字段、输出内容以及剪贴板。',
+    usageClear2:'在任何内容被清除之前，会先显示确认提示。',
+    secEncTitle:'加密',
+    secEnc1:'<strong>AES-256-GCM</strong> —— 经过身份验证的加密，可保护机密性并检测篡改。',
+    secEnc2:'<strong>PBKDF2-SHA256</strong> 配合 100,000 次迭代 —— 提高密码抵抗暴力破解攻击的能力。',
+    secEnc3:'每次加密都使用<strong>随机盐值和 IV</strong> —— 相同文本和相同密码不会生成相同输出。',
+    secEncIndep:'您的数据属于您。了解如何在没有本应用的情况下<strong>独立</strong>解密消息：<a href="decryption-guide.html" style="color:var(--accent)">解密指南</a>',
+    secPrivTitle:'隐私与存储',
+    secPriv1:'<strong>完全离线。</strong> 出站连接已被内容安全策略阻止——不会向任何地方发送数据。',
+    secPriv2:'<strong>零存储。</strong> 不使用 Cookie、localStorage 或保存的密码。',
+    secPriv3:'<strong>剪贴板。</strong> 其他应用可能会读取剪贴板内容——仅在合适时复制。',
+    secNote:'一旦文本离开本工具——通过剪贴板、电子邮件或文件——它就不再受本工具控制。',
+    secOSTitle:'开源',
+    secOS1:'完全开源，并遵循 <strong>GPL v3</strong>。任何人都可以检查并验证完整源代码。',
+    secOS2:'源码：<a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'喜欢这个工具吗？支持它的开发吧！',
+    donateBody:'这个工具完全免费且开源。如果它为您节省了时间或帮助保护了您的数据，欢迎通过小额捐助支持开发。每一杯咖啡都很有帮助！',
+    donateQrLabel:'扫描通过 PayPal 捐助',
+    donateBtn:'💙 &nbsp;通过 PayPal 捐助',
+    donateNote:'非常感谢您的支持 💙',
+    privOverviewTitle:'概览',
+    privOverview1:'<strong>完全本地。</strong> 此应用完全在您的设备上运行。',
+    privOverview2:'<strong>不收集数据。</strong> 不会收集个人数据、分析数据或标识符。',
+    privOverview3:'<strong>不传输。</strong> 您输入的任何内容都不会被发送到任何地方。',
+    privEncTitle:'加密与解密',
+    privEnc1:'<strong>设备本地处理。</strong> 加密和解密均通过 Web Crypto API 在本地完成。',
+    privEnc2:'<strong>您的秘密始终留在本地。</strong> 您的文本、密码和输出不会通过此应用离开设备。',
+    privClipTitle:'剪贴板',
+    privClip1:'<strong>粘贴。</strong> 仅当您选择粘贴时读取剪贴板内容。',
+    privClip2:'<strong>复制。</strong> 仅当您选择复制时将结果写入剪贴板。',
+    privClip3:'<strong>清除。</strong> 当您选择清除时可以清空剪贴板。',
+    privClip4:'<strong>无后台访问。</strong> 剪贴板数据不会在其他任何时间被存储或访问。',
+    privNetTitle:'网络与服务',
+    privNet1:'<strong>不使用互联网。</strong> 此应用不会发出网络请求。',
+    privNet2:'<strong>无服务器。</strong> 它不会联系任何后端或外部服务。',
+    privNet3:'<strong>无第三方。</strong> 不包含广告、分析、崩溃报告或跟踪 SDK。',
+    privNote:'所有操作都完全离线。此应用不会上传、同步或共享任何内容。',
+    privPermTitle:'权限与存储',
+    privPerm1:'<strong>无设备权限。</strong> 不请求访问相机、麦克风、位置、联系人或存储。',
+    privPerm2:'<strong>不保存数据。</strong> 不会将密码、明文、密文或会话数据写入持久存储。',
+    privPerm3:'<strong>无残留。</strong> 关闭应用后，不会刻意保留任何会话数据。',
+    privPolicyTitle:'政策',
+    privPolicy1:'<strong>儿童。</strong> 因为不收集任何数据，此应用不会对任何年龄段用户造成隐私风险。',
+    privPolicy2:'<strong>更新。</strong> 如果本政策发生变化，更新后的版本将替换当前版本。',
+    privContactTitle:'联系',
+    privContact1:'有关本政策的问题：<a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'完整政策页面：<a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'最后更新：2026 年 4 月 17 日',
+    helpFooter:'版本 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'帮助与说明',
+    btnLangTitle:'选择语言',
+    btnThemeDark:'切换到深色模式',
+    btnThemeLight:'切换到浅色模式',
+    arrowEncStep1:'输入您想加密的文本，然后按提交。',
+    arrowDecStep1:'粘贴加密后的 Base64 文本，然后按提交。',
+    encPlaceholder:'输入或粘贴您想加密的文本…',
+    decPlaceholder:'在此粘贴加密后的 Base64 文本…',
+    arrowStep2:'输入您的密码，然后按提交。',
+    warnNoTextEnc:'⚠️ 请输入要加密的文本。',
+    warnNoTextDec:'⚠️ 请先粘贴加密文本。',
+    warnNoPassword:'⚠️ 未输入密码——这无法提供真正的安全性。',
+    encResult:'加密结果（Base64）：',
+    copyPrompt:'✔️ 按“复制到剪贴板”进行复制。',
+    encError:'加密错误：',
+    decResult:'解密后的文本：',
+    decFailed:'解密失败——密码错误或数据已损坏。',
+    clipEmpty:'剪贴板为空。',
+    clipDenied:'无法访问剪贴板——请手动粘贴（Ctrl+V / Cmd+V）。',
+    copied:'✔️ 已复制到剪贴板。',
+    copyFailed:'复制失败——请手动复制文本。',
+    cleared:'✔️ 所有字段和剪贴板已清除。',
+    confirmSwitchEncTitle:'切换到加密？',
+    confirmSwitchEncMsg:'输出内容将被清除。请先保存重要内容。',
+    confirmSwitchEncBtn:'切换',
+    confirmSwitchDecTitle:'切换到解密？',
+    confirmSwitchDecMsg:'输出内容将被清除。请先保存重要内容。',
+    confirmSwitchDecBtn:'切换',
+    confirmClearTitle:'清除所有内容？',
+    confirmClearMsg:'这将清除所有文本字段、输出窗口以及<u><strong>您的剪贴板</strong></u>。此操作无法撤销。<br><small><i>• 提示：在解密和加密模式之间切换时，您不需要清除任何内容。</i></small>',
+    confirmClearBtn:'全部清除',
+    errPrefix:'错误：'
+  },
+  ja: {
+    appTitle:'暗号化・復号化データユーティリティツール',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
+    hdrDesc:'テキストをパスワードで保護して安全に共有できます。すべての暗号化はローカルで処理されます——データがデバイスから送信されることはありません。',
+    mainTitle:'メインメニュー',
+    encryptBtn:'暗号化',
+    decryptBtn:'復号化',
+    pwLabel:'パスワード：',
+    pwPlaceholder:'パスワードを入力',
+    eyeBtnTitle:'パスワードを表示/非表示',
+    submitBtn:'送信',
+    pasteBtn:'クリップボードから貼り付け',
+    copyBtn:'クリップボードにコピー',
+    clearBtn:'クリア',
+    siteLinksLabel:'サイトリンク：',
+    homeLink:'ホーム',
+    privacyLink:'プライバシーポリシー',
+    sitemapLink:'HTMLサイトマップ',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'キャンセル',
+    helpTitle:'ヘルプと情報',
+    helpTab1:'使い方',
+    helpTab2:'セキュリティ',
+    helpTab3:'サポート',
+    helpTab4:'プライバシー',
+    authorRole:'開発者',
+    usageEncTitle:'暗号化の方法',
+    usageEnc1:'<strong>暗号化</strong>をクリックして、保護したいテキストを入力または貼り付けます。',
+    usageEnc2:'<strong>送信</strong>を押します。',
+    usageEnc3:'メッセージをロックするための強力なパスワードを入力します。',
+    usageEnc4:'もう一度<strong>送信</strong>を押して、結果をコピーします。',
+    usageDecTitle:'復号化の方法',
+    usageDec1:'<strong>復号化</strong>をクリックして、暗号化されたBase64テキストを貼り付けます。',
+    usageDec2:'<strong>送信</strong>を押します。',
+    usageDec3:'暗号化時に使用したパスワードを入力します。',
+    usageDec4:'もう一度<strong>送信</strong>を押して元のテキストを表示します。',
+    usageNote:'⚠️ パスワードを紛失した場合、回復方法はありません。安全な場所に保管してください。',
+    usageClearTitle:'クリアボタン',
+    usageClear1:'いつでも<strong>クリア</strong>を押して、すべてのフィールド、出力、クリップボードをリセットできます。',
+    usageClear2:'何かが消去される前に確認プロンプトが表示されます。',
+    secEncTitle:'暗号化',
+    secEnc1:'<strong>AES-256-GCM</strong> —— 機密性を保護し、改ざんを検出する認証付き暗号化。',
+    secEnc2:'<strong>PBKDF2-SHA256</strong>（100,000回の反復） —— パスワードへのブルートフォース攻撃を困難にします。',
+    secEnc3:'暗号化ごとに<strong>ランダムなソルトとIV</strong> —— 同じテキストと同じパスワードでも毎回異なる出力が生成されます。',
+    secEncIndep:'あなたのデータはあなたのものです。このアプリなしでメッセージを<strong>独立して</strong>復号化する方法をご覧ください：<a href="decryption-guide.html" style="color:var(--accent)">復号化ガイド</a>',
+    secPrivTitle:'プライバシーとストレージ',
+    secPriv1:'<strong>完全オフライン。</strong> コンテンツセキュリティポリシーにより外部接続がブロックされています——どこにもデータは送信されません。',
+    secPriv2:'<strong>ゼロストレージ。</strong> Cookie、localStorage、または保存されたパスワードは一切使用しません。',
+    secPriv3:'<strong>クリップボード。</strong> 他のアプリがクリップボードの内容を読み取る場合があります——適切な場合にのみコピーしてください。',
+    secNote:'テキストがこのツールを離れた後——クリップボード、メール、またはファイルを通じて——このツールの制御外になります。',
+    secOSTitle:'オープンソース',
+    secOS1:'<strong>GPL v3</strong>の下で完全にオープンソース。誰でも完全なソースコードを検査・確認できます。',
+    secOS2:'ソース：<a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'このツールが気に入りましたか？開発をサポートしてください！',
+    donateBody:'このツールは完全に無料でオープンソースです。時間を節約したり、データを安全に保つのに役立てば、小額の寄付で開発をサポートしてください。一杯のコーヒーが大きな助けになります！',
+    donateQrLabel:'PayPalで寄付するにはスキャンしてください',
+    donateBtn:'💙 &nbsp;PayPalで寄付する',
+    donateNote:'ご支援ありがとうございます 💙',
+    privOverviewTitle:'概要',
+    privOverview1:'<strong>完全ローカル。</strong> このアプリはデバイス上で完全に動作します。',
+    privOverview2:'<strong>データ収集なし。</strong> 個人データ、分析情報、識別子は一切収集されません。',
+    privOverview3:'<strong>送信なし。</strong> 入力した内容はどこにも送信されません。',
+    privEncTitle:'暗号化と復号化',
+    privEnc1:'<strong>デバイス上での処理。</strong> 暗号化と復号化はWeb Crypto APIを使用してローカルで実行されます。',
+    privEnc2:'<strong>秘密情報はローカルに留まります。</strong> テキスト、パスワード、出力はこのアプリを通じてデバイスから送信されることはありません。',
+    privClipTitle:'クリップボード',
+    privClip1:'<strong>貼り付け。</strong> 貼り付けを選択した場合のみクリップボードの内容を読み取ります。',
+    privClip2:'<strong>コピー。</strong> コピーを選択した場合のみ結果をクリップボードに書き込みます。',
+    privClip3:'<strong>クリア。</strong> クリアを選択するとクリップボードを消去できます。',
+    privClip4:'<strong>バックグラウンドアクセスなし。</strong> クリップボードデータは他のいかなる時もストアまたはアクセスされません。',
+    privNetTitle:'ネットワークとサービス',
+    privNet1:'<strong>インターネット不使用。</strong> このアプリはネットワークリクエストを送信しません。',
+    privNet2:'<strong>サーバーなし。</strong> バックエンドや外部サービスへの接続はありません。',
+    privNet3:'<strong>サードパーティなし。</strong> 広告、分析、クラッシュレポート、トラッキングSDKは含まれていません。',
+    privNote:'すべての操作は完全にオフラインです。このアプリはデータのアップロード、同期、共有を行いません。',
+    privPermTitle:'パーミッションとストレージ',
+    privPerm1:'<strong>デバイスパーミッションなし。</strong> カメラ、マイク、位置情報、連絡先、ストレージへのアクセスは要求されません。',
+    privPerm2:'<strong>データ保存なし。</strong> パスワード、平文、暗号文、セッションデータは永続ストレージに書き込まれません。',
+    privPerm3:'<strong>残留データなし。</strong> アプリを閉じると、セッションデータは意図的に保持されません。',
+    privPolicyTitle:'ポリシー',
+    privPolicy1:'<strong>お子様。</strong> データが収集されないため、このアプリはいかなる年齢のユーザーにもプライバシーリスクをもたらしません。',
+    privPolicy2:'<strong>更新。</strong> このポリシーが変更された場合、更新されたバージョンが現在のバージョンに置き換わります。',
+    privContactTitle:'連絡先',
+    privContact1:'このポリシーについての質問：<a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'完全なポリシーページ：<a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'最終更新：2026年4月17日',
+    helpFooter:'バージョン 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'ヘルプと情報',
+    btnLangTitle:'言語を選択',
+    btnThemeDark:'ダークモードに切り替え',
+    btnThemeLight:'ライトモードに切り替え',
+    arrowEncStep1:'暗号化したいテキストを入力して、送信を押してください。',
+    arrowDecStep1:'暗号化されたBase64テキストを貼り付けて、送信を押してください。',
+    encPlaceholder:'暗号化したいテキストを入力または貼り付けてください…',
+    decPlaceholder:'暗号化されたBase64テキストをここに貼り付けてください…',
+    arrowStep2:'パスワードを入力して、送信を押してください。',
+    warnNoTextEnc:'⚠️ 暗号化するテキストを入力してください。',
+    warnNoTextDec:'⚠️ まず暗号化されたテキストを貼り付けてください。',
+    warnNoPassword:'⚠️ パスワードがありません——これは実質的なセキュリティを提供しません。',
+    encResult:'暗号化結果（Base64）：',
+    copyPrompt:'✔️「クリップボードにコピー」を押してコピーしてください。',
+    encError:'暗号化エラー：',
+    decResult:'復号化されたテキスト：',
+    decFailed:'復号化に失敗しました——パスワードが間違っているかデータが破損しています。',
+    clipEmpty:'クリップボードが空です。',
+    clipDenied:'クリップボードへのアクセスが拒否されました——手動で貼り付けてください（Ctrl+V / Cmd+V）。',
+    copied:'✔️ クリップボードにコピーしました。',
+    copyFailed:'コピーに失敗しました——テキストを手動でコピーしてください。',
+    cleared:'✔️ すべてのフィールドとクリップボードをクリアしました。',
+    confirmSwitchEncTitle:'暗号化に切り替えますか？',
+    confirmSwitchEncMsg:'出力がクリアされます。重要なものは先に保存してください。',
+    confirmSwitchEncBtn:'切り替え',
+    confirmSwitchDecTitle:'復号化に切り替えますか？',
+    confirmSwitchDecMsg:'出力がクリアされます。重要なものは先に保存してください。',
+    confirmSwitchDecBtn:'切り替え',
+    confirmClearTitle:'すべてをクリアしますか？',
+    confirmClearMsg:'すべてのテキストフィールド、出力ウィンドウ、<u><strong>クリップボード</strong></u>がクリアされます。この操作は元に戻せません。<br><small><i>• 補足：復号化モードと暗号化モードを切り替えるために内容をクリアする必要はありません。</i></small>',
+    confirmClearBtn:'すべてクリア',
+    errPrefix:'エラー：'
+  },
+  'zh-Hant': {
+    appTitle:'加密與解密數據工具',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
+    hdrDesc:'使用密碼保護您的文字以便安全分享。所有加密均在本地完成——沒有任何內容離開您的裝置。',
+    mainTitle:'主選單',
+    encryptBtn:'加密',
+    decryptBtn:'解密',
+    pwLabel:'密碼：',
+    pwPlaceholder:'輸入密碼',
+    eyeBtnTitle:'顯示/隱藏密碼',
+    submitBtn:'送出',
+    pasteBtn:'從剪貼簿貼上',
+    copyBtn:'複製到剪貼簿',
+    clearBtn:'清除',
+    siteLinksLabel:'站點連結：',
+    homeLink:'首頁',
+    privacyLink:'隱私政策',
+    sitemapLink:'HTML 網站地圖',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; 保留所有權利 &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'取消',
+    helpTitle:'說明與關於',
+    helpTab1:'使用方法',
+    helpTab2:'安全性',
+    helpTab3:'支援',
+    helpTab4:'隱私',
+    authorRole:'開發者',
+    usageEncTitle:'如何加密',
+    usageEnc1:'點擊<strong>加密</strong>，然後輸入或貼上您想要保護的文字。',
+    usageEnc2:'按<strong>送出</strong>。',
+    usageEnc3:'輸入一個強密碼來鎖定訊息。',
+    usageEnc4:'再次按<strong>送出</strong>，然後複製結果。',
+    usageDecTitle:'如何解密',
+    usageDec1:'點擊<strong>解密</strong>並貼上加密後的 Base64 文字。',
+    usageDec2:'按<strong>送出</strong>。',
+    usageDec3:'輸入加密時使用的密碼。',
+    usageDec4:'再次按<strong>送出</strong>以顯示原始文字。',
+    usageNote:'⚠️ 如果您遺失密碼，將無法復原。請妥善保管。',
+    usageClearTitle:'清除按鈕',
+    usageClear1:'您可以隨時按<strong>清除</strong>來重置所有欄位、輸出內容以及剪貼簿。',
+    usageClear2:'在任何內容被清除之前，會先顯示確認提示。',
+    secEncTitle:'加密',
+    secEnc1:'<strong>AES-256-GCM</strong> —— 經過身份驗證的加密，可保護機密性並偵測竄改。',
+    secEnc2:'<strong>PBKDF2-SHA256</strong> 配合 100,000 次迭代 —— 提高密碼抵抗暴力破解攻擊的能力。',
+    secEnc3:'每次加密都使用<strong>隨機鹽值和 IV</strong> —— 相同文字和相同密碼不會產生相同輸出。',
+    secEncIndep:'您的資料屬於您。了解如何在沒有本應用程式的情況下<strong>獨立</strong>解密訊息：<a href="decryption-guide.html" style="color:var(--accent)">解密指南</a>',
+    secPrivTitle:'隱私與儲存',
+    secPriv1:'<strong>完全離線。</strong> 對外連線已被內容安全政策封鎖——不會向任何地方傳送資料。',
+    secPriv2:'<strong>零儲存。</strong> 不使用 Cookie、localStorage 或儲存的密碼。',
+    secPriv3:'<strong>剪貼簿。</strong> 其他應用程式可能會讀取剪貼簿內容——僅在適當時複製。',
+    secNote:'一旦文字離開本工具——透過剪貼簿、電子郵件或檔案——它就不再受本工具控制。',
+    secOSTitle:'開放原始碼',
+    secOS1:'完全開放原始碼，並遵循 <strong>GPL v3</strong>。任何人都可以檢查並驗證完整原始碼。',
+    secOS2:'原始碼：<a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'喜歡這個工具嗎？請支持它的開發！',
+    donateBody:'這個工具完全免費且開放原始碼。如果它為您節省了時間或幫助保護了您的資料，歡迎透過小額捐助支持開發。每一杯咖啡都很有幫助！',
+    donateQrLabel:'掃描以透過 PayPal 捐助',
+    donateBtn:'💙 &nbsp;透過 PayPal 捐助',
+    donateNote:'非常感謝您的支持 💙',
+    privOverviewTitle:'概觀',
+    privOverview1:'<strong>完全本地。</strong> 此應用程式完全在您的裝置上執行。',
+    privOverview2:'<strong>不收集資料。</strong> 不會收集個人資料、分析資料或識別碼。',
+    privOverview3:'<strong>不傳輸。</strong> 您輸入的任何內容都不會被傳送到任何地方。',
+    privEncTitle:'加密與解密',
+    privEnc1:'<strong>裝置本地處理。</strong> 加密和解密均透過 Web Crypto API 在本地完成。',
+    privEnc2:'<strong>您的機密始終留在本地。</strong> 您的文字、密碼和輸出不會透過此應用程式離開裝置。',
+    privClipTitle:'剪貼簿',
+    privClip1:'<strong>貼上。</strong> 僅當您選擇貼上時讀取剪貼簿內容。',
+    privClip2:'<strong>複製。</strong> 僅當您選擇複製時將結果寫入剪貼簿。',
+    privClip3:'<strong>清除。</strong> 當您選擇清除時可以清空剪貼簿。',
+    privClip4:'<strong>無背景存取。</strong> 剪貼簿資料不會在其他任何時間被儲存或存取。',
+    privNetTitle:'網路與服務',
+    privNet1:'<strong>不使用網際網路。</strong> 此應用程式不會發出網路請求。',
+    privNet2:'<strong>無伺服器。</strong> 它不會聯繫任何後端或外部服務。',
+    privNet3:'<strong>無第三方。</strong> 不包含廣告、分析、當機報告或追蹤 SDK。',
+    privNote:'所有操作都完全離線。此應用程式不會上傳、同步或分享任何內容。',
+    privPermTitle:'權限與儲存',
+    privPerm1:'<strong>無裝置權限。</strong> 不請求存取相機、麥克風、位置、聯絡人或儲存空間。',
+    privPerm2:'<strong>不儲存資料。</strong> 不會將密碼、明文、密文或工作階段資料寫入持久儲存。',
+    privPerm3:'<strong>無殘留。</strong> 關閉應用程式後，不會刻意保留任何工作階段資料。',
+    privPolicyTitle:'政策',
+    privPolicy1:'<strong>兒童。</strong> 因為不收集任何資料，此應用程式不會對任何年齡層使用者造成隱私風險。',
+    privPolicy2:'<strong>更新。</strong> 如果本政策發生變更，更新後的版本將取代目前版本。',
+    privContactTitle:'聯絡',
+    privContact1:'有關本政策的問題：<a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'完整政策頁面：<a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'最後更新：2026 年 4 月 17 日',
+    helpFooter:'版本 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'說明與關於',
+    btnLangTitle:'選擇語言',
+    btnThemeDark:'切換至深色模式',
+    btnThemeLight:'切換至淺色模式',
+    arrowEncStep1:'輸入您想加密的文字，然後按送出。',
+    arrowDecStep1:'貼上加密後的 Base64 文字，然後按送出。',
+    encPlaceholder:'輸入或貼上您想加密的文字…',
+    decPlaceholder:'在此貼上加密後的 Base64 文字…',
+    arrowStep2:'輸入您的密碼，然後按送出。',
+    warnNoTextEnc:'⚠️ 請輸入要加密的文字。',
+    warnNoTextDec:'⚠️ 請先貼上加密文字。',
+    warnNoPassword:'⚠️ 未輸入密碼——這無法提供真正的安全性。',
+    encResult:'加密結果（Base64）：',
+    copyPrompt:'✔️ 按「複製到剪貼簿」進行複製。',
+    encError:'加密錯誤：',
+    decResult:'解密後的文字：',
+    decFailed:'解密失敗——密碼錯誤或資料已損毀。',
+    clipEmpty:'剪貼簿為空。',
+    clipDenied:'無法存取剪貼簿——請手動貼上（Ctrl+V / Cmd+V）。',
+    copied:'✔️ 已複製到剪貼簿。',
+    copyFailed:'複製失敗——請手動複製文字。',
+    cleared:'✔️ 所有欄位和剪貼簿已清除。',
+    confirmSwitchEncTitle:'切換到加密？',
+    confirmSwitchEncMsg:'輸出內容將被清除。請先儲存重要內容。',
+    confirmSwitchEncBtn:'切換',
+    confirmSwitchDecTitle:'切換到解密？',
+    confirmSwitchDecMsg:'輸出內容將被清除。請先儲存重要內容。',
+    confirmSwitchDecBtn:'切換',
+    confirmClearTitle:'清除所有內容？',
+    confirmClearMsg:'這將清除所有文字欄位、輸出視窗以及<u><strong>您的剪貼簿</strong></u>。此操作無法復原。<br><small><i>• 提示：在解密和加密模式之間切換時，您不需要清除任何內容。</i></small>',
+    confirmClearBtn:'全部清除',
+    errPrefix:'錯誤：'
+  },
+  ko: {
+    appTitle:'암호화 및 복호화 데이터 유틸리티 도구',
+    hdrLabel:'AES-256-GCM &nbsp;/&nbsp; PBKDF2-SHA256 &nbsp;·&nbsp; v1.2',
+    hdrDesc:'비밀번호로 텍스트를 보호하여 안전하게 공유하세요. 모든 암호화는 로컬에서 처리됩니다——데이터가 기기를 떠나지 않습니다.',
+    mainTitle:'메인 메뉴',
+    encryptBtn:'암호화',
+    decryptBtn:'복호화',
+    pwLabel:'비밀번호:',
+    pwPlaceholder:'비밀번호 입력',
+    eyeBtnTitle:'비밀번호 표시/숨기기',
+    submitBtn:'제출',
+    pasteBtn:'클립보드에서 붙여넣기',
+    copyBtn:'클립보드에 복사',
+    clearBtn:'지우기',
+    siteLinksLabel:'사이트 링크:',
+    homeLink:'홈',
+    privacyLink:'개인정보처리방침',
+    sitemapLink:'HTML 사이트맵',
+    footerRights:'© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3',
+    confirmCancel:'취소',
+    helpTitle:'도움말 및 정보',
+    helpTab1:'사용법',
+    helpTab2:'보안',
+    helpTab3:'지원',
+    helpTab4:'개인정보',
+    authorRole:'개발자',
+    usageEncTitle:'암호화하는 방법',
+    usageEnc1:'<strong>암호화</strong>를 클릭하여 보호하고 싶은 텍스트를 입력하거나 붙여넣으세요.',
+    usageEnc2:'<strong>제출</strong>을 누르세요.',
+    usageEnc3:'메시지를 잠글 강력한 비밀번호를 입력하세요.',
+    usageEnc4:'<strong>제출</strong>을 다시 눌러 결과를 복사하세요.',
+    usageDecTitle:'복호화하는 방법',
+    usageDec1:'<strong>복호화</strong>를 클릭하여 암호화된 Base64 텍스트를 붙여넣으세요.',
+    usageDec2:'<strong>제출</strong>을 누르세요.',
+    usageDec3:'암호화 시 사용한 비밀번호를 입력하세요.',
+    usageDec4:'<strong>제출</strong>을 다시 눌러 원래 텍스트를 확인하세요.',
+    usageNote:'⚠️ 비밀번호를 분실하면 복구 방법이 없습니다. 안전한 곳에 보관하세요.',
+    usageClearTitle:'지우기 버튼',
+    usageClear1:'언제든지 <strong>지우기</strong>를 눌러 모든 필드, 출력, 클립보드를 초기화하세요.',
+    usageClear2:'내용이 지워지기 전에 확인 메시지가 표시됩니다.',
+    secEncTitle:'암호화',
+    secEnc1:'<strong>AES-256-GCM</strong> —— 기밀성을 보호하고 변조를 감지하는 인증된 암호화.',
+    secEnc2:'<strong>PBKDF2-SHA256</strong> 100,000회 반복 —— 비밀번호에 대한 무차별 대입 공격을 어렵게 만듭니다.',
+    secEnc3:'암호화마다 <strong>무작위 솔트 및 IV</strong> —— 동일한 텍스트와 동일한 비밀번호도 매번 다른 출력을 생성합니다.',
+    secEncIndep:'데이터는 사용자 본인의 것입니다. 이 앱 없이 메시지를 <strong>독립적으로</strong> 복호화하는 방법을 알아보세요: <a href="decryption-guide.html" style="color:var(--accent)">복호화 가이드</a>',
+    secPrivTitle:'개인정보 및 저장소',
+    secPriv1:'<strong>완전 오프라인.</strong> 콘텐츠 보안 정책에 의해 외부 연결이 차단됩니다——어디에도 데이터가 전송되지 않습니다.',
+    secPriv2:'<strong>저장 없음.</strong> 쿠키, localStorage 또는 저장된 비밀번호를 사용하지 않습니다.',
+    secPriv3:'<strong>클립보드.</strong> 다른 앱이 클립보드 내용을 읽을 수 있습니다——적절한 경우에만 복사하세요.',
+    secNote:'텍스트가 이 도구를 떠난 후——클립보드, 이메일, 또는 파일을 통해——이 도구의 통제를 벗어납니다.',
+    secOSTitle:'오픈 소스',
+    secOS1:'<strong>GPL v3</strong> 하에 완전히 오픈 소스입니다. 누구든지 전체 소스 코드를 검사하고 확인할 수 있습니다.',
+    secOS2:'소스: <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer" style="color:var(--accent);word-break:break-all">github.com/AmandaHernow/<wbr>EncryptionDecryptionUtilityTool</a>',
+    donateHeadline:'이 도구가 마음에 드시나요? 개발을 지원해 주세요!',
+    donateBody:'이 도구는 완전히 무료이며 오픈 소스입니다. 시간을 절약하거나 데이터를 안전하게 보호하는 데 도움이 되었다면, 소액 기부로 개발을 지원해 주세요. 커피 한 잔이 큰 도움이 됩니다!',
+    donateQrLabel:'스캔하여 PayPal로 기부하기',
+    donateBtn:'💙 &nbsp;PayPal로 기부하기',
+    donateNote:'지원해 주셔서 정말 감사합니다 💙',
+    privOverviewTitle:'개요',
+    privOverview1:'<strong>완전 로컬.</strong> 이 앱은 기기에서 완전히 실행됩니다.',
+    privOverview2:'<strong>데이터 수집 없음.</strong> 개인 데이터, 분석 정보, 식별자는 수집되지 않습니다.',
+    privOverview3:'<strong>전송 없음.</strong> 입력한 내용은 어디에도 전송되지 않습니다.',
+    privEncTitle:'암호화 및 복호화',
+    privEnc1:'<strong>기기 내 처리.</strong> 암호화 및 복호화는 Web Crypto API를 사용하여 로컬에서 수행됩니다.',
+    privEnc2:'<strong>비밀 정보는 로컬에 유지됩니다.</strong> 텍스트, 비밀번호, 출력은 이 앱을 통해 기기를 떠나지 않습니다.',
+    privClipTitle:'클립보드',
+    privClip1:'<strong>붙여넣기.</strong> 붙여넣기를 선택한 경우에만 클립보드 내용을 읽습니다.',
+    privClip2:'<strong>복사.</strong> 복사를 선택한 경우에만 결과를 클립보드에 씁니다.',
+    privClip3:'<strong>지우기.</strong> 지우기를 선택하면 클립보드를 비울 수 있습니다.',
+    privClip4:'<strong>백그라운드 접근 없음.</strong> 클립보드 데이터는 다른 어느 때에도 저장되거나 접근되지 않습니다.',
+    privNetTitle:'네트워크 및 서비스',
+    privNet1:'<strong>인터넷 미사용.</strong> 이 앱은 네트워크 요청을 보내지 않습니다.',
+    privNet2:'<strong>서버 없음.</strong> 백엔드나 외부 서비스에 연결하지 않습니다.',
+    privNet3:'<strong>제3자 없음.</strong> 광고, 분석, 충돌 보고, 추적 SDK가 포함되지 않습니다.',
+    privNote:'모든 작업은 완전히 오프라인입니다. 이 앱은 데이터를 업로드, 동기화, 공유하지 않습니다.',
+    privPermTitle:'권한 및 저장소',
+    privPerm1:'<strong>기기 권한 없음.</strong> 카메라, 마이크, 위치, 연락처, 저장소 접근을 요청하지 않습니다.',
+    privPerm2:'<strong>데이터 저장 없음.</strong> 비밀번호, 일반 텍스트, 암호문, 세션 데이터는 영구 저장소에 기록되지 않습니다.',
+    privPerm3:'<strong>잔류 없음.</strong> 앱을 닫으면 세션 데이터는 의도적으로 유지되지 않습니다.',
+    privPolicyTitle:'정책',
+    privPolicy1:'<strong>아동.</strong> 데이터가 수집되지 않으므로, 이 앱은 어떤 연령의 사용자에게도 개인정보 위험을 초래하지 않습니다.',
+    privPolicy2:'<strong>업데이트.</strong> 이 정책이 변경되면 업데이트된 버전이 현재 버전을 대체합니다.',
+    privContactTitle:'연락처',
+    privContact1:'이 정책에 관한 질문: <a href="mailto:encrypt.decrypt.support@hernow.net" style="color:var(--accent);text-decoration:none;">encrypt.decrypt.support@hernow.net</a>',
+    privContact2:'전체 정책 페이지: <a href="privacy-policy.html" style="color:var(--accent);text-decoration:none;">privacy-policy.html</a>',
+    privLastUpdated:'마지막 업데이트: 2026년 4월 17일',
+    helpFooter:'버전 1.2 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3',
+    btnHelpTitle:'도움말 및 정보',
+    btnLangTitle:'언어 선택',
+    btnThemeDark:'다크 모드로 전환',
+    btnThemeLight:'라이트 모드로 전환',
+    arrowEncStep1:'암호화하려는 텍스트를 입력한 후 제출을 누르세요.',
+    arrowDecStep1:'암호화된 Base64 텍스트를 붙여넣고 제출을 누르세요.',
+    encPlaceholder:'암호화하려는 텍스트를 입력하거나 붙여넣으세요…',
+    decPlaceholder:'암호화된 Base64 텍스트를 여기에 붙여넣으세요…',
+    arrowStep2:'비밀번호를 입력한 후 제출을 누르세요.',
+    warnNoTextEnc:'⚠️ 암호화할 텍스트를 입력하세요.',
+    warnNoTextDec:'⚠️ 먼저 암호화된 텍스트를 붙여넣으세요.',
+    warnNoPassword:'⚠️ 비밀번호가 없습니다——실질적인 보안을 제공하지 않습니다.',
+    encResult:'암호화 결과 (Base64):',
+    copyPrompt:'✔️ "클립보드에 복사"를 눌러 복사하세요.',
+    encError:'암호화 오류: ',
+    decResult:'복호화된 텍스트:',
+    decFailed:'복호화 실패——비밀번호가 잘못되었거나 데이터가 손상되었습니다.',
+    clipEmpty:'클립보드가 비어 있습니다.',
+    clipDenied:'클립보드 접근이 거부되었습니다——수동으로 붙여넣으세요 (Ctrl+V / Cmd+V).',
+    copied:'✔️ 클립보드에 복사되었습니다.',
+    copyFailed:'복사 실패——텍스트를 수동으로 복사하세요.',
+    cleared:'✔️ 모든 필드와 클립보드가 지워졌습니다.',
+    confirmSwitchEncTitle:'암호화로 전환하시겠습니까?',
+    confirmSwitchEncMsg:'출력이 지워집니다. 중요한 것은 먼저 저장하세요.',
+    confirmSwitchEncBtn:'전환',
+    confirmSwitchDecTitle:'복호화로 전환하시겠습니까?',
+    confirmSwitchDecMsg:'출력이 지워집니다. 중요한 것은 먼저 저장하세요.',
+    confirmSwitchDecBtn:'전환',
+    confirmClearTitle:'모두 지우시겠습니까?',
+    confirmClearMsg:'모든 텍스트 필드, 출력 창 및 <u><strong>클립보드</strong></u>가 지워집니다. 이 작업은 되돌릴 수 없습니다.<br><small><i>• 참고: 복호화와 암호화 모드를 전환하기 위해 내용을 지울 필요는 없습니다.</i></small>',
+    confirmClearBtn:'모두 지우기',
+    errPrefix:'오류: '
   }
 };
 
@@ -1250,7 +1759,7 @@ document.querySelectorAll('.htab').forEach(tab => {
 // Reusable confirmation dialog used before destructive UI actions like switching mode or clearing data.
 function confirm(title, msg, okLabel, onOk) {
   cTitle.textContent = title;
-  cMsg.textContent   = msg;
+  cMsg.innerHTML     = msg;
   cOk.textContent    = okLabel;
   confOvl.classList.add('show');
   const cleanup = () => confOvl.classList.remove('show');

@@ -52,7 +52,7 @@ It was originally built as an internal utility tool and has since been rewritten
 
 Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
 
-The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi.
+The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. More languages are planned — see the table below.
 
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
@@ -70,6 +70,13 @@ The web version currently supports English, German, Simplified Chinese, Traditio
 | Farsi / فارسی | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Russian / Русский | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Ukrainian / Українська | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Croatian / Serbian / Bosnian | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Turkish / Türkçe | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Indonesian / Bahasa Indonesia | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Vietnamese / Tiếng Việt | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Swahili / Kiswahili | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Hausa / Harshen Hausa | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Yoruba / Èdè Yorùbá | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 
 Currently implemented on the web version:
 - `index.html`

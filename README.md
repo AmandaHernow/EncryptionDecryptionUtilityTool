@@ -60,8 +60,8 @@ Language support is being tracked across all platform versions. At the moment, o
 | Traditional Chinese / 中文（繁體） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Japanese / 日本語 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| French / Français | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Spanish / Español | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
 | Italian / Italiano | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Portuguese / Português | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Arabic / العربية | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |

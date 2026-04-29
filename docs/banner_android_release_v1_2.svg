@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-labelledby="title desc">
+  <title id="title">Encrypt &amp; Decrypt Data Utility Tool - Android v1.2 Release</title>
+  <desc id="desc">GitHub release banner for Android v1.2 with multilingual and RTL support.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#003f46"/>
+      <stop offset="0.52" stop-color="#008b8b"/>
+      <stop offset="1" stop-color="#004d55"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3ddc84"/>
+      <stop offset="1" stop-color="#24b96f"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.07"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.055"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="320" fill="url(#bg)"/>
+  <rect width="1280" height="320" fill="url(#grid)"/>
+  <circle cx="1120" cy="142" r="210" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="2"/>
+  <circle cx="1120" cy="142" r="145" fill="none" stroke="#3ddc84" stroke-opacity="0.16" stroke-width="2"/>
+  <circle cx="66" cy="292" r="150" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="2"/>
+
+  <g transform="translate(60 70)">
+    <rect width="180" height="180" rx="34" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+    <rect x="45" y="85" width="90" height="68" rx="12" fill="#ffffff" opacity="0.95"/>
+    <path d="M62 85V62c0-20 15-36 35-36s35 16 35 36v23" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+    <path d="M82 116h16v24H82z" fill="#008b8b"/>
+    <circle cx="90" cy="113" r="12" fill="#008b8b"/>
+    <path d="M42 34l-15-18M138 34l15-18" stroke="#3ddc84" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="72" cy="50" r="6" fill="#3ddc84"/>
+    <circle cx="108" cy="50" r="6" fill="#3ddc84"/>
+  </g>
+
+  <text x="275" y="120" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#ffffff">Encrypt &amp; Decrypt</text>
+  <text x="275" y="168" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#ffffff">Data Utility Tool</text>
+  <line x1="275" y1="190" x2="914" y2="190" stroke="#ffffff" stroke-opacity="0.22"/>
+  <text x="275" y="222" font-family="'Courier New', Consolas, monospace" font-size="15" fill="#ffffff" opacity="0.72" letter-spacing="1.2">AES-256-GCM  ·  PBKDF2-SHA256  ·  Offline  ·  Zero storage</text>
+
+  <rect x="275" y="248" width="178" height="38" rx="19" fill="url(#badge)"/>
+  <text x="364" y="272" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="14" font-weight="700" fill="#003a1a">Android v1.2</text>
+  <rect x="465" y="248" width="218" height="38" rx="19" fill="#ffffff" fill-opacity="0.11" stroke="#ffffff" stroke-opacity="0.22"/>
+  <text x="574" y="272" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="13" fill="#ffffff" opacity="0.86">12 languages + RTL</text>
+
+  <g transform="translate(988 72)" opacity="0.92">
+    <rect x="0" y="0" width="220" height="156" rx="24" fill="#001f24" opacity="0.38" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text x="28" y="48" font-family="'Segoe UI', Arial, sans-serif" font-size="24" fill="#ffffff">English</text>
+    <text x="28" y="83" font-family="'Segoe UI', Arial, sans-serif" font-size="24" fill="#ffffff">Deutsch</text>
+    <text x="28" y="118" font-family="'Segoe UI', Arial, sans-serif" font-size="24" fill="#ffffff">العربية</text>
+    <text x="28" y="153" font-family="'Segoe UI', Arial, sans-serif" font-size="24" fill="#ffffff">فارسی</text>
+  </g>
+
+  <rect x="1110" y="18" width="140" height="30" rx="8" fill="#000000" fill-opacity="0.2" stroke="#ffffff" stroke-opacity="0.16"/>
+  <text x="1180" y="38" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="13" fill="#ffffff" opacity="0.74">GPL v3 · Open Source</text>
+  <text x="1220" y="305" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#ffffff" opacity="0.46">© Amanda Hernow · hernow.net</text>
+</svg>

@@ -2118,6 +2118,7 @@ document.addEventListener('click',e=>{
 // Output helpers. UI messages carry translation keys so they update if the language changes.
 function append(text,color='var(--text)'){
     const d=document.createElement('div');
+    d.dir='auto';
     d.textContent=text;d.style.color=color;
     out.appendChild(d);out.scrollTop=out.scrollHeight;
 }

@@ -52,15 +52,31 @@ It was originally built as an internal utility tool and has since been rewritten
 
 Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
 
+The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. More languages are planned — see the table below.
+
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
 | English | ✅ | ✅ | 📋 Planned | 📋 Planned |
 | German / Deutsch | ✅ | ✅ | 📋 Planned | 📋 Planned |
-| French / Français | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Spanish / Español | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Simplified Chinese / 中文（简体） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Traditional Chinese / 中文（繁體） | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
-| Japanese / 日本語 | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Simplified Chinese / 中文（简体） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Traditional Chinese / 中文（繁體） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Japanese / 日本語 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| French / Français | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Spanish / Español | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Italian / Italiano | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Portuguese / Português | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Arabic / العربية | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Farsi / فارسی | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Russian / Русский | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Ukrainian / Українська | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Croatian / Serbian / Bosnian | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Turkish / Türkçe | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Indonesian / Bahasa Indonesia | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Vietnamese / Tiếng Việt | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Swahili / Kiswahili | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Hausa / Harshen Hausa | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+| Yoruba / Èdè Yorùbá | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 
 Currently implemented on the web version:
 - `index.html`
@@ -70,7 +86,7 @@ Currently implemented on the web version:
 
 ## Independent Decryption
 
-Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools like OpenSSL without needing this software.
+Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools without needing this software.
 
 > ### [Independent Decryption Guide](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html)
 

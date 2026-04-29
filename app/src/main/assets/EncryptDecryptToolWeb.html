@@ -624,7 +624,8 @@ const LANGS = {
         copyPromptDec:'Press "Copy to clipboard" to copy the decrypted text ✔️',
         encError:'Encryption error: ',
         decResult:'Decrypted text:',
-        decError:'Decryption error: ',
+        decFailed:'Decryption failed — wrong password or corrupted data.',
+        invalidEncryptedText:'Invalid encrypted text — please paste the complete encrypted output.',
         clipDenied:'Paste failed — please long-press the text field and select Paste.',
         copied:'Copied to clipboard ✔️',
         copyFailed:'Copy failed — please copy the text manually.',
@@ -746,7 +747,8 @@ const LANGS = {
         copyPromptDec:'Drücken Sie "In Zwischenablage kopieren", um den entschlüsselten Text zu kopieren ✔️',
         encError:'Verschlüsselungsfehler: ',
         decResult:'Entschlüsselter Text:',
-        decError:'Entschlüsselungsfehler: ',
+        decFailed:'Entschlüsselung fehlgeschlagen — falsches Passwort oder beschädigte Daten.',
+        invalidEncryptedText:'Ungültiger verschlüsselter Text — bitte fügen Sie die vollständige verschlüsselte Ausgabe ein.',
         clipDenied:'Einfügen fehlgeschlagen — bitte halten Sie das Textfeld gedrückt und wählen Sie Einfügen.',
         copied:'In die Zwischenablage kopiert ✔️',
         copyFailed:'Kopieren fehlgeschlagen — bitte kopieren Sie den Text manuell.',
@@ -865,7 +867,8 @@ const LANGS = {
         copyPromptDec:'Appuyez sur « Copier dans le presse-papiers » pour copier le texte déchiffré ✔️',
         encError:'Erreur de chiffrement : ',
         decResult:'Texte déchiffré :',
-        decError:'Erreur de déchiffrement : ',
+        decFailed:'Échec du déchiffrement — mot de passe incorrect ou données corrompues.',
+        invalidEncryptedText:'Texte chiffré non valide — veuillez coller la sortie chiffrée complète.',
         clipDenied:'Échec du collage — veuillez appuyer longuement sur le champ de texte et sélectionner Coller.',
         copied:'Copié dans le presse-papiers ✔️',
         copyFailed:'Échec de la copie — veuillez copier le texte manuellement.',
@@ -984,7 +987,8 @@ const LANGS = {
         copyPromptDec:'Pulsa "Copiar al portapapeles" para copiar el texto descifrado ✔️',
         encError:'Error de cifrado: ',
         decResult:'Texto descifrado:',
-        decError:'Error de descifrado: ',
+        decFailed:'Error al descifrar — contraseña incorrecta o datos dañados.',
+        invalidEncryptedText:'Texto cifrado no válido — pega la salida cifrada completa.',
         clipDenied:'Error al pegar — mantén pulsado el campo de texto y selecciona Pegar.',
         copied:'Copiado al portapapeles ✔️',
         copyFailed:'Error al copiar — copia el texto manualmente.',
@@ -1103,7 +1107,8 @@ const LANGS = {
         copyPromptDec:'Premi "Copia negli appunti" per copiare il testo decifrato ✔️',
         encError:'Errore di cifratura: ',
         decResult:'Testo decifrato:',
-        decError:'Errore di decifratura: ',
+        decFailed:'Decifratura non riuscita — password errata o dati danneggiati.',
+        invalidEncryptedText:'Testo cifrato non valido — incolla l’output cifrato completo.',
         clipDenied:'Incolla non riuscito — tieni premuto il campo di testo e seleziona Incolla.',
         copied:'Copiato negli appunti ✔️',
         copyFailed:'Copia non riuscita — copia il testo manualmente.',
@@ -1222,7 +1227,8 @@ const LANGS = {
         copyPromptDec:'Pressione "Copiar para a área de transferência" para copiar o texto descriptografado ✔️',
         encError:'Erro de criptografia: ',
         decResult:'Texto descriptografado:',
-        decError:'Erro de descriptografia: ',
+        decFailed:'Falha na descriptografia — senha incorreta ou dados corrompidos.',
+        invalidEncryptedText:'Texto criptografado inválido — cole a saída criptografada completa.',
         clipDenied:'Falha ao colar — mantenha pressionado o campo de texto e selecione Colar.',
         copied:'Copiado para a área de transferência ✔️',
         copyFailed:'Falha ao copiar — copie o texto manualmente.',
@@ -1341,7 +1347,8 @@ const LANGS = {
         copyPromptDec:'按"复制到剪贴板"复制解密文本 ✔️',
         encError:'加密错误：',
         decResult:'解密后的文本：',
-        decError:'解密错误：',
+        decFailed:'解密失败——密码错误或数据已损坏。',
+        invalidEncryptedText:'加密文本无效——请粘贴完整的加密输出。',
         clipDenied:'粘贴失败——请长按文本字段并选择粘贴。',
         copied:'已复制到剪贴板 ✔️',
         copyFailed:'复制失败——请手动复制文本。',
@@ -1460,7 +1467,8 @@ const LANGS = {
         copyPromptDec:'按「複製到剪貼簿」複製解密文字 ✔️',
         encError:'加密錯誤：',
         decResult:'解密後的文字：',
-        decError:'解密錯誤：',
+        decFailed:'解密失敗——密碼錯誤或資料已損毀。',
+        invalidEncryptedText:'加密文字無效——請貼上完整的加密輸出。',
         clipDenied:'貼上失敗——請長按文字欄位並選擇貼上。',
         copied:'已複製到剪貼簿 ✔️',
         copyFailed:'複製失敗——請手動複製文字。',
@@ -1579,7 +1587,8 @@ const LANGS = {
         copyPromptDec:'「クリップボードにコピー」を押して復号化テキストをコピーしてください ✔️',
         encError:'暗号化エラー：',
         decResult:'復号化されたテキスト：',
-        decError:'復号化エラー：',
+        decFailed:'復号化に失敗しました——パスワードが間違っているかデータが破損しています。',
+        invalidEncryptedText:'暗号化テキストが無効です——完全な暗号化出力を貼り付けてください。',
         clipDenied:'貼り付けに失敗しました——テキストフィールドを長押しして「貼り付け」を選択してください。',
         copied:'クリップボードにコピーしました ✔️',
         copyFailed:'コピーに失敗しました——テキストを手動でコピーしてください。',
@@ -1698,7 +1707,8 @@ const LANGS = {
         copyPromptDec:'"클립보드에 복사"를 눌러 복호화된 텍스트를 복사하세요 ✔️',
         encError:'암호화 오류: ',
         decResult:'복호화된 텍스트:',
-        decError:'복호화 오류: ',
+        decFailed:'복호화 실패——비밀번호가 잘못되었거나 데이터가 손상되었습니다.',
+        invalidEncryptedText:'암호화 텍스트가 유효하지 않습니다——전체 암호화 출력을 붙여넣으세요.',
         clipDenied:'붙여넣기 실패 — 텍스트 필드를 길게 누르고 붙여넣기를 선택하세요.',
         copied:'클립보드에 복사되었습니다 ✔️',
         copyFailed:'복사 실패 — 텍스트를 수동으로 복사하세요.',
@@ -1817,7 +1827,8 @@ const LANGS = {
         copyPromptDec:'اضغط "نسخ إلى الحافظة" لنسخ النص المفكوك ✔️',
         encError:'خطأ في التشفير: ',
         decResult:'النص المفكوك:',
-        decError:'خطأ في فك التشفير: ',
+        decFailed:'فشل فك التشفير — كلمة المرور خاطئة أو البيانات تالفة.',
+        invalidEncryptedText:'نص مشفر غير صالح — يرجى لصق الإخراج المشفر الكامل.',
         clipDenied:'فشل اللصق — يرجى الضغط المطوّل على حقل النص واختيار لصق.',
         copied:'تم النسخ إلى الحافظة ✔️',
         copyFailed:'فشل النسخ — يرجى نسخ النص يدويًا.',
@@ -1936,7 +1947,8 @@ const LANGS = {
         copyPromptDec:'«کپی در کلیپ‌بورد» را فشار دهید تا متن رمزگشایی‌شده کپی شود ✔️',
         encError:'خطای رمزگذاری: ',
         decResult:'متن رمزگشایی‌شده:',
-        decError:'خطای رمزگشایی: ',
+        decFailed:'رمزگشایی ناموفق بود — رمز عبور اشتباه یا داده‌ها خراب هستند.',
+        invalidEncryptedText:'متن رمزگذاری‌شده نامعتبر است — لطفاً خروجی رمزگذاری‌شده کامل را بچسبانید.',
         clipDenied:'چسباندن ناموفق بود — لطفاً روی فیلد متن نگه دارید و چسباندن را انتخاب کنید.',
         copied:'در کلیپ‌بورد کپی شد ✔️',
         copyFailed:'کپی ناموفق بود — لطفاً متن را دستی کپی کنید.',
@@ -1975,6 +1987,13 @@ function updateLangMenu(){
     });
 }
 
+function refreshModePlaceholder(){
+    const bigInput=document.getElementById('txtLargeInput');
+    if(!bigInput)return;
+    if(mode==='encrypt')bigInput.placeholder=T('encPlaceholder');
+    else if(mode==='decrypt')bigInput.placeholder=T('decPlaceholder');
+}
+
 function applyTranslations(){
     document.documentElement.lang=currentLang;
     document.documentElement.dir=(currentLang==='ar'||currentLang==='fa')?'rtl':'ltr';
@@ -1982,7 +2001,9 @@ function applyTranslations(){
     document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=T(el.dataset.i18nHtml);});
     document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=T(el.dataset.i18nPh);});
     document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=T(el.dataset.i18nTitle);});
-    document.querySelectorAll('[data-i18n-output]').forEach(el=>{el.textContent=T(el.dataset.i18nOutput);});
+    document.querySelectorAll('[data-i18n-output]').forEach(el=>{
+        el.textContent=T(el.dataset.i18nOutput)+(el.dataset.i18nSuffix||'');
+    });
     // Password placeholder is set directly because the input is rebuilt by the flow controls.
     const pwInput=document.getElementById('txtSmallInput');
     if(pwInput) pwInput.placeholder=T('pwPlaceholder');
@@ -1992,6 +2013,7 @@ function applyTranslations(){
     if(btnLang) btnLang.title=T('btnLangTitle');
     const btnHelpEl=document.getElementById('btnHelp');
     if(btnHelpEl) btnHelpEl.title=T('btnHelpTitle');
+    refreshModePlaceholder();
 }
 
 function setLang(code){
@@ -2105,11 +2127,29 @@ function appendI18n(key,color='var(--text)'){
     d.textContent=T(key);d.style.color=color;
     out.appendChild(d);out.scrollTop=out.scrollHeight;
 }
+function appendI18nWithText(key,text,color='var(--text)'){
+    const d=document.createElement('div');
+    d.dataset.i18nOutput=key;
+    d.dataset.i18nSuffix=text;
+    d.textContent=T(key)+text;d.style.color=color;
+    out.appendChild(d);out.scrollTop=out.scrollHeight;
+}
 function arrow(key){
     const l=document.createElement('div');
     const a=document.createElement('span');a.textContent='➔ ';a.style.color='var(--accent)';
     const b=document.createElement('span');b.dataset.i18nOutput=key;b.textContent=T(key);
     l.appendChild(a);l.appendChild(b);out.appendChild(l);out.scrollTop=out.scrollHeight;
+}
+
+function cleanError(error){
+    return String(error).replace(/^Error:\s*/,'');
+}
+
+function isInvalidEncryptedTextError(error){
+    const text=String(error);
+    return text.includes('invalid-encrypted-text')||
+        (error&&error.name==='InvalidCharacterError')||
+        text.includes('not correctly encoded');
 }
 
 // Reset only clears the current UI flow; it does not wipe clipboard or stored files.
@@ -2208,11 +2248,11 @@ btn.onclick=async()=>{
             appendI18n('encResult','var(--accent)');append(buffer);
             copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
             appendI18n('copyPromptEnc','var(--accent)');ok=true;
-        }catch(e){appendI18n('encError','red');append(String(e),'red');}
+        }catch(e){appendI18nWithText('encError',cleanError(e),'red');}
     } else {
         try{
             const all=Uint8Array.from(atob(buffer),c=>c.charCodeAt(0));
-            if(all.length<29)throw new Error('Input too short — not a valid encrypted blob.');
+            if(all.length<29)throw new Error('invalid-encrypted-text');
             const salt=all.slice(0,16),iv=all.slice(16,28),ct=all.slice(28);
             const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
             const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['decrypt']);
@@ -2221,7 +2261,10 @@ btn.onclick=async()=>{
             appendI18n('decResult','var(--accent)');append(buffer);
             copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
             appendI18n('copyPromptDec','var(--accent)');ok=true;
-        }catch(e){appendI18n('decError','red');append(String(e),'red');}
+        }catch(e){
+            if(isInvalidEncryptedTextError(e))appendI18n('invalidEncryptedText','red');
+            else appendI18n('decFailed','red');
+        }
     }
     if(!ok)reset();
 };

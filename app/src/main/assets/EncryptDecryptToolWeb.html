@@ -1,4 +1,6 @@
-<!-- Developed by Amanda Hernow -->
+<!-- Developed by Amanda Hernow.
+     This is the self-contained Android WebView version of the tool. External files are avoided on purpose
+     so the app can run offline and keep encryption/decryption local to the device. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +24,7 @@
             --text:         #1a1a1a;
             --text-sec:     #4a6060;
             --text-inv:     #ffffff;
+            --note-bg:       #eef3f3;
             --out-bg:       #f8fafa;
             --in-bg:        #ffffff;
             --shadow:       0 4px 28px rgba(0,139,139,.14);
@@ -36,6 +39,7 @@
             --text:         #e0efef;
             --text-sec:     #7aacac;
             --text-inv:     #0e1a1a;
+            --note-bg:       #162424;
             --out-bg:       #152020;
             --in-bg:        #1b2b2b;
             --shadow:       0 4px 28px rgba(0,0,0,.50);
@@ -61,6 +65,17 @@
         .lang-option.active{color:var(--accent);font-weight:700}
         .lang-check{width:18px;text-align:center;color:var(--accent);font-size:12px;font-weight:800}
 
+        /* Arabic and Farsi need the interface to mirror, not only the text direction. */
+        [dir="rtl"] .lang-menu{right:auto;left:8px}
+        [dir="rtl"] .lang-option{text-align:right}
+        [dir="rtl"] .pw-wrap input{padding-right:10px;padding-left:36px}
+        [dir="rtl"] #eyeToggle{right:auto;left:10px}
+        [dir="rtl"] #btnConfirmCancel{border-right:none;border-left:1px solid var(--border)}
+        [dir="rtl"] #helpPanel{right:auto;left:44px}
+        [dir="rtl"] .htab{border-right:none;border-left:1px solid rgba(255,255,255,.12)}
+        [dir="rtl"] .htab:last-child{border-left:none}
+        [dir="rtl"] .hnote{border-left:none;border-right:3px solid var(--accent);border-radius:6px 0 0 6px}
+
         /* ── Header info ── */
         .header-info{padding:9px 16px 7px;border-bottom:1px solid var(--border);background:var(--bg-sec)}
         .header-info .app-name{color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
@@ -71,12 +86,14 @@
 
         /* ── Button panel ── */
         .button-panel{display:flex;padding:0 16px 12px;gap:10px}
-        .button-panel button{flex:1;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.02em;transition:background .15s,transform .1s}
+        .button-panel button{flex:1;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.02em;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:6px}
         .button-panel button:hover{background:var(--accent-dark)}
         .button-panel button:active{transform:scale(.97)}
         .button-panel button.active-mode{background:var(--accent-dark);box-shadow:inset 0 2px 6px rgba(0,0,0,.20)}
+        .button-panel .mode-icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
-        /* ── Output ── */
+        /* ── Output ──
+           The console is plain text only. I never inject user/encrypted/decrypted content as HTML. */
         .output{flex:1;min-height:80px;margin:0 16px;border:1px solid var(--border);border-radius:7px;padding:10px 12px;overflow-y:auto;overflow-x:hidden;white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;font-family:'Cascadia Code',Consolas,monospace;font-size:13px;background:var(--out-bg);color:var(--text);transition:background .25s,border-color .25s}
 
         /* ── Input row ── */
@@ -121,6 +138,8 @@
         #btnConfirmOk:hover{background:var(--bg-sec)}
         #confirmBox #btnConfirmOk { color: #d32f2f; }
         #confirmBox #btnConfirmOk:hover { background: rgba(211, 47, 47, 0.05); }
+        #confirmBox.safe-confirm #btnConfirmOk{color:var(--accent)}
+        #confirmBox.safe-confirm #btnConfirmOk:hover{background:var(--bg-sec)}
 
         /* ════════════════════════════════════════════
            HELP PANEL
@@ -178,8 +197,9 @@
         .bull{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--text)}
         .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px}
 
-        /* ── Note ── */
-        .hnote{background:var(--bg-sec);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:8px 11px;font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:10px}
+        /* ── Note ──
+           The muted background keeps warning notes readable in both light and dark themes. */
+        .hnote{background:var(--note-bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:8px 11px;font-size:12px;color:var(--text-sec);line-height:1.5;margin-top:10px}
 
         /* ── Donate tab ── */
         #donatePanel .donate-hero{text-align:center;padding:20px 0 6px}
@@ -220,8 +240,20 @@
     <div class="main-title" data-i18n="mainTitle">Main Menu</div>
 
     <div class="button-panel">
-        <button id="btnEncrypt">🔒&nbsp; <span data-i18n="encryptBtn">Encrypt</span></button>
-        <button id="btnDecrypt">🔓&nbsp; <span data-i18n="decryptBtn">Decrypt</span></button>
+        <button id="btnEncrypt">
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+            </svg>
+            <span data-i18n="encryptBtn">Encrypt</span>
+        </button>
+        <button id="btnDecrypt">
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                <path d="M8 11V7a4 4 0 0 1 7.3-2"></path>
+            </svg>
+            <span data-i18n="decryptBtn">Decrypt</span>
+        </button>
     </div>
 
     <div id="output" class="output"></div>
@@ -249,7 +281,7 @@
     <div class="app-footer" data-i18n-html="footerRights">© 2026 Amanda Hernow &nbsp;·&nbsp; All rights reserved &nbsp;·&nbsp; GPL v3</div>
 </div>
 
-<!-- ════════════════════ CONFIRM MODAL ════════════════════ -->
+<!-- Shared confirmation modal for destructive actions and external browser links. -->
 <div id="confirmOverlay">
     <div id="confirmBox">
         <div id="confirmTop">
@@ -263,7 +295,7 @@
     </div>
 </div>
 
-<!-- ════════════════════ HELP PANEL ════════════════════ -->
+<!-- Help, privacy, donate, and release information shown inside the app. -->
 <div id="helpOverlay">
     <div id="helpPanel" role="dialog" aria-modal="true" aria-label="Help and About">
 
@@ -280,7 +312,7 @@
             </div>
         </div>
 
-        <!-- Author card (always visible) -->
+        <!-- Author card stays visible above the help tabs. -->
         <div id="helpAuthor">
             <img id="helpAvatar" src="data:image/jpeg;base64,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" alt="Amanda Hernow">
             <div id="helpAuthorInfo">
@@ -470,7 +502,7 @@
 (function(){
 'use strict';
 
-// ── Supported languages ──
+// Supported languages for Android v1.2. Arabic and Farsi use RTL layout.
 const LANG_META = [
     {code:'en',      label:'English'},
     {code:'de',      label:'Deutsch'},
@@ -486,7 +518,7 @@ const LANG_META = [
     {code:'fa',      label:'فارسی'}
 ];
 
-// ── Translations ──
+// All visible app strings live here so the Android asset stays offline and self-contained.
 const LANGS = {
     en: {
         appTitle:'Encrypt & Decrypt Data Utility Tool',
@@ -605,7 +637,10 @@ const LANGS = {
         confirmSwitchDecBtn:'Switch',
         confirmClearTitle:'Clear Everything?',
         confirmClearMsg:'This will clear all text fields, the output window, and <u><strong>YOUR CLIPBOARD</strong></u>. This cannot be undone.<br><small><i>• FYI, You do not need to clear any content to switch between Decryption & Encryption mode.</i></small>',
-        confirmClearBtn:'Clear All'
+        confirmClearBtn:'Clear All',
+        confirmExternalTitle:'Open link in browser?',
+        confirmExternalMsg:'This link will open your browser and take you away from the app.<br><br>If you have sensitive text in the clipboard, consider using the Clear button before leaving.',
+        confirmExternalBtn:'Go to link'
     },
     de: {
         appTitle:'Dienstprogramm zum Verschlüsseln & Entschlüsseln von Daten',
@@ -1918,12 +1953,12 @@ const LANGS = {
     }
 };
 
-// ── State ──
+// Runtime state only. Nothing here is written to persistent device storage.
 let mode=null, step=0, buffer='', userHasActed=false, dark=false, currentLang='en', copyBtnMode='paste';
 
 function T(key){ return (LANGS[currentLang]&&LANGS[currentLang][key])||LANGS.en[key]||key; }
 
-// ── Language menu ──
+// Language menu and translation refresh.
 const langMenu=document.getElementById('langMenu');
 const btnLang=document.getElementById('btnLang');
 
@@ -1942,19 +1977,19 @@ function updateLangMenu(){
 
 function applyTranslations(){
     document.documentElement.lang=currentLang;
+    document.documentElement.dir=(currentLang==='ar'||currentLang==='fa')?'rtl':'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=T(el.dataset.i18n);});
     document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=T(el.dataset.i18nHtml);});
     document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=T(el.dataset.i18nPh);});
     document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=T(el.dataset.i18nTitle);});
-    // Update password input placeholder (no data-i18n-ph attribute, set directly)
+    document.querySelectorAll('[data-i18n-output]').forEach(el=>{el.textContent=T(el.dataset.i18nOutput);});
+    // Password placeholder is set directly because the input is rebuilt by the flow controls.
     const pwInput=document.getElementById('txtSmallInput');
     if(pwInput) pwInput.placeholder=T('pwPlaceholder');
-    // Update theme button title
+    // Keep toolbar button titles translated for accessibility.
     const btnThemeEl=document.getElementById('btnTheme');
     if(btnThemeEl) btnThemeEl.title=dark?T('btnThemeLight'):T('btnThemeDark');
-    // Update lang button title
     if(btnLang) btnLang.title=T('btnLangTitle');
-    // Update help button title
     const btnHelpEl=document.getElementById('btnHelp');
     if(btnHelpEl) btnHelpEl.title=T('btnHelpTitle');
 }
@@ -2028,34 +2063,56 @@ eyeBtn.onclick=()=>{
     document.getElementById('eyeIcon').innerHTML=isPassword?eyeClosed:eyeOpen;
 };
 
-// ── Confirm dialog ──
-function showConfirm(title,msg,okLabel,onOk){
+// One modal is reused for clear confirmations, mode switches, and external link warnings.
+function showConfirm(title,msg,okLabel,onOk,safeAction=false){
     document.getElementById('confirmTitle').textContent=title;
     document.getElementById('confirmMsg').innerHTML=msg.replace(/\n/g, '<br>');
     document.getElementById('btnConfirmOk').textContent=okLabel;
     const overlay=document.getElementById('confirmOverlay');
+    const box=document.getElementById('confirmBox');
+    box.classList.toggle('safe-confirm',safeAction);
     overlay.classList.add('show');
     const okBtn=document.getElementById('btnConfirmOk');
     const cancelBtn=document.getElementById('btnConfirmCancel');
-    function cleanup(){overlay.classList.remove('show');okBtn.replaceWith(okBtn.cloneNode(true));cancelBtn.replaceWith(cancelBtn.cloneNode(true));}
+    function cleanup(){overlay.classList.remove('show');box.classList.remove('safe-confirm');okBtn.replaceWith(okBtn.cloneNode(true));cancelBtn.replaceWith(cancelBtn.cloneNode(true));}
     document.getElementById('btnConfirmOk').onclick=()=>{cleanup();onOk();};
     document.getElementById('btnConfirmCancel').onclick=()=>cleanup();
 }
 
-// ── Output helpers ──
+// I ask before opening web links because users may have sensitive text in the clipboard.
+// Email links are allowed through directly.
+document.addEventListener('click',e=>{
+    const link=e.target.closest&&e.target.closest('a[href]');
+    if(!link)return;
+    const href=link.getAttribute('href')||'';
+    if(href.startsWith('mailto:'))return;
+    if(!/^https?:\/\//i.test(href))return;
+    e.preventDefault();
+    showConfirm(T('confirmExternalTitle'),T('confirmExternalMsg'),T('confirmExternalBtn'),()=>{
+        window.location.href=href;
+    },true);
+});
+
+// Output helpers. UI messages carry translation keys so they update if the language changes.
 function append(text,color='var(--text)'){
     const d=document.createElement('div');
     d.textContent=text;d.style.color=color;
     out.appendChild(d);out.scrollTop=out.scrollHeight;
 }
+function appendI18n(key,color='var(--text)'){
+    const d=document.createElement('div');
+    d.dataset.i18nOutput=key;
+    d.textContent=T(key);d.style.color=color;
+    out.appendChild(d);out.scrollTop=out.scrollHeight;
+}
 function arrow(key){
     const l=document.createElement('div');
     const a=document.createElement('span');a.textContent='➔ ';a.style.color='var(--accent)';
-    const b=document.createElement('span');b.textContent=T(key);
+    const b=document.createElement('span');b.dataset.i18nOutput=key;b.textContent=T(key);
     l.appendChild(a);l.appendChild(b);out.appendChild(l);out.scrollTop=out.scrollHeight;
 }
 
-// ── Reset ──
+// Reset only clears the current UI flow; it does not wipe clipboard or stored files.
 function reset(){
     mode=null;step=0;buffer='';userHasActed=false;copyBtnMode='paste';
     big.value='';small.value='';
@@ -2069,7 +2126,7 @@ function setActiveBtn(activeMode){
     decBtn.classList.toggle('active-mode',activeMode==='decrypt');
 }
 
-// ── Start mode ──
+// Start a mode and show the first instruction without touching clipboard contents.
 function startMode(newMode){
     out.innerHTML='';
     big.value='';
@@ -2106,7 +2163,7 @@ decBtn.onclick=()=>{
     } else { startMode('decrypt'); }
 };
 
-// ── Submit ──
+// Submit handles both encryption and decryption steps.
 btn.onclick=async()=>{
     if(!mode)return;
     if(step===1){
@@ -2116,7 +2173,8 @@ btn.onclick=async()=>{
             if(existing)existing.remove();
             const w=document.createElement('div');
             w.id='warnEmpty';w.className='warn-empty';
-            w.textContent=mode==='encrypt'?T('warnNoTextEnc'):T('warnNoTextDec');
+            w.dataset.i18nOutput=mode==='encrypt'?'warnNoTextEnc':'warnNoTextDec';
+            w.textContent=T(w.dataset.i18nOutput);
             out.appendChild(w);out.scrollTop=out.scrollHeight;
             return;
         }
@@ -2131,6 +2189,7 @@ btn.onclick=async()=>{
     if(!pw.trim()){
         const w=document.createElement('div');
         w.className='warn-password';
+        w.dataset.i18nOutput='warnNoPassword';
         w.textContent=T('warnNoPassword');
         out.appendChild(w);out.scrollTop=out.scrollHeight;
     }
@@ -2143,12 +2202,13 @@ btn.onclick=async()=>{
             const pk=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
             const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['encrypt']);
             const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(buffer));
+            // Output format: 16-byte salt + 12-byte IV + AES-GCM ciphertext/tag, then Base64.
             const all=new Uint8Array(16+12+ct.byteLength);all.set(salt,0);all.set(iv,16);all.set(new Uint8Array(ct),28);
             buffer=btoa(String.fromCharCode(...all));
-            append(T('encResult'),'var(--accent)');append(buffer);
+            appendI18n('encResult','var(--accent)');append(buffer);
             copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
-            append(T('copyPromptEnc'),'var(--accent)');ok=true;
-        }catch(e){append(T('encError')+e,'red');}
+            appendI18n('copyPromptEnc','var(--accent)');ok=true;
+        }catch(e){appendI18n('encError','red');append(String(e),'red');}
     } else {
         try{
             const all=Uint8Array.from(atob(buffer),c=>c.charCodeAt(0));
@@ -2158,15 +2218,15 @@ btn.onclick=async()=>{
             const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},pk,{name:'AES-GCM',length:256},false,['decrypt']);
             const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,ct);
             buffer=new TextDecoder().decode(pt);
-            append(T('decResult'),'var(--accent)');append(buffer);
+            appendI18n('decResult','var(--accent)');append(buffer);
             copyBtnMode='copy';btnCopy.textContent=T('copyBtn');btnCopy.style.display='inline-block';
-            append(T('copyPromptDec'),'var(--accent)');ok=true;
-        }catch(e){append(T('decError')+e,'red');}
+            appendI18n('copyPromptDec','var(--accent)');ok=true;
+        }catch(e){appendI18n('decError','red');append(String(e),'red');}
     }
     if(!ok)reset();
 };
 
-// ── Paste / Copy button ──
+// Paste and copy only happen after the user taps the button.
 btnCopy.onclick=async()=>{
     if(copyBtnMode==='paste'){
         try{
@@ -2177,7 +2237,7 @@ btnCopy.onclick=async()=>{
             const text=await navigator.clipboard.readText();
             if(text){big.value=text;big.focus();}
         }catch(e){
-            append(T('clipDenied'),'red');
+            appendI18n('clipDenied','red');
         }
         return;
     }
@@ -2185,7 +2245,7 @@ btnCopy.onclick=async()=>{
     if(document.activeElement)document.activeElement.blur();
     try{
         await navigator.clipboard.writeText(buffer);
-        append(T('copied'),'var(--accent)');reset();
+        appendI18n('copied','var(--accent)');reset();
     }catch(e){
         try{
             const ta=document.createElement('textarea');
@@ -2193,14 +2253,14 @@ btnCopy.onclick=async()=>{
             document.body.appendChild(ta);ta.focus();ta.select();
             const ok=document.execCommand('copy');
             document.body.removeChild(ta);
-            if(ok){append(T('copied'),'var(--accent)');}
-            else{append(T('copyFailed'),'red');}
+            if(ok){appendI18n('copied','var(--accent)');}
+            else{appendI18n('copyFailed','red');}
             reset();
-        }catch(e2){append(T('copyFailed'),'red');reset();}
+        }catch(e2){appendI18n('copyFailed','red');reset();}
     }
 };
 
-// ── Clear ──
+// Clear is intentionally explicit because it also tries to wipe the system clipboard.
 exitBtn.onclick=()=>{
     showConfirm(T('confirmClearTitle'),T('confirmClearMsg'),T('confirmClearBtn'),async()=>{
         try{
@@ -2213,11 +2273,11 @@ exitBtn.onclick=()=>{
         out.innerHTML='';
         reset();
         setActiveBtn(null);
-        append(T('cleared'),'var(--accent)');
+        appendI18n('cleared','var(--accent)');
     });
 };
 
-// ── Init ──
+// Apply the initial language after all UI handlers are ready.
 currentLang=detectLang();
 updateLangMenu();
 applyTranslations();

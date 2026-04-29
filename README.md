@@ -50,24 +50,24 @@ It was originally built as an internal utility tool and has since been rewritten
 
 ## Language Support
 
-Language support is being tracked across all platform versions. At the moment, only the **web version** has multilingual support implemented.
+Language support is being tracked across all platform versions. The **web version** and **Android app** currently include multilingual support.
 
-The web version currently supports English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. More languages are planned — see the table below.
+The web and Android versions currently support English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. Arabic and Farsi include right-to-left layout support. More languages are planned — see the table below.
 
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
 | English | ✅ | ✅ | 📋 Planned | 📋 Planned |
 | German / Deutsch | ✅ | ✅ | 📋 Planned | 📋 Planned |
-| Simplified Chinese / 中文（简体） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Traditional Chinese / 中文（繁體） | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Japanese / 日本語 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Korean / 한국어 | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| French / Français | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Spanish / Español | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Italian / Italiano | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Portuguese / Português | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Arabic / العربية | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
-| Farsi / فارسی | ✅ | 📋 Planned | 📋 Planned | 📋 Planned |
+| Simplified Chinese / 中文（简体） | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Traditional Chinese / 中文（繁體） | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Japanese / 日本語 | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Korean / 한국어 | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| French / Français | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Spanish / Español | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Italian / Italiano | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Portuguese / Português | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Arabic / العربية | ✅ | ✅ | 📋 Planned | 📋 Planned |
+| Farsi / فارسی | ✅ | ✅ | 📋 Planned | 📋 Planned |
 | Russian / Русский | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Ukrainian / Українська | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Croatian / Serbian / Bosnian | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
@@ -81,6 +81,9 @@ The web version currently supports English, German, Simplified Chinese, Traditio
 Currently implemented on the web version:
 - `index.html`
 - `privacy-policy.html`
+
+Currently implemented on the Android version:
+- `app/src/main/assets/EncryptDecryptToolWeb.html`
 
 ---
 

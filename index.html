@@ -161,7 +161,7 @@ body{
 }
 .tb-icon{
   width:26px;height:26px;border-radius:6px;
-  object-fit:cover;flex-shrink:0;
+  object-fit:contain;flex-shrink:0;
 }
 .tb-title{
   flex:1;
@@ -546,7 +546,7 @@ textarea{
 .author-avatar{
   width:52px;height:52px;border-radius:50%;
   border:2.5px solid var(--accent);
-  object-fit:cover;flex-shrink:0;
+  object-fit:contain;flex-shrink:0;
   transition:border-color .3s;
 }
 .author-info{display:flex;flex-direction:column;gap:3px;}
@@ -644,7 +644,7 @@ textarea{
 
   <!-- TITLEBAR -->
   <div class="titlebar">
-    <img class="tb-icon" src="favicon.png" alt="icon">
+    <img class="tb-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAUuSURBVFhHvVdbTBRXGD4VW/tgY2Js2lhqsJZqTZpoG3tJrCZN+0Af+tA0mtiLSZs0rZaHtj5AoJbZ2+zsjV3Q3eUeV8ArtRKW4ApolOWyEKtpLAqpVOsGrIgIBKQCX/OfYSYzuwsiKZ7ky+4585//+85/zv/PHMaUlp6+hLndqUyS1i4oiGPnzqdVXt6s1m3M4/mTOZ2TzG7HgoI4iEuStsvkNtsG5naD5efTw8cD4iJOh2MjY3a7mRUUxCtVIElgFguY2Sz/Uj/WZj4gTkkSKQIe5vXGG1itYAYDnnQ6sa6kBG+Xl2N9aSmWuFx8nIli/JxHAXFKUh5jDodLJ8DhADMasdzthrm5Gb0jI9C2vpEROCIRPEdhNBrjHc8VMmeuXsA0+RtlZbg2OMgJrw4M4L2KCqzxepF25AhuDg/z8ejwMLZUVMjRoHmxBA9DQgEWC1b7/bgzNsZJaPXLPB58FQzi6NWr+LiqCiu9XtwbH+fPRx48wPqSEjCTSd6y2WCzzUGAyYS6nh413PkXLmClz6f2qS11u/FLV5fab45GsdhqRWpREV4tLU2I1YWFWBQbpTgBZjM2BgI6ssrOTnxaU6Mb++jECTTeuKEbS6uqQkZDA6xtbRBbW/UIh/FrdzfSjh+XIzWjAEFA5rlzqtMbQ0PY09iIb0Mh7Dl7FukNDfz3m1AIP9bXo/vuXdWWiFhWlpyqscjOxmfBIL6orX2IAIMBhZcuqU6ltjawzEx5Uk6OvIf0S/2MDGSdP6/aHrlyZeaMMBrxZV0ddtTUPFyA/+JFvQBB4A4+OXkSg/fvY3t1tUwkCPgpHFZtD3V2/g8CBAE/nDmjOrVHIrIAkwkfHDvGxz6sqpKdCAL2agQYmptl21jyaQFfh0Jz2AKLBetKS+MFiCKS/X5MTE0hhconVUBBQLZmCzYdPCjvt5aYtoyikpWFrYcP4/2jR/U2cQKm1dLJp2ZqaeEHiNd/mw1vlpfLNtTPzlajVXvtmn5lBFHEEzYbtlVXcz+7Tp/GCqqcZKekY0IBoogVHg/+Hh5Ge18fUr1evupVBQVYlpeHF3w+JPt8SMnPR+P167g9Oork/ftlUQq51YqlTid/rm2UVa9R0VKikFAAqTOZkOL14rdbt3QOJqemdP3O/n6sKyyUw6wtMgYDpEiE2/x17x52nzqlFreOvj4kKVUxoQBFhNmMJEnC7lAILdEohsbHcX9igpfgSG8vvm9owFNkqw0pgRxLEv64c4cTtvf2YmtlJTaUlaHp5k0+9nJxsRyxGQUooPf+9Gt3eV4eL6nPkx0dQhpP9F0wLeD327fVSNF/e2sr+kdHef+loqI5CtA6zclBen09Xg8E4k97LKhGNDWpArQtHI1iES1g1i1IBKMRPzc14d1Dh/QHTgsaJ5hMvDDFtq6BAaylM6PMf1QBlPebKysTC5AkbDxwAKv27cOOYFAl7RkcREZjIz4PBvFMbq4cvVnTcCbMJkCSsNhux8DYGD+sBKXxiNFLis4MnX7tvEcVIITDeIuK0XR1VEGCjEZedLSpmtvRIb+8Yn3NV8B39fUIXL4MR1sbnO3tOuyqq+OrVRp9xi2hebGrnrcAux1JDgdPwxf9/jg863ZjUyCAfycnOd6hSM30dpyvACXHZ4Qo4pXiYo64c5IIGgGJ7wXzgZKKseOJIHPm0c1oL7+lxH61LiSIS76N5dDNaA1zuUaZzwdGufo4QKt3ucaYJKUqt+PNzONpYk7nP8xu72c228KAfBOH2x1moriFqP8DbgFW4EguLoMAAAAASUVORK5CYII=" alt="icon">
     <div class="tb-title" data-i18n="appTitle">Encrypt &amp; Decrypt Data Utility Tool</div>
     <button class="tb-btn" id="btnTheme" data-i18n-title="btnThemeDark" title="Toggle theme">🌙</button>
     <div class="lang-wrap">

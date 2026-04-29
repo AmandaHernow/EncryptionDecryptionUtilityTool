@@ -18,7 +18,7 @@ android {
         applicationId = "net.hernow.encryptdecrypt"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 3
+        versionCode = 5
         versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

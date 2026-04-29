@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+.claude
 .claude/
 .codex
 .codex/

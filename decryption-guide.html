@@ -37,9 +37,13 @@
         a  { color: var(--accent); }
         a:hover { text-decoration: underline; }
 
-        /* ── back link ── */
+        /* ── navigation links ── */
+        .top-links {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 16px; margin-bottom: 22px;
+        }
         .back-link {
-            display: inline-block; margin-bottom: 22px;
+            display: inline-block;
             color: var(--accent); text-decoration: none; font-weight: 700;
         }
         .back-link:hover { text-decoration: underline; }
@@ -193,6 +197,13 @@
         }
         .explanation[hidden] { display: none; }
         .explanation h4 { margin: 0 0 8px; color: var(--accent); }
+        .explanation-close {
+            float: right; margin: 0 0 12px 12px;
+            border: 1px solid var(--accent); border-radius: 6px;
+            background: var(--card); color: var(--accent-dark);
+            padding: 7px 10px; font: inherit; font-size: 13px; font-weight: 700;
+            cursor: pointer;
+        }
         .explanation-part { margin: 18px 0; }
         .explanation-part > code { display: block; margin: 6px 0; padding: 9px; white-space: pre-wrap; }
         .flow { display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 14px 0 20px; }
@@ -228,7 +239,7 @@
                 font-size: 1.12rem;
                 line-height: 1.3;
             }
-            .back-link { margin-bottom: 18px; }
+            .top-links { margin-bottom: 18px; }
             .intro-box {
                 padding: 15px 16px;
                 border-radius: 8px;
@@ -277,6 +288,17 @@
                 font-size: 18px;
                 line-height: 1;
             }
+            .explanation:not([hidden]) {
+                position: fixed; inset: 12px; z-index: 1000;
+                max-height: calc(100vh - 24px); overflow-y: auto;
+                margin: 0; padding: 16px;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, .32);
+            }
+            .explanation-close {
+                position: sticky; top: 0; z-index: 1;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+            }
+            body.explanation-open { overflow: hidden; }
         }
 
         @media (max-width: 460px) {
@@ -307,7 +329,10 @@
 </head>
 <body>
 
-<a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/" class="back-link">← Back to App</a>
+<nav class="top-links" aria-label="Page navigation">
+    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/" class="back-link">← Back to App</a>
+    <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" class="back-link">Back to GitHub →</a>
+</nav>
 
 <h1>Independent Decryption Guide</h1>
 <p>Your data is encrypted with open, standard algorithms that <strong>any computer can decrypt</strong> — without needing this app. This guide walks you through it step by step, even if you have never used a command-line tool before.</p>
@@ -317,7 +342,7 @@
     <strong>Before you start, you will need two things:</strong>
     <ul>
         <li>The <strong>password</strong> you used when you encrypted the message.</li>
-        <li>The <strong>encrypted text</strong> produced by the app — a long block of letters, numbers, and symbols that looks like: <code>U2FsdGVkX1+abc123...</code></li>
+        <li>The <strong>encrypted text</strong> produced by the app — a long Base64 block of letters, numbers, and symbols that looks like: <code>WPUiBcZ2b20Riq7IMDBNjgRVkgnAiKDTjOdXCpch1YNOdMmGIV4X8tfQxD1rcdOM...</code></li>
     </ul>
 </div>
 
@@ -1075,6 +1100,7 @@ print(plaintext.decode("utf-8"))</code></pre>
         const part = (title, code, text) => `<div class="explanation-part"><h4>${title}</h4><code>${escapeHtml(code)}</code><p>${text}</p></div>`;
 
         return `
+            <button type="button" class="explanation-close" aria-label="Close code explanation">Close ×</button>
             <h4>What this code does</h4>
             <p>This panel explains the decryption code immediately above it. It follows the encrypted message from the Base64 text you paste through each standard cryptographic step until the original readable message is printed.</p>
             <div class="flow" aria-label="Decryption flow">
@@ -1117,10 +1143,28 @@ print(plaintext.decode("utf-8"))</code></pre>
             const opening = explanation.hidden;
             if (opening && !explanation.innerHTML) explanation.innerHTML = explanationHtml(block);
             explanation.hidden = !opening;
+            document.body.classList.toggle('explanation-open', opening && window.matchMedia('(max-width: 700px)').matches);
             button.setAttribute('aria-expanded', String(opening));
             button.setAttribute('aria-label', opening ? 'Hide this code explanation' : 'Explain this decryption code');
             button.textContent = opening ? '− Hide explanation' : '? Explain this code';
+            if (opening) {
+                explanation.querySelector('.explanation-close').onclick = () => {
+                    explanation.hidden = true;
+                    document.body.classList.remove('explanation-open');
+                    button.setAttribute('aria-expanded', 'false');
+                    button.setAttribute('aria-label', 'Explain this decryption code');
+                    button.textContent = '? Explain this code';
+                    button.focus();
+                };
+                explanation.querySelector('.explanation-close').focus();
+            }
         });
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const openExplanation = document.querySelector('.explanation:not([hidden])');
+        if (openExplanation) openExplanation.querySelector('.explanation-close').click();
     });
 
     document.querySelectorAll('.copy-code').forEach(button => {

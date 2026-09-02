@@ -176,6 +176,7 @@
             cursor: pointer;
         }
         .code-action:hover, .code-action:focus-visible { background: #e8f7f7; }
+        .explain-code { min-width: 132px; }
         .code-block pre { margin: 0; }
         .explanation {
             margin-top: 10px; padding: 16px;
@@ -259,6 +260,15 @@
             .byte-part:last-child { border-bottom-width: 1px; }
             .code-actions { justify-content: stretch; }
             .code-action { flex: 1; }
+            .explain-code {
+                flex: 0 0 44px; min-width: 44px;
+                font-size: 0;
+            }
+            .explain-code::before {
+                content: '?';
+                font-size: 18px;
+                line-height: 1;
+            }
         }
 
         @media (max-width: 460px) {
@@ -307,7 +317,7 @@
     <div class="tabs">
         <button class="tab active" onclick="showTab('win',   this)">Windows</button>
         <button class="tab"        onclick="showTab('mac',   this)">Mac</button>
-        <button class="tab"        onclick="showTab('linux', this)">Linux</button>
+        <button class="tab"        onclick="showTab('linux', this)">Linux / Python</button>
     </div>
 
     <!-- ══════════════════════════════════════════
@@ -390,19 +400,16 @@
                     </ol>
                     <div class="code-block" data-platform="powershell" data-input="direct">
                         <div class="code-actions">
-                            <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                            <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Windows direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Windows direct decryption code">Copy code</button>
                         </div>
-<pre><code>$encryptedText = 'TEXT TO DECRYPT'
-$password = 'PASSWORD'
-
-[byte[]]$bytes = [Convert]::FromBase64String(($encryptedText -replace '\s', ''))
+<pre><code>[byte[]]$bytes = [Convert]::FromBase64String(('TEXT TO DECRYPT' -replace '\s', ''))
 [byte[]]$salt = $bytes[0..15]
 [byte[]]$iv = $bytes[16..27]
 [byte[]]$ciphertext = $bytes[28..($bytes.Length - 17)]
 [byte[]]$tag = $bytes[($bytes.Length - 16)..($bytes.Length - 1)]
 
-$pbkdf2 = [System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes($password), $salt, 100000, [System.Security.Cryptography.HashAlgorithmName]::SHA256)
+$pbkdf2 = [System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes('PASSWORD'), $salt, 100000, [System.Security.Cryptography.HashAlgorithmName]::SHA256)
 [byte[]]$key = $pbkdf2.GetBytes(32)
 $pbkdf2.Dispose()
 
@@ -424,7 +431,7 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                 <div class="step-body">
                     <h3>Clean up after reading</h3>
                     <p>Run the following after you have finished reading or copying the message. It clears the variables, clears PowerShell's session history and PSReadLine's in-memory recall list, clears the clipboard, restores your earlier history setting, and clears the visible screen.</p>
-<pre>$encryptedText=$null; $password=$null; $bytes=$null; $salt=$null; $iv=$null; $ciphertext=$null; $tag=$null; $key=$null; $plaintext=$null; Clear-History; [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory(); Set-Clipboard -Value $null; Set-PSReadLineOption -HistorySaveStyle $previousHistoryStyle; $previousHistoryStyle=$null; Clear-Host</pre>
+<pre>$bytes=$null; $salt=$null; $iv=$null; $ciphertext=$null; $tag=$null; $key=$null; $plaintext=$null; Clear-History; [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory(); Set-Clipboard -Value ''; Set-PSReadLineOption -HistorySaveStyle $previousHistoryStyle; $previousHistoryStyle=$null; Clear-Host</pre>
                     <div class="note"><strong>Important:</strong> clearing variables does not guarantee secure erasure from memory, and <code>Clear-Host</code> does not guarantee that every terminal application has discarded its scrollback. In Windows Terminal, open the command palette with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, run <strong>Clear Buffer</strong>, then close the tab when finished.</div>
                     <div class="note"><strong>About PowerShell history:</strong> <code>Clear-History</code> only clears PowerShell's session history. The separate PSReadLine recall list is cleared by the next command. Because history saving was disabled before the sensitive code was pasted, this method avoids deleting your unrelated saved history.</div>
                     <div class="warn"><strong>Optional full-history deletion:</strong> You normally do not need this. <code>Remove-Item (Get-PSReadLineOption).HistorySavePath -Force</code> deletes <strong>ALL saved PowerShell command history, not only this decryption session.</strong></div>
@@ -463,7 +470,7 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                 <p>Then paste the whole thing into PowerShell (right-click to paste) and press <kbd>Enter</kbd>.</p>
                 <div class="code-block" data-platform="powershell" data-input="file">
                     <div class="code-actions">
-                        <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                        <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Windows file decryption code">? Explain this code</button>
                         <button type="button" class="code-action copy-code" aria-label="Copy Windows file decryption code">Copy code</button>
                     </div>
 <pre><code>$password = 'YOUR_PASSWORD_HERE'
@@ -611,7 +618,7 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                     </ol>
                     <div class="code-block" data-platform="python" data-input="direct">
                         <div class="code-actions">
-                            <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                            <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Mac direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Mac direct decryption code">Copy code</button>
                         </div>
 <pre><code>python3 - &lt;&lt;'PY'
@@ -620,16 +627,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-encrypted_text = "TEXT TO DECRYPT"
-password = "PASSWORD".encode("utf-8")
-
-encrypted_bytes = base64.b64decode("".join(encrypted_text.split()), validate=True)
+encrypted_bytes = base64.b64decode("".join("TEXT TO DECRYPT".split()), validate=True)
 salt = encrypted_bytes[:16]
 iv = encrypted_bytes[16:28]
 ciphertext_and_tag = encrypted_bytes[28:]
 
 kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
-key = kdf.derive(password)
+key = kdf.derive("PASSWORD".encode("utf-8"))
 
 plaintext_bytes = AESGCM(key).decrypt(iv, ciphertext_and_tag, None)
 print(plaintext_bytes.decode("utf-8"))
@@ -689,7 +693,7 @@ PY</code></pre>
                 <p>The terminal changes to show a plain text editor. Now paste the script below (<kbd>⌘ Cmd</kbd>+<kbd>V</kbd>). <strong>Before pasting, change <code>YOUR_PASSWORD_HERE</code> to your actual password</strong> (keep the double quote marks around it).</p>
                 <div class="code-block" data-platform="python" data-input="file">
                     <div class="code-actions">
-                        <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                        <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Mac file decryption code">? Explain this code</button>
                         <button type="button" class="code-action copy-code" aria-label="Copy Mac file decryption code">Copy code</button>
                     </div>
 <pre><code>import base64, os
@@ -760,7 +764,7 @@ print(plaintext.decode("utf-8"))</code></pre>
          LINUX
     ══════════════════════════════════════════ -->
     <div id="linux" class="panel">
-        <h2>Linux — Python 3</h2>
+        <h2>Linux / Python — Python 3</h2>
         <p>We will use <strong>Python 3</strong> and the free <strong>cryptography</strong> package. Python 3 is pre-installed on most Linux distributions.</p>
 
         <!-- Step 1 -->
@@ -849,7 +853,7 @@ print(plaintext.decode("utf-8"))</code></pre>
                     </ol>
                     <div class="code-block" data-platform="python" data-input="direct">
                         <div class="code-actions">
-                            <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                            <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Linux direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Linux direct decryption code">Copy code</button>
                         </div>
 <pre><code> python3 - &lt;&lt;'PY'
@@ -858,16 +862,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-encrypted_text = "TEXT TO DECRYPT"
-password = "PASSWORD".encode("utf-8")
-
-encrypted_bytes = base64.b64decode("".join(encrypted_text.split()), validate=True)
+encrypted_bytes = base64.b64decode("".join("TEXT TO DECRYPT".split()), validate=True)
 salt = encrypted_bytes[:16]
 iv = encrypted_bytes[16:28]
 ciphertext_and_tag = encrypted_bytes[28:]
 
 kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
-key = kdf.derive(password)
+key = kdf.derive("PASSWORD".encode("utf-8"))
 
 plaintext_bytes = AESGCM(key).decrypt(iv, ciphertext_and_tag, None)
 print(plaintext_bytes.decode("utf-8"))
@@ -929,7 +930,7 @@ PY</code></pre>
                 <p>To paste in nano: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> (or right-click if your terminal supports it).</p>
                 <div class="code-block" data-platform="python" data-input="file">
                     <div class="code-actions">
-                        <button type="button" class="code-action explain-code" aria-expanded="false">? Explain this code</button>
+                        <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Linux file decryption code">? Explain this code</button>
                         <button type="button" class="code-action copy-code" aria-label="Copy Linux file decryption code">Copy code</button>
                     </div>
 <pre><code>import base64, os
@@ -1061,8 +1062,8 @@ print(plaintext.decode("utf-8"))</code></pre>
         const powershell = block.dataset.platform === 'powershell';
         const direct = block.dataset.input === 'direct';
         const inputLine = powershell
-            ? (direct ? "$encryptedText = 'TEXT TO DECRYPT'" : '$bytes = [Convert]::FromBase64String((Get-Content "$HOME\\secret.txt" -Raw).Trim())')
-            : (direct ? 'encrypted_text = "TEXT TO DECRYPT"' : 'with open(os.path.expanduser("~/secret.txt")) as f:');
+            ? (direct ? "[Convert]::FromBase64String(('TEXT TO DECRYPT' -replace '\\s', ''))" : '$bytes = [Convert]::FromBase64String((Get-Content "$HOME\\secret.txt" -Raw).Trim())')
+            : (direct ? 'base64.b64decode("".join("TEXT TO DECRYPT".split()), validate=True)' : 'with open(os.path.expanduser("~/secret.txt")) as f:');
         const decodeLine = powershell
             ? '[Convert]::FromBase64String(...)'
             : (direct ? 'encrypted_bytes = base64.b64decode(...)' : 'data = base64.b64decode(f.read().strip())');
@@ -1081,7 +1082,8 @@ print(plaintext.decode("utf-8"))</code></pre>
         const part = (title, code, text) => `<div class="explanation-part"><h4>${title}</h4><code>${escapeHtml(code)}</code><p>${text}</p></div>`;
 
         return `
-            <h4>How this code decrypts the message</h4>
+            <h4>What this code does</h4>
+            <p>This panel explains the decryption code immediately above it. It follows the encrypted message from the Base64 text you paste through each standard cryptographic step until the original readable message is printed.</p>
             <div class="flow" aria-label="Decryption flow">
                 ${['Encrypted Base64 text','Convert Base64 back into bytes','First 16 bytes = Salt','Next 12 bytes = IV / Nonce','Ciphertext + authentication information','Password + Salt','PBKDF2-SHA256 — 100,000 iterations','256-bit AES key','AES-256-GCM decrypt','Original UTF-8 text','Printed in the terminal'].map(label => `<div class="flow-box">${label}</div>`).join('<div class="flow-arrow" aria-hidden="true">↓</div>')}
             </div>
@@ -1123,6 +1125,7 @@ print(plaintext.decode("utf-8"))</code></pre>
             if (opening && !explanation.innerHTML) explanation.innerHTML = explanationHtml(block);
             explanation.hidden = !opening;
             button.setAttribute('aria-expanded', String(opening));
+            button.setAttribute('aria-label', opening ? 'Hide this code explanation' : 'Explain this decryption code');
             button.textContent = opening ? '− Hide explanation' : '? Explain this code';
         });
     });

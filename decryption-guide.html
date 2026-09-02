@@ -178,6 +178,14 @@
         .code-action:hover, .code-action:focus-visible { background: #e8f7f7; }
         .explain-code { min-width: 132px; }
         .code-block pre { margin: 0; }
+        .direct-code pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+        .code-placeholder {
+            color: #c62828;
+            background: #ffebee;
+            border-radius: 3px;
+            padding: 1px 3px;
+            font-weight: 800;
+        }
         .explanation {
             margin-top: 10px; padding: 16px;
             border: 1px solid var(--border); border-radius: 8px;
@@ -398,27 +406,12 @@
                         <li>Paste the entire edited code into PowerShell 7 and press <kbd>Enter</kbd>.</li>
                         <li>The decrypted message appears directly in PowerShell.</li>
                     </ol>
-                    <div class="code-block" data-platform="powershell" data-input="direct">
+                    <div class="code-block direct-code" data-platform="powershell" data-input="direct">
                         <div class="code-actions">
                             <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Windows direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Windows direct decryption code">Copy code</button>
                         </div>
-<pre><code>[byte[]]$bytes = [Convert]::FromBase64String(('TEXT TO DECRYPT' -replace '\s', ''))
-[byte[]]$salt = $bytes[0..15]
-[byte[]]$iv = $bytes[16..27]
-[byte[]]$ciphertext = $bytes[28..($bytes.Length - 17)]
-[byte[]]$tag = $bytes[($bytes.Length - 16)..($bytes.Length - 1)]
-
-$pbkdf2 = [System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes('PASSWORD'), $salt, 100000, [System.Security.Cryptography.HashAlgorithmName]::SHA256)
-[byte[]]$key = $pbkdf2.GetBytes(32)
-$pbkdf2.Dispose()
-
-$aesGcm = [System.Security.Cryptography.AesGcm]::new($key, 16)
-[byte[]]$plaintext = New-Object byte[] $ciphertext.Length
-$aesGcm.Decrypt($iv, $ciphertext, $tag, $plaintext)
-$aesGcm.Dispose()
-
-Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
+<pre><code>[byte[]]$bytes=[Convert]::FromBase64String(('<span class="code-placeholder">TEXT TO DECRYPT</span>' -replace '\s','')); [byte[]]$salt=$bytes[0..15]; [byte[]]$iv=$bytes[16..27]; [byte[]]$ciphertext=$bytes[28..($bytes.Length-17)]; [byte[]]$tag=$bytes[($bytes.Length-16)..($bytes.Length-1)]; $pbkdf2=[System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes('<span class="code-placeholder">PASSWORD</span>'),$salt,100000,[System.Security.Cryptography.HashAlgorithmName]::SHA256); [byte[]]$key=$pbkdf2.GetBytes(32); $pbkdf2.Dispose(); $aesGcm=[System.Security.Cryptography.AesGcm]::new($key,16); [byte[]]$plaintext=New-Object byte[] $ciphertext.Length; $aesGcm.Decrypt($iv,$ciphertext,$tag,$plaintext); $aesGcm.Dispose(); Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
                     <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> with your own values.</div>
@@ -473,7 +466,7 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                         <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Windows file decryption code">? Explain this code</button>
                         <button type="button" class="code-action copy-code" aria-label="Copy Windows file decryption code">Copy code</button>
                     </div>
-<pre><code>$password = 'YOUR_PASSWORD_HERE'
+<pre><code>$password = '<span class="code-placeholder">YOUR_PASSWORD_HERE</span>'
 
 $bytes      = [Convert]::FromBase64String((Get-Content "$HOME\secret.txt" -Raw).Trim())
 [byte[]]$salt       = $bytes[0..15]
@@ -616,7 +609,7 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                         <li>Paste the entire edited code into Terminal and press <kbd>Enter</kbd>.</li>
                         <li>The decrypted message appears directly in Terminal.</li>
                     </ol>
-                    <div class="code-block" data-platform="python" data-input="direct">
+                    <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">
                             <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Mac direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Mac direct decryption code">Copy code</button>
@@ -627,13 +620,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-encrypted_bytes = base64.b64decode("".join("TEXT TO DECRYPT".split()), validate=True)
+encrypted_bytes = base64.b64decode("".join("<span class="code-placeholder">TEXT TO DECRYPT</span>".split()), validate=True)
 salt = encrypted_bytes[:16]
 iv = encrypted_bytes[16:28]
 ciphertext_and_tag = encrypted_bytes[28:]
 
 kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
-key = kdf.derive("PASSWORD".encode("utf-8"))
+key = kdf.derive("<span class="code-placeholder">PASSWORD</span>".encode("utf-8"))
 
 plaintext_bytes = AESGCM(key).decrypt(iv, ciphertext_and_tag, None)
 print(plaintext_bytes.decode("utf-8"))
@@ -701,7 +694,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-password = "YOUR_PASSWORD_HERE".encode("utf-8")
+password = "<span class="code-placeholder">YOUR_PASSWORD_HERE</span>".encode("utf-8")
 
 with open(os.path.expanduser("~/secret.txt")) as f:
     data = base64.b64decode(f.read().strip())
@@ -851,7 +844,7 @@ print(plaintext.decode("utf-8"))</code></pre>
                         <li>Paste the entire edited code into Terminal and press <kbd>Enter</kbd>.</li>
                         <li>The decrypted message appears directly in Terminal.</li>
                     </ol>
-                    <div class="code-block" data-platform="python" data-input="direct">
+                    <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">
                             <button type="button" class="code-action explain-code" aria-expanded="false" aria-label="Explain the Linux direct decryption code">? Explain this code</button>
                             <button type="button" class="code-action copy-code" aria-label="Copy Linux direct decryption code">Copy code</button>
@@ -862,13 +855,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-encrypted_bytes = base64.b64decode("".join("TEXT TO DECRYPT".split()), validate=True)
+encrypted_bytes = base64.b64decode("".join("<span class="code-placeholder">TEXT TO DECRYPT</span>".split()), validate=True)
 salt = encrypted_bytes[:16]
 iv = encrypted_bytes[16:28]
 ciphertext_and_tag = encrypted_bytes[28:]
 
 kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000)
-key = kdf.derive("PASSWORD".encode("utf-8"))
+key = kdf.derive("<span class="code-placeholder">PASSWORD</span>".encode("utf-8"))
 
 plaintext_bytes = AESGCM(key).decrypt(iv, ciphertext_and_tag, None)
 print(plaintext_bytes.decode("utf-8"))
@@ -938,7 +931,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-password = "YOUR_PASSWORD_HERE".encode("utf-8")
+password = "<span class="code-placeholder">YOUR_PASSWORD_HERE</span>".encode("utf-8")
 
 with open(os.path.expanduser("~/secret.txt")) as f:
     data = base64.b64decode(f.read().strip())

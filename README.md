@@ -54,6 +54,9 @@ Language support is being tracked across all platform versions. The **web versio
 
 The web and Android versions currently support English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. Arabic and Farsi include right-to-left layout support. More languages are planned — see the table below.
 
+<details>
+<summary><strong>View the full language support table (21 languages)</strong></summary>
+
 | Language | Web | Android | iOS | Desktop |
 |---|---|---|---|---|
 | English | ✅ | ✅ | 📋 Planned | 📋 Planned |
@@ -77,6 +80,8 @@ The web and Android versions currently support English, German, Simplified Chine
 | Swahili / Kiswahili | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Hausa / Harshen Hausa | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
 | Yoruba / Èdè Yorùbá | 📋 Planned | 📋 Planned | 📋 Planned | 📋 Planned |
+
+</details>
 
 Currently implemented on the web version:
 - `index.html`

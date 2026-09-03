@@ -357,14 +357,14 @@
          WINDOWS
     ══════════════════════════════════════════ -->
     <div id="win" class="panel active">
-        <h2>Windows — PowerShell 7</h2>
-        <p>We will use <strong>PowerShell 7</strong>, a free command-line tool from Microsoft. It has everything needed built in — no extra downloads beyond PowerShell itself.</p>
+        <h2>Windows — PowerShell 7.4 or newer</h2>
+        <p>We will use <strong>PowerShell 7.4 or newer</strong>, a free command-line tool from Microsoft. It has everything needed built in — no extra downloads beyond PowerShell itself.</p>
 
         <!-- Step 1 -->
         <div class="step">
             <div class="step-num">1</div>
             <div class="step-body">
-                <h3>Install PowerShell 7</h3>
+                <h3>Install PowerShell 7.4 or newer</h3>
                 <p>The easiest way is through the <strong>Microsoft Store</strong> — it takes about two minutes:</p>
                 <ol>
                     <li>Click the <strong>Start</strong> button (Windows logo in the bottom-left corner).</li>
@@ -385,7 +385,7 @@
         <div class="step">
             <div class="step-num">2</div>
             <div class="step-body">
-                <h3>Open PowerShell 7</h3>
+                <h3>Open PowerShell 7.4 or newer</h3>
                 <ol>
                     <li>Click the <strong>Start</strong> button.</li>
                     <li>Type <strong>PowerShell 7</strong>.</li>
@@ -393,7 +393,7 @@
                     <li>A dark window with a blinking cursor appears — this is your terminal. It will show something like <code>PS C:\Users\YourName&gt;</code>.</li>
                 </ol>
                 <div class="note">
-                    <strong>Make sure you open "PowerShell 7"</strong>, not "Windows PowerShell" — the older one (version 5) will not work. PowerShell 7 usually has a black icon; the old one has a blue icon.
+                    <strong>Make sure you open PowerShell 7.4 or newer</strong>, not "Windows PowerShell" — the older one (version 5) will not work. PowerShell 7 usually has a black icon; the old one has a blue icon.
                 </div>
                 <div class="tip">
                     To <strong>paste</strong> text into PowerShell, <strong>right-click</strong> anywhere in the window. You can also press <kbd>Ctrl</kbd>+<kbd>V</kbd>.
@@ -422,14 +422,17 @@
                 <div class="step-num">4</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
+                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied command inside PowerShell on your own computer.</div>
                     <ol>
-                        <li>Copy the entire code below.</li>
-                        <li>Find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Replace it with the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool.</li>
-                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
+                        <li>Click <strong>Copy code</strong>.</li>
+                        <li>Paste the complete command into <strong>PowerShell 7.4 or newer</strong>.</li>
+                        <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong></li>
+                        <li>In the pasted command, find <code>TEXT TO DECRYPT</code>.</li>
+                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
+                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
                         <li>Keep the single quote marks around both replacements.</li>
-                        <li>Paste the entire edited code into PowerShell 7 and press <kbd>Enter</kbd>.</li>
-                        <li>The decrypted message appears directly in PowerShell.</li>
+                        <li>Check that neither placeholder remains visible.</li>
+                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in PowerShell.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="powershell" data-input="direct">
                         <div class="code-actions">
@@ -439,7 +442,7 @@
 <pre><code>[byte[]]$bytes=[Convert]::FromBase64String(('<span class="code-placeholder">TEXT TO DECRYPT</span>' -replace '\s','')); [byte[]]$salt=$bytes[0..15]; [byte[]]$iv=$bytes[16..27]; [byte[]]$ciphertext=$bytes[28..($bytes.Length-17)]; [byte[]]$tag=$bytes[($bytes.Length-16)..($bytes.Length-1)]; $pbkdf2=[System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes('<span class="code-placeholder">PASSWORD</span>'),$salt,100000,[System.Security.Cryptography.HashAlgorithmName]::SHA256); [byte[]]$key=$pbkdf2.GetBytes(32); $pbkdf2.Dispose(); $aesGcm=[System.Security.Cryptography.AesGcm]::new($key,16); [byte[]]$plaintext=New-Object byte[] $ciphertext.Length; $aesGcm.Decrypt($iv,$ciphertext,$tag,$plaintext); $aesGcm.Dispose(); Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
-                    <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> with your own values.</div>
+                    <div class="warn"><strong>Before pressing Enter:</strong> confirm that <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> are no longer visible. If either placeholder remains, do not run the code.</div>
                     <div class="note"><strong>A single quote in either value?</strong> Write it as two single quotes. For example, the password <code>it's ready</code> becomes <code>'it''s ready'</code>. Spaces, dollar signs, and other punctuation need no other change inside PowerShell single quotes.</div>
                 </div>
             </div>
@@ -451,7 +454,7 @@
                     <p>Run the following after you have finished reading or copying the message. It clears the variables, clears PowerShell's session history and PSReadLine's in-memory recall list, clears the clipboard, restores your earlier history setting, and clears the visible screen.</p>
 <pre>$bytes=$null; $salt=$null; $iv=$null; $ciphertext=$null; $tag=$null; $key=$null; $plaintext=$null; Clear-History; [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory(); Set-Clipboard -Value ''; Set-PSReadLineOption -HistorySaveStyle $previousHistoryStyle; $previousHistoryStyle=$null; Clear-Host</pre>
                     <div class="note"><strong>Important:</strong> clearing variables does not guarantee secure erasure from memory, and <code>Clear-Host</code> does not guarantee that every terminal application has discarded its scrollback. In Windows Terminal, open the command palette with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, run <strong>Clear Buffer</strong>, then close the tab when finished.</div>
-                    <div class="note"><strong>About PowerShell history:</strong> <code>Clear-History</code> only clears PowerShell's session history. The separate PSReadLine recall list is cleared by the next command. Because history saving was disabled before the sensitive code was pasted, this method avoids deleting your unrelated saved history.</div>
+                    <div class="note"><strong>About PowerShell history:</strong> <code>Clear-History</code> clears every command from the current PowerShell session history, not only the decryption command. It does not delete the persistent PSReadLine history file. The separate PSReadLine in-memory recall list is cleared before history saving is restored, so unrelated history saved before this session is preserved.</div>
                     <div class="warn"><strong>Optional full-history deletion:</strong> You normally do not need this. <code>Remove-Item (Get-PSReadLineOption).HistorySavePath -Force</code> deletes <strong>ALL saved PowerShell command history, not only this decryption session.</strong></div>
                 </div>
             </div>
@@ -625,14 +628,17 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                 <div class="step-num">5</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
+                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied code inside Terminal on your own computer.</div>
                     <ol>
-                        <li>Copy the entire code below.</li>
-                        <li>Find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Replace it with the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool.</li>
-                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
-                        <li>Keep the quote marks around both replacements.</li>
-                        <li>Paste the entire edited code into Terminal and press <kbd>Enter</kbd>.</li>
-                        <li>The decrypted message appears directly in Terminal.</li>
+                        <li>Click <strong>Copy code</strong>.</li>
+                        <li>Paste the entire Python block into Terminal.</li>
+                        <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong> Python is the multiline exception, so make sure the whole block has appeared before editing it.</li>
+                        <li>Use the arrow keys to move through the pasted block and find <code>TEXT TO DECRYPT</code>.</li>
+                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
+                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
+                        <li>Keep the double quote marks around both replacements.</li>
+                        <li>Check that neither placeholder remains visible.</li>
+                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in Terminal.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">
@@ -658,7 +664,7 @@ print(plaintext_bytes.decode("utf-8"))
 PY</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
-                    <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> with your own values.</div>
+                    <div class="warn"><strong>Before pressing Enter:</strong> confirm that <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> are no longer visible. If either placeholder remains, do not run the code.</div>
                     <div class="note"><strong>Quotes or backslashes in the password?</strong> Inside the Python double quotes, write <code>\"</code> for a double quote and <code>\\</code> for a backslash. Spaces, single quotes, Swedish characters, and emoji need no change.</div>
                 </div>
             </div>
@@ -860,14 +866,17 @@ print(plaintext.decode("utf-8"))</code></pre>
                 <div class="step-num">5</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
+                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied code inside Terminal on your own computer.</div>
                     <ol>
-                        <li>Copy the entire code below.</li>
-                        <li>Find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Replace it with the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool.</li>
-                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
-                        <li>Keep the quote marks around both replacements.</li>
-                        <li>Paste the entire edited code into Terminal and press <kbd>Enter</kbd>.</li>
-                        <li>The decrypted message appears directly in Terminal.</li>
+                        <li>Click <strong>Copy code</strong>.</li>
+                        <li>Paste the entire Python block into Terminal.</li>
+                        <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong> Python is the multiline exception, so make sure the whole block has appeared before editing it.</li>
+                        <li>Use the arrow keys to move through the pasted block and find <code>TEXT TO DECRYPT</code>.</li>
+                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
+                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
+                        <li>Keep the double quote marks around both replacements.</li>
+                        <li>Check that neither placeholder remains visible.</li>
+                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in Terminal.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">
@@ -893,7 +902,7 @@ print(plaintext_bytes.decode("utf-8"))
 PY</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
-                    <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> with your own values. If you use Bash, keep the space before <code>python3</code>.</div>
+                    <div class="warn"><strong>Before pressing Enter:</strong> confirm that <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> are no longer visible. If either placeholder remains, do not run the code. If you use Bash, keep the space before <code>python3</code>.</div>
                     <div class="note"><strong>Quotes or backslashes in the password?</strong> Inside the Python double quotes, write <code>\"</code> for a double quote and <code>\\</code> for a backslash. Spaces, single quotes, Swedish characters, and emoji need no change.</div>
                 </div>
             </div>

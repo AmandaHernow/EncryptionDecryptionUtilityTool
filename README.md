@@ -29,7 +29,7 @@ Works on any device with a modern browser. Everything runs locally — nothing i
 
 ## About
 
-**Encrypt & Decrypt Data Utility Tool** is a password-based text encryption and decryption utility built for privacy and simplicity. It lets you lock any message behind a password so that only someone with the correct password can read it. All cryptographic operations happen locally on your device — nothing is transmitted, logged, or stored.
+**Encrypt & Decrypt Data Utility Tool** is a password-based text encryption and decryption utility built for privacy and simplicity. It lets you lock any message behind a password so that only someone with the correct password can read it. All cryptographic operations happen locally on your device. The application does not transmit or intentionally persist your password, plaintext, or encrypted text. These values can still exist temporarily in memory or in your clipboard when you explicitly copy them.
 
 The tool uses **AES-256-GCM** encryption combined with **PBKDF2-SHA256** key derivation (100,000 iterations), giving you strong, industry-standard security without needing a technical background to use it.
 
@@ -94,7 +94,7 @@ Currently implemented on the Android version:
 
 ## Independent Decryption
 
-Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools without needing this software.
+Your data is yours. Because this tool uses industry-standard algorithms, you can decrypt your messages using standard command-line tools without needing this software. The guide supports decrypting directly in the terminal without saving the encrypted message to disk, as well as the traditional saved-file method.
 
 > ### [Independent Decryption Guide](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html)
 
@@ -128,7 +128,7 @@ Your data is yours. Because this tool uses industry-standard algorithms, you can
 | **IV / Nonce** | 12 bytes, randomly generated per encryption |
 | **Output format** | Base64-encoded blob: `[16-byte salt] + [12-byte IV] + [ciphertext + GCM tag]` |
 | **Network access** | None — all operations are local and offline |
-| **Storage** | No passwords, plaintext, or ciphertext are stored anywhere on the device |
+| **Storage** | The application does not intentionally persist passwords, plaintext, or ciphertext. Values may exist temporarily in memory, terminal output, or the clipboard when explicitly copied |
 | **Clipboard** | Clipboard writes are user-initiated only |
 
 Random salt and IV per operation means the same input text with the same password will produce a different encrypted output every time, preventing pattern analysis.
@@ -145,6 +145,7 @@ EncryptionDecryptionUtilityTool/
 ├── docs/                   # Images and assets used by the web page and README
 ├── index.html              # Main web app
 ├── privacy-policy.html     # Web privacy policy
+├── decryption-guide.html   # Independent terminal decryption guide
 ├── sitemap.html            # HTML sitemap
 ├── sitemap.xml             # XML sitemap
 ├── site.webmanifest        # Web app manifest

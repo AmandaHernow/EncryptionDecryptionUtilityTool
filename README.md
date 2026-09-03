@@ -50,7 +50,7 @@ It was originally built as an internal utility tool and has since been rewritten
 
 ## Language Support
 
-Language support is being tracked across all platform versions. The **web version** and **Android app** currently include multilingual support.
+Multilingual support is planned for every platform. The **web version** and **Android app** already support multiple languages.
 
 The web and Android versions currently support English, German, Simplified Chinese, Traditional Chinese, Japanese, Korean, French, Spanish, Italian, Portuguese, Arabic, and Farsi. Arabic and Farsi include right-to-left layout support. More languages are planned — see the table below.
 

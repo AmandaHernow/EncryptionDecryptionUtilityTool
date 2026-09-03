@@ -422,17 +422,17 @@
                 <div class="step-num">4</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
-                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied command inside PowerShell on your own computer.</div>
+                    <div class="warn"><strong>Your encrypted text and password stay on your computer.</strong> Enter them only in PowerShell, not on this website.</div>
                     <ol>
                         <li>Click <strong>Copy code</strong>.</li>
-                        <li>Paste the complete command into <strong>PowerShell 7.4 or newer</strong>.</li>
+                        <li>Paste the command into PowerShell.</li>
                         <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong></li>
                         <li>In the pasted command, find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
-                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
+                        <li>Replace it with the complete Base64 encrypted text you want to decrypt.</li>
+                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
                         <li>Keep the single quote marks around both replacements.</li>
-                        <li>Check that neither placeholder remains visible.</li>
-                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in PowerShell.</li>
+                        <li>Make sure both placeholders have been replaced.</li>
+                        <li>Press <kbd>Enter</kbd>. The decrypted message appears in PowerShell.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="powershell" data-input="direct">
                         <div class="code-actions">
@@ -442,7 +442,7 @@
 <pre><code>[byte[]]$bytes=[Convert]::FromBase64String(('<span class="code-placeholder">TEXT TO DECRYPT</span>' -replace '\s','')); [byte[]]$salt=$bytes[0..15]; [byte[]]$iv=$bytes[16..27]; [byte[]]$ciphertext=$bytes[28..($bytes.Length-17)]; [byte[]]$tag=$bytes[($bytes.Length-16)..($bytes.Length-1)]; $pbkdf2=[System.Security.Cryptography.Rfc2898DeriveBytes]::new([System.Text.Encoding]::UTF8.GetBytes('<span class="code-placeholder">PASSWORD</span>'),$salt,100000,[System.Security.Cryptography.HashAlgorithmName]::SHA256); [byte[]]$key=$pbkdf2.GetBytes(32); $pbkdf2.Dispose(); $aesGcm=[System.Security.Cryptography.AesGcm]::new($key,16); [byte[]]$plaintext=New-Object byte[] $ciphertext.Length; $aesGcm.Decrypt($iv,$ciphertext,$tag,$plaintext); $aesGcm.Dispose(); Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
-                    <div class="warn"><strong>Before pressing Enter:</strong> confirm that <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> are no longer visible. If either placeholder remains, do not run the code.</div>
+                    <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code>.</div>
                     <div class="note"><strong>A single quote in either value?</strong> Write it as two single quotes. For example, the password <code>it's ready</code> becomes <code>'it''s ready'</code>. Spaces, dollar signs, and other punctuation need no other change inside PowerShell single quotes.</div>
                 </div>
             </div>
@@ -628,17 +628,17 @@ Write-Host ([System.Text.Encoding]::UTF8.GetString($plaintext))</code></pre>
                 <div class="step-num">5</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
-                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied code inside Terminal on your own computer.</div>
+                    <div class="warn"><strong>Your encrypted text and password stay on your computer.</strong> Enter them only in Terminal, not on this website.</div>
                     <ol>
                         <li>Click <strong>Copy code</strong>.</li>
                         <li>Paste the entire Python block into Terminal.</li>
                         <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong> Python is the multiline exception, so make sure the whole block has appeared before editing it.</li>
                         <li>Use the arrow keys to move through the pasted block and find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
-                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
+                        <li>Replace it with the complete Base64 encrypted text you want to decrypt.</li>
+                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
                         <li>Keep the double quote marks around both replacements.</li>
-                        <li>Check that neither placeholder remains visible.</li>
-                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in Terminal.</li>
+                        <li>Make sure both placeholders have been replaced.</li>
+                        <li>Press <kbd>Enter</kbd>. The decrypted message appears in Terminal.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">
@@ -664,7 +664,7 @@ print(plaintext_bytes.decode("utf-8"))
 PY</code></pre>
                         <div class="explanation" hidden></div>
                     </div>
-                    <div class="warn"><strong>Before pressing Enter:</strong> confirm that <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code> are no longer visible. If either placeholder remains, do not run the code.</div>
+                    <div class="warn"><strong>Before pressing Enter:</strong> make sure you replaced both <code>TEXT TO DECRYPT</code> and <code>PASSWORD</code>.</div>
                     <div class="note"><strong>Quotes or backslashes in the password?</strong> Inside the Python double quotes, write <code>\"</code> for a double quote and <code>\\</code> for a backslash. Spaces, single quotes, Swedish characters, and emoji need no change.</div>
                 </div>
             </div>
@@ -866,17 +866,17 @@ print(plaintext.decode("utf-8"))</code></pre>
                 <div class="step-num">5</div>
                 <div class="step-body">
                     <h3>Paste and run the decryption code</h3>
-                    <div class="warn"><strong>Your encrypted text and password are never entered on this website.</strong> You insert them only into the copied code inside Terminal on your own computer.</div>
+                    <div class="warn"><strong>Your encrypted text and password stay on your computer.</strong> Enter them only in Terminal, not on this website.</div>
                     <ol>
                         <li>Click <strong>Copy code</strong>.</li>
                         <li>Paste the entire Python block into Terminal.</li>
                         <li><strong>Important — do not press <kbd>Enter</kbd> yet.</strong> Python is the multiline exception, so make sure the whole block has appeared before editing it.</li>
                         <li>Use the arrow keys to move through the pasted block and find <code>TEXT TO DECRYPT</code>.</li>
-                        <li>Delete only those words and paste the <strong>complete Base64 encrypted output</strong> produced by Encrypt &amp; Decrypt Utility Tool in their place.</li>
-                        <li>Find <code>PASSWORD</code>. Delete only that word and type or paste the password used to encrypt the message.</li>
+                        <li>Replace it with the complete Base64 encrypted text you want to decrypt.</li>
+                        <li>Find <code>PASSWORD</code> and replace it with the password used to encrypt the message.</li>
                         <li>Keep the double quote marks around both replacements.</li>
-                        <li>Check that neither placeholder remains visible.</li>
-                        <li>Only now press <kbd>Enter</kbd>. The decrypted message appears directly in Terminal.</li>
+                        <li>Make sure both placeholders have been replaced.</li>
+                        <li>Press <kbd>Enter</kbd>. The decrypted message appears in Terminal.</li>
                     </ol>
                     <div class="code-block direct-code" data-platform="python" data-input="direct">
                         <div class="code-actions">

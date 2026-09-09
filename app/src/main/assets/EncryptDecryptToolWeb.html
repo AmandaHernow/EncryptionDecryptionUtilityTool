@@ -2004,6 +2004,7 @@ function applyTranslations(){
     document.querySelectorAll('[data-i18n-output]').forEach(el=>{
         el.textContent=T(el.dataset.i18nOutput)+(el.dataset.i18nSuffix||'');
     });
+    btnCopy.textContent=T(copyBtnMode==='copy'?'copyBtn':'pasteBtn');
     // Password placeholder is set directly because the input is rebuilt by the flow controls.
     const pwInput=document.getElementById('txtSmallInput');
     if(pwInput) pwInput.placeholder=T('pwPlaceholder');

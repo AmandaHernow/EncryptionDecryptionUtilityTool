@@ -459,6 +459,15 @@
           pre{padding:12px;font-size:12.5px;}
         }
         @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Shared navigation and licence footer on every informational page. */
+.site-footer{margin:0;padding:25px 20px 36px;border-top:1px solid var(--line,var(--border));background:var(--bg);color:var(--muted,var(--text-sec));text-align:center;font-size:.84rem;line-height:1.7}
+.site-footer__links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 20px;margin:0 0 10px}
+.site-footer a{color:var(--accent-strong,var(--accent-dark,var(--accent)));text-underline-offset:3px;font-weight:650}
+.site-footer a:hover{text-decoration:underline;text-decoration-thickness:2px}
+.site-footer a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.site-footer__meta{margin:0}
+@media(max-width:520px){.site-footer__links{gap:8px 15px}}
     </style>
 </head>
 <body>
@@ -1190,13 +1199,19 @@ print(plaintext.decode("utf-8"))</code></pre>
     <strong>AES-256-GCM</strong> — NIST standard, available in .NET, Python, OpenSSL, Go, Rust, and more.
 </p>
 
-<div class="page-footer">
-    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/">Back to App</a> &nbsp;·&nbsp;
-    <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
-    © 2026 Amanda Hernow
-</div>
+
 
 </main>
+<footer class="site-footer">
+  <nav class="site-footer__links" aria-label="Footer navigation">
+    <a href="./">Open tool</a>
+    <a href="about.html">About</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="decryption-guide.html">Decryption Guide</a>
+    <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </nav>
+  <p class="site-footer__meta">© 2026 Amanda Hernow · Licensed under <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU GPL v3.0</a></p>
+</footer>
 
 <script>
     function showTab(id, btn) {

@@ -325,10 +325,156 @@
                 line-height: 1.8;
             }
         }
+
+        /* Shared About-page visual system: guide instructions and scripts unchanged. */
+        :root {
+          color-scheme:light;
+          --accent:#006d6d; --accent-dark:#005757; --accent-rgb:0,139,139;
+          --bg:#f0f4f4; --card:#ffffff; --surface:#ffffff;
+          --text:#1a2a2a; --text-sec:#4a6868; --border:#c8d8d8;
+          --soft:#e9f5f4; --code-bg:#eff5f5; --code-text:#183333;
+          --code-border:#c2d7d6; --shadow:0 7px 32px rgba(0,76,76,.09);
+        }
+        @media(prefers-color-scheme:dark){
+          :root{
+            color-scheme:dark;
+            --accent:#83e4db; --accent-dark:#a0f0e8; --accent-rgb:108,221,211;
+            --bg:#102021; --card:#172c2d; --surface:#172c2d;
+            --text:#edf9f8; --text-sec:#bfd5d3; --border:#345657;
+            --soft:#193639; --code-bg:#0c2224; --code-text:#e5f5f3;
+            --code-border:#3c6262; --shadow:0 7px 32px rgba(0,0,0,.2);
+          }
+        }
+        body{max-width:none;width:100%;margin:0;padding:0;overflow-wrap:break-word;color:var(--text);}
+        .site-nav{
+          display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+          max-width:1120px;margin:0 auto;padding:15px 24px;
+        }
+        .site-nav .brand{
+          display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:750;
+          color:var(--text);text-decoration:none;
+        }
+        .site-nav .brand img{width:36px;height:36px;object-fit:contain;border-radius:9px;}
+        .site-nav .nav-links{display:flex;flex-wrap:wrap;gap:18px;font-size:.9rem;font-weight:650;}
+        .site-nav .nav-links a{color:var(--text);text-decoration:none;}
+        .site-nav .nav-links a[aria-current="page"]{
+          color:var(--accent-dark);text-decoration:underline;text-underline-offset:3px;
+        }
+        a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px;}
+        .guide-hero{
+          background:linear-gradient(140deg,rgba(var(--accent-rgb),.15),transparent 72%);
+          border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+        }
+        .guide-hero-inner{width:min(100% - 40px,1000px);margin:auto;padding:clamp(26px,4.5vw,52px) 0;}
+        .guide-hero h1{
+          color:var(--text);font-size:clamp(2rem,4.9vw,3rem);line-height:1.16;
+          letter-spacing:-.035em;margin:14px 0 16px;
+        }
+        .guide-hero p{color:var(--text-sec);max-width:790px;font-size:1.03rem;}
+        .guide-hero p strong{color:var(--text);}
+        .top-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-bottom:20px;}
+        .top-links .back-link{
+          display:inline-flex;align-items:center;min-height:40px;
+          background:var(--soft);border:1px solid var(--border);border-radius:10px;
+          padding:8px 14px;color:var(--accent-dark);font-size:.88rem;
+        }
+        .top-links .back-link:hover{background:var(--card);}
+        .guide-content{width:min(100% - 40px,1000px);margin:30px auto 65px;min-width:0;}
+        .intro-box,.tab-container{
+          background:var(--card);border:1px solid var(--border);
+          border-radius:16px;box-shadow:var(--shadow);
+        }
+        .intro-box{padding:clamp(20px,3vw,28px);margin-bottom:22px;}
+        .intro-box li{margin-top:5px;}
+        .tabs{background:var(--soft);border-bottom-color:var(--border);}
+        .tab{color:var(--text-sec);font-size:clamp(12px,1.8vw,15px);line-height:1.4;}
+        .tab.active{background:var(--card);color:var(--accent-dark);}
+        .tab:hover:not(.active){background:var(--bg);}
+        .panel{padding:clamp(19px,3.3vw,34px);min-width:0;}
+        .panel h2{color:var(--accent-dark);font-size:clamp(1.2rem,2.5vw,1.55rem);}
+        .step-body{min-width:0;}
+        .step-body h3,.method-heading,.method-title{color:var(--accent-dark);}
+        .method-tab{background:var(--card);color:var(--text);border-color:var(--border);}
+        .method-tab:hover{border-color:var(--accent);}
+        .method-tab.active{background:var(--soft);color:var(--accent-dark);border-color:var(--accent);}
+        .note,.tip,.warn{color:var(--text);}
+        .note{background:#fff8e1;border-left-color:#a66b00;color:#382b12;}
+        .tip{background:#e8f8ee;border-left-color:#248449;color:#173d29;}
+        .warn{background:#fff0f0;border-left-color:#bf3940;color:#501f25;}
+        .note code,.tip code,.warn code{color:inherit;}
+        pre{
+          background:var(--code-bg);color:var(--code-text);border-color:var(--code-border);
+          font-size:clamp(12.5px,1.5vw,13.5px);line-height:1.7;
+          tab-size:4;max-width:100%;overflow-x:auto;
+        }
+        pre code{background:transparent;color:inherit;padding:0;border:0;overflow-wrap:normal;}
+        code{background:var(--code-bg);color:var(--code-text);}
+        .direct-code pre{white-space:pre-wrap;overflow-wrap:anywhere;}
+        .code-action,.explanation-close{
+          color:var(--accent-dark);background:var(--card);border-color:var(--accent);
+        }
+        .code-action:hover,.code-action:focus-visible,.explanation-close:hover{background:var(--soft);}
+        .code-placeholder{color:#a5222a;background:#fff0f0;}
+        .explanation{background:var(--card);border-color:var(--border);color:var(--text);}
+        .explanation h4,.plain-defs dt,.byte-part strong{color:var(--accent-dark);}
+        .explanation-part > code{white-space:pre-wrap;overflow-wrap:anywhere;}
+        .flow-box,.byte-part{background:var(--soft);border-color:var(--border);color:var(--text);}
+        .flow-arrow{color:var(--accent-dark);}
+        .format-table{color:var(--text);}
+        .format-table th{background:#006d6d;color:#fff;}
+        .ts-item .ts-err{color:#aa3035;}
+        .ts-item .ts-fix{color:var(--text-sec);}
+        kbd{background:var(--soft);color:var(--text);border:1px solid var(--border);box-shadow:none;}
+        .page-footer{
+          border-top:1px solid var(--border);padding:25px 0 0;margin-top:42px;
+          color:var(--text-sec);line-height:1.8;
+        }
+        @media(prefers-color-scheme:dark){
+          .note{background:#3a3019;color:#f6e9c7;border-left-color:#e7b14d;}
+          .tip{background:#163b2b;color:#d5f7e1;border-left-color:#69d49b;}
+          .warn{background:#431f26;color:#ffe0e3;border-left-color:#ff8996;}
+          .code-placeholder{color:#ffb8bc;background:#51262c;}
+          .ts-item .ts-err{color:#ffadb2;}
+          .format-table th{background:#155d60;color:#fff;}
+          .tab:hover:not(.active){background:#244344;}
+        }
+        @media(max-width:700px){
+          .site-nav{padding:13px 20px;gap:8px;}
+          .site-nav .nav-links{gap:12px;}
+          .guide-hero-inner{padding:30px 0;}
+          .guide-content{margin:20px auto 45px;}
+          .panel{padding:20px 16px 24px;}
+          .intro-box{padding:20px 18px;}
+          .tab{padding:12px 5px;}
+          .code-action{min-height:40px;}
+          .explanation:not([hidden]){background:var(--card);color:var(--text);}
+        }
+        @media(max-width:460px){
+          .site-nav{padding:13px 16px;}
+          .guide-hero-inner,.guide-content{width:calc(100% - 24px);}
+          .panel{padding:18px 12px 22px;}
+          .tabs{overflow-x:auto;}
+          .tab{min-width:0;flex:1 1 0;font-size:12px;white-space:normal;}
+          .step-body{min-width:0;}
+          pre{padding:12px;font-size:12.5px;}
+        }
+        @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
     </style>
 </head>
 <body>
 
+<nav class="site-nav" aria-label="Main navigation">
+  <a class="brand" href="./"><img src="favicon.png" alt="" width="36" height="36">Encrypt &amp; Decrypt</a>
+  <div class="nav-links">
+    <a href="./">Open tool</a>
+    <a href="about.html">About</a>
+    <a href="decryption-guide.html" aria-current="page">Decryption guide</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+</nav>
+
+<header class="guide-hero">
+<div class="guide-hero-inner">
 <nav class="top-links" aria-label="Page navigation">
     <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/" class="back-link">← Back to App</a>
     <a href="https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool" class="back-link">Back to GitHub →</a>
@@ -338,6 +484,9 @@
 <p>Your data is encrypted with open, standard algorithms that <strong>any computer can decrypt</strong> — without needing this app. This guide walks you through it step by step, even if you have never used a command-line tool before.</p>
 <p><em>Estimated time: 5 – 10 minutes.</em></p>
 
+</div>
+</header>
+<main class="guide-content">
 <div class="intro-box">
     <strong>Before you start, you will need two things:</strong>
     <ul>
@@ -1046,6 +1195,8 @@ print(plaintext.decode("utf-8"))</code></pre>
     <a href="https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
     © 2026 Amanda Hernow
 </div>
+
+</main>
 
 <script>
     function showTab(id, btn) {

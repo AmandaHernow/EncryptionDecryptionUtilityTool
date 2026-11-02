@@ -232,9 +232,108 @@
           text-align: center;
           padding-top: 8px;
         }
+
+        /* Presentation-only redesign, aligned with the standalone About page. */
+        :root {
+          color-scheme: light;
+          --accent-strong:#006d6d; --accent-rgb:0,139,139;
+          --soft:#e9f5f4; --shadow:0 7px 32px rgba(0,76,76,.09);
+        }
+        @media (prefers-color-scheme: dark) {
+          :root {
+            color-scheme:dark;
+            --accent:#6cddd3; --accent-strong:#91e9e1; --accent-rgb:108,221,211;
+            --bg:#102021; --card:#172c2d; --soft:#183638; --border:#345657;
+            --text:#edf9f8; --text-sec:#b6d0ce; --shadow:0 7px 32px rgba(0,0,0,.2);
+          }
+        }
+        html { scroll-behavior: smooth; }
+        body { margin:0; padding:0; font-size:16px; line-height:1.7; }
+        .site-nav {
+          display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
+          gap:16px; width:100%; max-width:1120px; margin:0 auto; padding:15px 24px;
+        }
+        .site-nav .brand {
+          display:flex; align-items:center; gap:10px; color:var(--text);
+          font-weight:750; text-decoration:none; font-size:.95rem;
+        }
+        .site-nav .brand img { width:36px; height:36px; border-radius:9px; object-fit:contain; }
+        .site-nav .nav-links { display:flex; flex-wrap:wrap; gap:18px; font-size:.9rem; font-weight:650; }
+        .site-nav .nav-links a { color:var(--text); text-decoration:none; }
+        .site-nav .nav-links a[aria-current="page"] {
+          color:var(--accent-strong); text-decoration:underline; text-underline-offset:3px;
+        }
+        a:focus-visible, button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+        .card {
+          max-width:none; overflow:visible; border:0; border-radius:0;
+          background:transparent; box-shadow:none;
+        }
+        .titlebar {
+          min-height:146px; padding:clamp(30px,4vw,48px) max(20px,calc((100vw - 1000px)/2));
+          background:linear-gradient(140deg,rgba(var(--accent-rgb),.15),transparent 75%);
+          border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+          gap:20px;
+        }
+        .titlebar > span {
+          color:var(--text); font-size:clamp(1.25rem,3.5vw,1.85rem); line-height:1.3;
+          letter-spacing:-.025em; overflow-wrap:anywhere;
+        }
+        .tb-btn {
+          background:var(--soft); color:var(--text); border-color:var(--border);
+          border-radius:9px; width:43px; height:43px;
+        }
+        .tb-btn:hover { background:var(--card); border-color:var(--accent); }
+        .lang-menu { top:calc(50% + 25px); right:max(20px,calc((100vw - 1000px)/2)); }
+        [dir="rtl"] .lang-menu { right:auto; left:max(20px,calc((100vw - 1000px)/2)); }
+        .lang-option.active { background:var(--soft); color:var(--accent-strong); }
+        .lang-check { color:var(--accent-strong); }
+        .body { max-width:1000px; margin:0 auto; padding:clamp(24px,4vw,42px) 20px 64px; }
+        .body > h1 {
+          font-size:clamp(1.8rem,4vw,2.45rem); line-height:1.18;
+          letter-spacing:-.025em; margin:0 0 12px; color:var(--text);
+        }
+        .updated { font-size:.88rem; margin-bottom:26px; }
+        .body > section {
+          margin:0 0 16px; padding:clamp(22px,3vw,30px);
+          background:var(--card); border:1px solid var(--border);
+          border-radius:17px; box-shadow:var(--shadow);
+        }
+        .body > section h2 {
+          font-size:clamp(1.18rem,2.5vw,1.45rem); line-height:1.35;
+          letter-spacing:0; text-transform:none; font-weight:750;
+          color:var(--accent-strong); margin:0 0 13px;
+        }
+        .body > section p {
+          font-size:clamp(15px,1.7vw,16px); line-height:1.75; color:var(--text-sec);
+          overflow-wrap:break-word;
+        }
+        .body > section p strong { color:var(--text); }
+        .body > section a, .body > .footer a { color:var(--accent-strong); text-underline-offset:3px; }
+        .divider { margin:24px 0; }
+        .footer { padding:22px 0 0; border-top:1px solid var(--border); font-size:.82rem; }
+        @media(max-width:600px){
+          .site-nav { padding:13px 20px; gap:8px; }
+          .site-nav .nav-links { gap:12px; }
+          .titlebar { padding:25px 20px; min-height:118px; }
+          .titlebar > span { font-size:1.25rem; }
+          .lang-menu { right:20px; top:calc(50% + 24px); max-width:calc(100vw - 40px); }
+          [dir="rtl"] .lang-menu { left:20px; }
+          .body { padding:24px 14px 44px; }
+          .body > section { padding:20px 18px; border-radius:14px; }
+        }
+        @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
     </style>
 </head>
 <body>
+<nav class="site-nav" aria-label="Main navigation">
+  <a class="brand" href="./"><img src="favicon.png" alt="" width="36" height="36">Encrypt &amp; Decrypt</a>
+  <div class="nav-links">
+    <a href="./">Open tool</a>
+    <a href="about.html">About</a>
+    <a href="decryption-guide.html">Decryption guide</a>
+    <a href="privacy-policy.html" aria-current="page">Privacy</a>
+  </div>
+</nav>
 <div class="card">
 
     <div class="titlebar">

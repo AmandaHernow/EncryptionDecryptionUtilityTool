@@ -523,11 +523,11 @@ textarea{
 /* tabs */
 .htabs{display:flex;border-radius:8px 8px 0 0;overflow:hidden;}
 .htab{
-  flex:1;min-width:0;padding:9px 4px;overflow-wrap:anywhere;
+  flex:1;min-width:0;padding:9px 3px;white-space:nowrap;
   background:rgba(0,0,0,.18);border:none;
   color:rgba(255,255,255,.75);
-  font-size:11.5px;font-weight:700;
-  letter-spacing:.05em;text-transform:uppercase;
+  font-size:clamp(9px,2.5vw,11.5px);font-weight:700;
+  letter-spacing:0;text-transform:uppercase;
   cursor:pointer;
   border-right:1px solid rgba(255,255,255,.1);
   transition:background .15s,color .15s;
@@ -596,23 +596,6 @@ textarea{
   transition:background .3s,border-color .3s;
 }
 
-/* Related projects in the compact Help & About window */
-.related-projects{display:grid;gap:10px;}
-.related-project-card{
-  display:grid;grid-template-columns:54px minmax(0,1fr);gap:12px;
-  background:var(--bg-sec);border:1px solid var(--border);
-  border-radius:11px;padding:11px;
-}
-.related-project-card>a{display:block;width:54px;height:54px;}
-.related-project-icon{
-  display:block;width:54px;height:54px;padding:3px;box-sizing:border-box;
-  background:#fff;border:1px solid var(--border);border-radius:10px;object-fit:contain;
-}
-.related-project-title{margin:0;font-size:13px;line-height:1.35;font-weight:800;color:var(--text);}
-.related-project-description{margin:4px 0 9px;font-size:11.5px;line-height:1.5;color:var(--text-sec);}
-.related-project-links{display:flex;flex-wrap:wrap;gap:9px 14px;}
-.related-project-links a{color:var(--accent);font-size:11.5px;font-weight:700;text-decoration:none;}
-.related-project-links a:hover,.related-project-links a:focus-visible{text-decoration:underline;}
 /* donate */
 .donate-hero{text-align:center;padding:18px 0 4px;}
 .donate-icon{font-size:38px;display:block;margin-bottom:8px;}
@@ -728,6 +711,7 @@ textarea{
   <div class="crawl-hub">
     <strong data-i18n="siteLinksLabel">Site links:</strong>
     <a href="./" data-i18n="homeLink">Home</a> ·
+    <a href="about.html" data-i18n="aboutLink">About</a> ·
     <a href="decryption-guide.html" data-i18n="guideLink">Decryption Guide</a> ·
     <a href="privacy-policy.html" data-i18n="privacyLink">Privacy Policy</a> ·
     <a href="sitemap.html" data-i18n="sitemapLink">HTML Sitemap</a>
@@ -766,7 +750,6 @@ textarea{
         <button class="htab"        data-panel="secPanel" data-i18n="helpTab2">Security</button>
         <button class="htab"        data-panel="donatePanel" data-i18n="helpTab3">Support</button>
         <button class="htab"        data-panel="privacyPanel" data-i18n="helpTab4">Privacy</button>
-        <button class="htab"        data-panel="projectsPanel" data-i18n="helpTab5">Projects</button>
       </div>
     </div>
 
@@ -853,6 +836,7 @@ textarea{
         </div>
         <a class="donate-btn" href="https://www.paypal.me/AmandaHernow" target="_blank" rel="noopener noreferrer" data-i18n-html="donateBtn">💙 &nbsp;Donate via PayPal</a>
         <div class="donate-note" data-i18n="donateNote">Thank you so much for your support 💙</div>
+        <div class="donate-note"><a href="about.html" data-i18n="aboutLink" style="color:var(--accent);font-weight:700;text-decoration:underline">About</a></div>
       </div>
 
       <div id="privacyPanel" class="hpanel">
@@ -920,53 +904,6 @@ textarea{
         </div>
 
         <div class="hnote" data-i18n="privLastUpdated">Last updated: 17 April 2026</div>
-      </div>
-
-      <!-- OTHER PROJECTS -->
-      <div id="projectsPanel" class="hpanel">
-        <div class="hsec">
-          <div class="hsec-title" data-i18n="projectsTitle">Other projects</div>
-          <div class="related-projects">
-            <article class="related-project-card">
-              <a href="https://hernow.net/about" target="_blank" rel="noopener noreferrer" aria-label="Visit HernowNet">
-                <img class="related-project-icon" src="docs/project-icons/hernownet-icon.png" alt="HernowNet app icon" width="54" height="54" loading="lazy">
-              </a>
-              <div>
-                <h3 class="related-project-title">HernowNet</h3>
-                <p class="related-project-description" data-i18n="projectsHernowNetDesc">A privacy-focused platform with an encrypted Note Vault.</p>
-                <div class="related-project-links">
-                  <a href="https://hernow.net/about" target="_blank" rel="noopener noreferrer" data-i18n="projectsVisit">Website</a>
-                </div>
-              </div>
-            </article>
-            <article class="related-project-card">
-              <a href="https://amandahernow.github.io/barkey/about.html" target="_blank" rel="noopener noreferrer" aria-label="Visit BarKey">
-                <img class="related-project-icon" src="docs/project-icons/barkey-icon.png" alt="BarKey app icon" width="54" height="54" loading="lazy">
-              </a>
-              <div>
-                <h3 class="related-project-title">BarKey</h3>
-                <p class="related-project-description" data-i18n="projectsBarKeyDesc">An Android barcode and QR scanner keyboard, free for personal use.</p>
-                <div class="related-project-links">
-                  <a href="https://amandahernow.github.io/barkey/about.html" target="_blank" rel="noopener noreferrer" data-i18n="projectsVisit">Website</a>
-                  <a href="https://github.com/AmandaHernow/barkey" target="_blank" rel="noopener noreferrer" data-i18n="projectsSource">Source</a>
-                </div>
-              </div>
-            </article>
-            <article class="related-project-card">
-              <a href="https://amandahernow.github.io/BlackJackCounterTool/about.html" target="_blank" rel="noopener noreferrer" aria-label="Visit Blackjack Counter Tool">
-                <img class="related-project-icon" src="docs/project-icons/blackjack-counter-icon.png" alt="Blackjack Counter Tool app icon" width="54" height="54" loading="lazy">
-              </a>
-              <div>
-                <h3 class="related-project-title">Blackjack Counter Tool</h3>
-                <p class="related-project-description" data-i18n="projectsBlackjackDesc">A free educational tool for practising blackjack card counting.</p>
-                <div class="related-project-links">
-                  <a href="https://amandahernow.github.io/BlackJackCounterTool/about.html" target="_blank" rel="noopener noreferrer" data-i18n="projectsVisit">Website</a>
-                  <a href="https://github.com/AmandaHernow/BlackJackCounterTool" target="_blank" rel="noopener noreferrer" data-i18n="projectsSource">Source</a>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
       </div>
 
     </div><!-- /help-body -->
@@ -1042,6 +979,7 @@ const LANGS = {
     clearBtn:'Clear',
     siteLinksLabel:'Site links:',
     homeLink:'Home',
+    aboutLink:'About',
     guideLink:'Decryption Guide',
     privacyLink:'Privacy Policy',
     sitemapLink:'HTML Sitemap',
@@ -1052,13 +990,6 @@ const LANGS = {
     helpTab2:'Security',
     helpTab3:'Support',
     helpTab4:'Privacy',
-    helpTab5:'Projects',
-    projectsTitle:'Other projects',
-    projectsVisit:'Website',
-    projectsSource:'Source',
-    projectsHernowNetDesc:'A privacy-focused platform with an encrypted Note Vault.',
-    projectsBarKeyDesc:'An Android barcode and QR scanner keyboard, free for personal use.',
-    projectsBlackjackDesc:'A free educational tool for practising blackjack card counting.',
     authorRole:'Developer',
     usageEncTitle:'How to Encrypt',
     usageEnc1:'Click <strong>Encrypt</strong> and type or paste the text you want to protect.',
@@ -1170,6 +1101,7 @@ const LANGS = {
     clearBtn:'Löschen',
     siteLinksLabel:'Seitenlinks:',
     homeLink:'Startseite',
+    aboutLink:'Über uns',
     guideLink:'Entschlüsselungs-Leitfaden',
     privacyLink:'Datenschutzerklärung',
     sitemapLink:'HTML-Sitemap',
@@ -1180,13 +1112,6 @@ const LANGS = {
     helpTab2:'Sicherheit',
     helpTab3:'Support',
     helpTab4:'Datenschutz',
-    helpTab5:'Projekte',
-    projectsTitle:'Weitere Projekte',
-    projectsVisit:'Webseite',
-    projectsSource:'Quellcode',
-    projectsHernowNetDesc:'Eine datenschutzorientierte Plattform mit verschlüsseltem Notiztresor.',
-    projectsBarKeyDesc:'Eine Android-Tastatur mit Barcode- und QR-Scanner, kostenlos für private Nutzung.',
-    projectsBlackjackDesc:'Ein kostenloses Lernwerkzeug zum Üben des Kartenzählens beim Blackjack.',
     authorRole:'Entwicklerin',
     usageEncTitle:'So verschlüsseln Sie',
     usageEnc1:'Klicken Sie auf <strong>Verschlüsseln</strong> und geben Sie den zu schützenden Text ein oder fügen Sie ihn ein.',
@@ -1298,6 +1223,7 @@ const LANGS = {
     clearBtn:'Effacer',
     siteLinksLabel:'Liens du site :',
     homeLink:'Accueil',
+    aboutLink:'À propos',
     guideLink:'Guide de déchiffrement',
     privacyLink:'Politique de confidentialité',
     sitemapLink:'Plan du site HTML',
@@ -1308,13 +1234,6 @@ const LANGS = {
     helpTab2:'Sécurité',
     helpTab3:'Soutien',
     helpTab4:'Confidentialité',
-    helpTab5:'Projets',
-    projectsTitle:'Autres projets',
-    projectsVisit:'Site web',
-    projectsSource:'Code source',
-    projectsHernowNetDesc:'Une plateforme axée sur la confidentialité avec un coffre de notes chiffré.',
-    projectsBarKeyDesc:'Un clavier Android avec scanner de codes-barres et QR, gratuit pour un usage personnel.',
-    projectsBlackjackDesc:'Un outil pédagogique gratuit pour pratiquer le comptage des cartes au blackjack.',
     authorRole:'Développeuse',
     usageEncTitle:'Comment chiffrer',
     usageEnc1:'Cliquez sur <strong>Chiffrer</strong>, puis saisissez ou collez le texte à protéger.',
@@ -1426,6 +1345,7 @@ const LANGS = {
     clearBtn:'Borrar',
     siteLinksLabel:'Enlaces del sitio:',
     homeLink:'Inicio',
+    aboutLink:'Acerca de',
     guideLink:'Guía de descifrado',
     privacyLink:'Política de privacidad',
     sitemapLink:'Mapa del sitio HTML',
@@ -1436,13 +1356,6 @@ const LANGS = {
     helpTab2:'Seguridad',
     helpTab3:'Apoyo',
     helpTab4:'Privacidad',
-    helpTab5:'Proyectos',
-    projectsTitle:'Otros proyectos',
-    projectsVisit:'Sitio web',
-    projectsSource:'Código fuente',
-    projectsHernowNetDesc:'Una plataforma centrada en la privacidad con un almacén de notas cifradas.',
-    projectsBarKeyDesc:'Un teclado Android con lector de códigos de barras y QR, gratis para uso personal.',
-    projectsBlackjackDesc:'Una herramienta educativa gratuita para practicar el conteo de cartas en blackjack.',
     authorRole:'Desarrolladora',
     usageEncTitle:'Cómo cifrar',
     usageEnc1:'Haz clic en <strong>Cifrar</strong> y escribe o pega el texto que quieres proteger.',
@@ -1554,6 +1467,7 @@ const LANGS = {
     clearBtn:'Cancella',
     siteLinksLabel:'Link del sito:',
     homeLink:'Pagina iniziale',
+    aboutLink:'Informazioni',
     guideLink:'Guida alla decifratura',
     privacyLink:'Informativa sulla privacy',
     sitemapLink:'Mappa del sito HTML',
@@ -1564,13 +1478,6 @@ const LANGS = {
     helpTab2:'Sicurezza',
     helpTab3:'Supporto',
     helpTab4:'Privacy',
-    helpTab5:'Progetti',
-    projectsTitle:'Altri progetti',
-    projectsVisit:'Sito web',
-    projectsSource:'Codice sorgente',
-    projectsHernowNetDesc:'Una piattaforma attenta alla privacy con archivio di note crittografate.',
-    projectsBarKeyDesc:'Una tastiera Android con scanner di codici a barre e QR, gratis per uso personale.',
-    projectsBlackjackDesc:'Uno strumento didattico gratuito per esercitarsi nel conteggio delle carte a blackjack.',
     authorRole:'Sviluppatrice',
     usageEncTitle:'Come cifrare',
     usageEnc1:'Fai clic su <strong>Cifra</strong> e digita o incolla il testo che vuoi proteggere.',
@@ -1682,6 +1589,7 @@ const LANGS = {
     clearBtn:'Limpar',
     siteLinksLabel:'Links do site:',
     homeLink:'Início',
+    aboutLink:'Sobre',
     guideLink:'Guia de descriptografia',
     privacyLink:'Política de Privacidade',
     sitemapLink:'Mapa do site HTML',
@@ -1692,13 +1600,6 @@ const LANGS = {
     helpTab2:'Segurança',
     helpTab3:'Apoio',
     helpTab4:'Privacidade',
-    helpTab5:'Projetos',
-    projectsTitle:'Outros projetos',
-    projectsVisit:'Site',
-    projectsSource:'Código-fonte',
-    projectsHernowNetDesc:'Uma plataforma focada na privacidade com um cofre de notas encriptadas.',
-    projectsBarKeyDesc:'Um teclado Android com leitor de códigos de barras e QR, gratuito para uso pessoal.',
-    projectsBlackjackDesc:'Uma ferramenta educativa gratuita para praticar a contagem de cartas no blackjack.',
     authorRole:'Desenvolvedora',
     usageEncTitle:'Como criptografar',
     usageEnc1:'Clique em <strong>Criptografar</strong> e digite ou cole o texto que deseja proteger.',
@@ -1810,6 +1711,7 @@ const LANGS = {
     clearBtn:'清除',
     siteLinksLabel:'站点链接：',
     homeLink:'首页',
+    aboutLink:'关于',
     guideLink:'解密指南',
     privacyLink:'隐私政策',
     sitemapLink:'HTML 站点地图',
@@ -1820,13 +1722,6 @@ const LANGS = {
     helpTab2:'安全性',
     helpTab3:'支持',
     helpTab4:'隐私',
-    helpTab5:'项目',
-    projectsTitle:'其他项目',
-    projectsVisit:'网站',
-    projectsSource:'源代码',
-    projectsHernowNetDesc:'注重隐私的平台，提供加密笔记保险库。',
-    projectsBarKeyDesc:'内置条形码和二维码扫描器的 Android 键盘，个人使用免费。',
-    projectsBlackjackDesc:'用于练习二十一点算牌的免费教学工具。',
     authorRole:'开发者',
     usageEncTitle:'如何加密',
     usageEnc1:'点击<strong>加密</strong>，然后输入或粘贴您想要保护的文本。',
@@ -1938,6 +1833,7 @@ const LANGS = {
     clearBtn:'クリア',
     siteLinksLabel:'サイトリンク：',
     homeLink:'ホーム',
+    aboutLink:'概要',
     guideLink:'復号化ガイド',
     privacyLink:'プライバシーポリシー',
     sitemapLink:'HTMLサイトマップ',
@@ -1948,13 +1844,6 @@ const LANGS = {
     helpTab2:'セキュリティ',
     helpTab3:'サポート',
     helpTab4:'プライバシー',
-    helpTab5:'プロジェクト',
-    projectsTitle:'その他のプロジェクト',
-    projectsVisit:'ウェブサイト',
-    projectsSource:'ソースコード',
-    projectsHernowNetDesc:'暗号化されたノート保管庫を備えた、プライバシー重視のプラットフォーム。',
-    projectsBarKeyDesc:'バーコードとQRコードを読み取れるAndroidキーボード。個人利用は無料です。',
-    projectsBlackjackDesc:'ブラックジャックのカードカウンティングを練習できる無料の学習ツール。',
     authorRole:'開発者',
     usageEncTitle:'暗号化の方法',
     usageEnc1:'<strong>暗号化</strong>をクリックして、保護したいテキストを入力または貼り付けます。',
@@ -2066,6 +1955,7 @@ const LANGS = {
     clearBtn:'清除',
     siteLinksLabel:'站點連結：',
     homeLink:'首頁',
+    aboutLink:'關於',
     guideLink:'解密指南',
     privacyLink:'隱私政策',
     sitemapLink:'HTML 網站地圖',
@@ -2076,13 +1966,6 @@ const LANGS = {
     helpTab2:'安全性',
     helpTab3:'支援',
     helpTab4:'隱私',
-    helpTab5:'專案',
-    projectsTitle:'其他專案',
-    projectsVisit:'網站',
-    projectsSource:'原始碼',
-    projectsHernowNetDesc:'重視私隱的平台，提供加密筆記保管庫。',
-    projectsBarKeyDesc:'內建條碼和 QR 碼掃描器的 Android 鍵盤，個人使用免費。',
-    projectsBlackjackDesc:'用於練習二十一點算牌的免費教學工具。',
     authorRole:'開發者',
     usageEncTitle:'如何加密',
     usageEnc1:'點擊<strong>加密</strong>，然後輸入或貼上您想要保護的文字。',
@@ -2194,6 +2077,7 @@ const LANGS = {
     clearBtn:'지우기',
     siteLinksLabel:'사이트 링크:',
     homeLink:'홈',
+    aboutLink:'정보',
     guideLink:'복호화 가이드',
     privacyLink:'개인정보처리방침',
     sitemapLink:'HTML 사이트맵',
@@ -2204,13 +2088,6 @@ const LANGS = {
     helpTab2:'보안',
     helpTab3:'지원',
     helpTab4:'개인정보',
-    helpTab5:'프로젝트',
-    projectsTitle:'다른 프로젝트',
-    projectsVisit:'웹사이트',
-    projectsSource:'소스 코드',
-    projectsHernowNetDesc:'암호화된 노트 보관함을 제공하는 개인정보 보호 중심 플랫폼입니다.',
-    projectsBarKeyDesc:'바코드와 QR 코드 스캐너가 내장된 Android 키보드로, 개인 사용은 무료입니다.',
-    projectsBlackjackDesc:'블랙잭 카드 카운팅을 연습하는 무료 교육 도구입니다.',
     authorRole:'개발자',
     usageEncTitle:'암호화하는 방법',
     usageEnc1:'<strong>암호화</strong>를 클릭하여 보호하고 싶은 텍스트를 입력하거나 붙여넣으세요.',
@@ -2322,6 +2199,7 @@ const LANGS = {
     clearBtn:'مسح',
     siteLinksLabel:'روابط الموقع:',
     homeLink:'الرئيسية',
+    aboutLink:'حول',
     guideLink:'دليل فك التشفير',
     privacyLink:'سياسة الخصوصية',
     sitemapLink:'خريطة الموقع',
@@ -2332,13 +2210,6 @@ const LANGS = {
     helpTab2:'الأمان',
     helpTab3:'الدعم',
     helpTab4:'الخصوصية',
-    helpTab5:'المشاريع',
-    projectsTitle:'مشاريع أخرى',
-    projectsVisit:'الموقع',
-    projectsSource:'الشفرة المصدرية',
-    projectsHernowNetDesc:'منصة تركز على الخصوصية وتضم خزنة ملاحظات مشفرة.',
-    projectsBarKeyDesc:'لوحة مفاتيح أندرويد مزودة بماسح باركود ورموز QR، مجانية للاستخدام الشخصي.',
-    projectsBlackjackDesc:'أداة تعليمية مجانية للتدرب على عد البطاقات في البلاك جاك.',
     authorRole:'مطوّر',
     usageEncTitle:'كيفية التشفير',
     usageEnc1:'انقر على <strong>تشفير</strong> واكتب أو الصق النص الذي تريد حمايته.',
@@ -2450,6 +2321,7 @@ const LANGS = {
     clearBtn:'پاک کردن',
     siteLinksLabel:'پیوندهای سایت:',
     homeLink:'خانه',
+    aboutLink:'درباره',
     guideLink:'راهنمای رمزگشایی',
     privacyLink:'سیاست حریم خصوصی',
     sitemapLink:'نقشه سایت',
@@ -2460,13 +2332,6 @@ const LANGS = {
     helpTab2:'امنیت',
     helpTab3:'پشتیبانی',
     helpTab4:'حریم خصوصی',
-    helpTab5:'پروژه‌ها',
-    projectsTitle:'پروژه‌های دیگر',
-    projectsVisit:'وب‌سایت',
-    projectsSource:'کد منبع',
-    projectsHernowNetDesc:'پلتفرمی با تمرکز بر حریم خصوصی و خزانه یادداشت‌های رمزگذاری‌شده.',
-    projectsBarKeyDesc:'صفحه‌کلید اندروید با اسکنر بارکد و QR، رایگان برای استفاده شخصی.',
-    projectsBlackjackDesc:'ابزار آموزشی رایگان برای تمرین شمارش کارت در بلک‌جک.',
     authorRole:'توسعه‌دهنده',
     usageEncTitle:'نحوه رمزگذاری',
     usageEnc1:'روی <strong>رمزگذاری</strong> کلیک کنید و متنی که می‌خواهید محافظت کنید را تایپ یا بچسبانید.',

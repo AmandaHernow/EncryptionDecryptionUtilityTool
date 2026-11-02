@@ -748,6 +748,7 @@ textarea{
         <button class="htab"        data-panel="secPanel" data-i18n="helpTab2">Security</button>
         <button class="htab"        data-panel="donatePanel" data-i18n="helpTab3">Support</button>
         <button class="htab"        data-panel="privacyPanel" data-i18n="helpTab4">Privacy</button>
+        <button class="htab"        data-panel="projectsPanel" data-i18n="helpTab5">Projects</button>
       </div>
     </div>
 
@@ -903,6 +904,18 @@ textarea{
         <div class="hnote" data-i18n="privLastUpdated">Last updated: 17 April 2026</div>
       </div>
 
+      <!-- OTHER PROJECTS -->
+      <div id="projectsPanel" class="hpanel">
+        <div class="hsec">
+          <div class="hsec-title" data-i18n="projectsTitle">Other projects</div>
+          <div class="bullets">
+            <div class="bull"><div class="dot"></div><div class="btxt"><a href="https://hernow.net/about" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">HernowNet</a></div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt"><a href="https://amandahernow.github.io/barkey/about.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">BarKey</a></div></div>
+            <div class="bull"><div class="dot"></div><div class="btxt"><a href="https://amandahernow.github.io/BlackJackCounterTool/about.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Blackjack Counter Tool</a></div></div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /help-body -->
 
     <div class="help-foot" data-i18n-html="helpFooter">Version 1.4 &nbsp;·&nbsp; © 2026 Amanda Hernow &nbsp;·&nbsp; GPL v3</div>
@@ -986,6 +999,8 @@ const LANGS = {
     helpTab2:'Security',
     helpTab3:'Support',
     helpTab4:'Privacy',
+    helpTab5:'Projects',
+    projectsTitle:'Other projects',
     authorRole:'Developer',
     usageEncTitle:'How to Encrypt',
     usageEnc1:'Click <strong>Encrypt</strong> and type or paste the text you want to protect.',
@@ -1107,6 +1122,8 @@ const LANGS = {
     helpTab2:'Sicherheit',
     helpTab3:'Support',
     helpTab4:'Datenschutz',
+    helpTab5:'Projekte',
+    projectsTitle:'Weitere Projekte',
     authorRole:'Entwicklerin',
     usageEncTitle:'So verschlüsseln Sie',
     usageEnc1:'Klicken Sie auf <strong>Verschlüsseln</strong> und geben Sie den zu schützenden Text ein oder fügen Sie ihn ein.',
@@ -1228,6 +1245,8 @@ const LANGS = {
     helpTab2:'Sécurité',
     helpTab3:'Soutien',
     helpTab4:'Confidentialité',
+    helpTab5:'Projets',
+    projectsTitle:'Autres projets',
     authorRole:'Développeuse',
     usageEncTitle:'Comment chiffrer',
     usageEnc1:'Cliquez sur <strong>Chiffrer</strong>, puis saisissez ou collez le texte à protéger.',
@@ -1349,6 +1368,8 @@ const LANGS = {
     helpTab2:'Seguridad',
     helpTab3:'Apoyo',
     helpTab4:'Privacidad',
+    helpTab5:'Proyectos',
+    projectsTitle:'Otros proyectos',
     authorRole:'Desarrolladora',
     usageEncTitle:'Cómo cifrar',
     usageEnc1:'Haz clic en <strong>Cifrar</strong> y escribe o pega el texto que quieres proteger.',
@@ -1470,6 +1491,8 @@ const LANGS = {
     helpTab2:'Sicurezza',
     helpTab3:'Supporto',
     helpTab4:'Privacy',
+    helpTab5:'Progetti',
+    projectsTitle:'Altri progetti',
     authorRole:'Sviluppatrice',
     usageEncTitle:'Come cifrare',
     usageEnc1:'Fai clic su <strong>Cifra</strong> e digita o incolla il testo che vuoi proteggere.',
@@ -1591,6 +1614,8 @@ const LANGS = {
     helpTab2:'Segurança',
     helpTab3:'Apoio',
     helpTab4:'Privacidade',
+    helpTab5:'Projetos',
+    projectsTitle:'Outros projetos',
     authorRole:'Desenvolvedora',
     usageEncTitle:'Como criptografar',
     usageEnc1:'Clique em <strong>Criptografar</strong> e digite ou cole o texto que deseja proteger.',
@@ -1712,6 +1737,8 @@ const LANGS = {
     helpTab2:'安全性',
     helpTab3:'支持',
     helpTab4:'隐私',
+    helpTab5:'项目',
+    projectsTitle:'其他项目',
     authorRole:'开发者',
     usageEncTitle:'如何加密',
     usageEnc1:'点击<strong>加密</strong>，然后输入或粘贴您想要保护的文本。',
@@ -1833,6 +1860,8 @@ const LANGS = {
     helpTab2:'セキュリティ',
     helpTab3:'サポート',
     helpTab4:'プライバシー',
+    helpTab5:'プロジェクト',
+    projectsTitle:'その他のプロジェクト',
     authorRole:'開発者',
     usageEncTitle:'暗号化の方法',
     usageEnc1:'<strong>暗号化</strong>をクリックして、保護したいテキストを入力または貼り付けます。',
@@ -1954,6 +1983,8 @@ const LANGS = {
     helpTab2:'安全性',
     helpTab3:'支援',
     helpTab4:'隱私',
+    helpTab5:'專案',
+    projectsTitle:'其他專案',
     authorRole:'開發者',
     usageEncTitle:'如何加密',
     usageEnc1:'點擊<strong>加密</strong>，然後輸入或貼上您想要保護的文字。',
@@ -2075,6 +2106,8 @@ const LANGS = {
     helpTab2:'보안',
     helpTab3:'지원',
     helpTab4:'개인정보',
+    helpTab5:'프로젝트',
+    projectsTitle:'다른 프로젝트',
     authorRole:'개발자',
     usageEncTitle:'암호화하는 방법',
     usageEnc1:'<strong>암호화</strong>를 클릭하여 보호하고 싶은 텍스트를 입력하거나 붙여넣으세요.',
@@ -2196,6 +2229,8 @@ const LANGS = {
     helpTab2:'الأمان',
     helpTab3:'الدعم',
     helpTab4:'الخصوصية',
+    helpTab5:'المشاريع',
+    projectsTitle:'مشاريع أخرى',
     authorRole:'مطوّر',
     usageEncTitle:'كيفية التشفير',
     usageEnc1:'انقر على <strong>تشفير</strong> واكتب أو الصق النص الذي تريد حمايته.',
@@ -2317,6 +2352,8 @@ const LANGS = {
     helpTab2:'امنیت',
     helpTab3:'پشتیبانی',
     helpTab4:'حریم خصوصی',
+    helpTab5:'پروژه‌ها',
+    projectsTitle:'پروژه‌های دیگر',
     authorRole:'توسعه‌دهنده',
     usageEncTitle:'نحوه رمزگذاری',
     usageEnc1:'روی <strong>رمزگذاری</strong> کلیک کنید و متنی که می‌خواهید محافظت کنید را تایپ یا بچسبانید.',

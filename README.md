@@ -21,9 +21,20 @@
 
 > ### [Encrypt &amp; Decrypt Data Utility Tool Web Version](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/)
 
-Download the html file from the latest web release to keep on your computer and run the program offline locally.
+Download the HTML file from the latest web release to keep a local copy of the tool. Encryption and decryption take place in your browser, without sending your data to a server.
 
-Works on any device with a modern browser. Everything runs locally — nothing is sent anywhere.
+### Website pages
+
+| Page | Website |
+|---|---|
+| Web application | [Use Encrypt & Decrypt](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/) |
+| About the project, developer, and other apps | [About](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/about.html) |
+| Privacy Policy | [Privacy Policy](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/privacy-policy.html) |
+| Independent Decryption Guide | [Decryption Guide](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/decryption-guide.html) |
+| HTML Sitemap | [Sitemap](https://amandahernow.github.io/EncryptionDecryptionUtilityTool/sitemap.html) |
+| GNU General Public License v3.0 | [Read the full licence](https://github.com/AmandaHernow/EncryptionDecryptionUtilityTool/blob/main/LICENSE) |
+
+The informational pages have consistent navigation and footers linking to the existing `LICENSE` file. The HTML sitemap remains available as a separate page and is not shown in the web application's footer.
 
 ---
 
@@ -83,9 +94,13 @@ The web and Android versions currently support English, German, Simplified Chine
 
 </details>
 
-Currently implemented on the web version:
-- `index.html`
-- `privacy-policy.html`
+Web pages in this repository:
+- `index.html` — main web app
+- `about.html` — about the project, developer and related applications
+- `privacy-policy.html` — privacy policy with twelve language options
+- `decryption-guide.html` — independent Windows, Mac and Linux decryption instructions
+- `sitemap.html` — HTML sitemap
+- `sitemap.xml` — XML sitemap for search engines
 
 Currently implemented on the Android version:
 - `app/src/main/assets/EncryptDecryptToolWeb.html`
@@ -144,6 +159,7 @@ EncryptionDecryptionUtilityTool/
 ├── IOS/                    # iOS project notes and files
 ├── docs/                   # Images and assets used by the web page and README
 ├── index.html              # Main web app
+├── about.html              # About the project and developer
 ├── privacy-policy.html     # Web privacy policy
 ├── decryption-guide.html   # Independent terminal decryption guide
 ├── sitemap.html            # HTML sitemap
@@ -178,7 +194,7 @@ You can also reach out or report issues at: **encrypt.decrypt.support@hernow.net
 
 ## License
 
-This project is licensed under the **GNU General Public License v3.0**.
+This project is licensed under the **[GNU General Public License v3.0](LICENSE)**.
 You are free to use, modify, and distribute this software under the terms of that licence.
 See the [LICENSE](LICENSE) file for the full text, or visit [gnu.org/licenses/gpl-3.0](https://www.gnu.org/licenses/gpl-3.0).
 
